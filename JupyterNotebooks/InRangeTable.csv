@@ -1,0 +1,14 @@
+,Scheme,2peaks,4peaks,MaxUnique
+0,ND Single,13,15,32
+1,RD Single,7,13,47
+2,TD Single,17,7,54
+3,Morris,12,34,44
+4,Ring Perpendicular to ND,11,66,82
+5,Ring Perpendicular to RD,22,58,77
+6,Ring Perpendicular to TD,17,59,61
+7,NoRotation-tilt60deg,13,15,32
+8,Rotation-NoTilt,16,30,46
+9,Rotation-60detTilt,18,24,49
+10,HexGrid-90degTilt5degRes,91,91,91
+11,HexGrid-90degTilt22p5degRes,91,91,91
+12,HexGrid-60degTilt5degRes,71,91,91

@@ -1,0 +1,1018 @@
+Analysis title: Put a title here
+
+Refined parameters:
+
+
+Refinement final output indices:
+Global Rwp: 0.0
+Global Rp: 0.0
+Global Rwpnb (no background): 0.0
+Global Rwpnb1 (no bkg rescaled): 0.0
+Global Rwpnb2 (no bkg rescaled^2): 0.0
+Global Rpnb (no background): 0.0
+Global Rpnb1 (no bkg rescaled): 0.0
+Global Rpnb2 (no bkg rescaled^2): 0.0
+Total energy: 0.0
+
+Refinement final output indices for single samples:
+Sample Sample :
+Sample Rwp: 0.0
+Sample Rp: 0.0
+Sample Rwpnb (no background): 0.0
+Sample Rwpnb1 (no bkg rescaled): 0.0
+Sample Rwpnb2 (no bkg rescaled^2): 0.0
+Sample Rpnb (no background): 0.0
+Sample Rpnb1 (no bkg rescaled): 0.0
+Sample Rpnb2 (no bkg rescaled^2): 0.0
+Sample energy: 0.0
+
+Refinement final output indices for single datasets:
+DataSet Cu Tube, null data :
+DataSet Rwp: 0.0
+DataSet Rp: 0.0
+DataSet Rwpnb (no background): 0.0
+DataSet Rwpnb1 (no bkg rescaled): 0.0
+DataSet Rwpnb2 (no bkg rescaled^2): 0.0
+DataSet Rpnb (no background): 0.0
+DataSet Rpnb1 (no bkg rescaled): 0.0
+DataSet Rpnb2 (no bkg rescaled^2): 0.0
+
+Refinement final output indices for single spectra:
+Datafile Zeroed-180deg.prn : Rwp: 0.0, Rp: 0.0, Rwpnb: 0.0, Rwpnb1: 0.0, Rwpnb2: 0.0, Rpnb: 0.0Rpnb1: 0.0Rpnb2: 0.0
+
+Sample:Sample
+
+Phases:
+Ferrite
+Density: 7.874500498135477
+Austenite
+Density: 7.649071801925355
+
+             Object tree full informations
+
+
+                 Object: MaudAnalysis.par
+
+String informations (CIF term, value) :
+_audit_creation_date, Mon Oct 12 15:11:53 PDT 1998
+_audit_creation_method, Maud, version 2.7
+_audit_update_record, Last update Tue Feb 28 11:39:16 PST 2017
+_computing_structure_refinement, Maud, version 2.7
+_refine_ls_R_factor_all, 0.0
+_refine_ls_wR_factor_all, 0.0
+_refine_ls_goodness_of_fit_all, 0
+_publ_contact_author_name, Luca Lutterotti
+_publ_section_title, Put a title here
+_pd_proc_ls_extract_int, end of iteration
+_pd_proc_ls_texture_comp, end of iteration
+_computing_reduce_memory_occ, true
+_pd_proc_ls_theoretical_weight, false
+_pd_proc_ls_extract_pos, end of iteration
+_pd_proc_ls_strain_comp, end of iteration
+_pd_proc_ls_extract_Fhkl, end of iteration
+_pd_proc_ls_Fhkl_comp, end of iteration
+_pd_proc_ls_weight_scheme, sqrt
+_refine_ls_weighting_scheme, WgtSS
+_refine_ls_WSS_factor, 0.0
+_maud_store_spectra_with_analysis, true
+_riet_remove_phases_under, 0.001
+_riet_refine_cell_over, 0.1
+_riet_refine_sizestrain_over, 0.1
+_riet_refine_crystal_structure_over, 0.1
+_riet_refine_texture_over, 0.15
+_riet_refine_strain_over, 0.25
+_pd_proc_ls_interpolation_comp, end of iteration
+_maud_analysis_name, MaudAnalysis.par
+_maud_analysis_prog_number, 0
+_maud_store_structure_factors_with_analysis, true
+_maud_store_texture_factors_with_analysis, true
+
+Subordinate objects :
+ Subordinate object number 0 :
+
+                 Object: Marqardt Least Squares
+
+String informations (CIF term, value) :
+_refine_ls_number_iteration, 5
+_riet_refine_ls_precision, 0.00000001
+_riet_refine_ls_derivative_step, 0.0001
+_riet_refine_ls_lambda, 0.01
+_riet_refine_ls_double_derivative, false
+
+
+Loops of subordinate objects :
+ Object loop number 0 :
+  Object number 0 :
+
+                 Object: Sample
+
+String informations (CIF term, value) :
+_pd_spec_description, Sample description
+_riet_thin_film_phase_refinement, phases
+_reflectivity_layer_qc_from_phases, false
+
+Parameter informations :
+- Parameter:  MaudAnalysis.par:Sample:_pd_spec_orientation_omega  Value: 0, minimum: 0.0, maximum: 0.0 Status: not refinable, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:_pd_spec_orientation_chi  Value: 0, minimum: 0.0, maximum: 0.0 Status: not refinable, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:_pd_spec_orientation_phi  Value: 0, minimum: 0.0, maximum: 0.0 Status: not refinable, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:_riet_par_spec_displac_x  Value: 0, minimum: 0.0, maximum: 0.0 Status: not refinable, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:_riet_par_spec_displac_y  Value: 0, minimum: 0.0, maximum: 0.0 Status: not refinable, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:_riet_par_spec_displac_z  Value: 0, minimum: 0.0, maximum: 0.0 Status: not refinable, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:_pd_spec_size_axial  Value: 0, minimum: 0.0, maximum: 100.0 Status: not refinable, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:_pd_spec_size_equat  Value: 0, minimum: 0.0, maximum: 100.0 Status: not refinable, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:_pd_spec_size_thick  Value: 0, minimum: 0.0, maximum: 100.0 Status: not refinable, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:_pd_spec_size_radius  Value: 0, minimum: 0.0, maximum: 100.0 Status: not refinable, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:_pd_spec_size_radius_y  Value: 0, minimum: 0.0, maximum: 100.0 Status: not refinable, only positive values permitted, minimum significant value: 0.0
+
+Subordinate objects :
+ Subordinate object number 0 :
+
+                 Object: No shape
+
+ Subordinate object number 1 :
+
+                 Object: None Layer workout
+
+ Subordinate object number 2 :
+
+                 Object: No precession
+
+
+Loops of subordinate objects :
+ Object loop number 0 :
+  Object number 0 :
+
+                 Object: Bulk Material
+
+       AtomSite   fractions
+n  label  atom  fraction(at)  fraction(wt)
+1) Fe 1.0 1.0
+
+String informations (CIF term, value) :
+_reflectivity_layer_qc_from_phases, false
+
+Parameter informations :
+- Parameter:  MaudAnalysis.par:Sample:Bulk Material:_riet_par_spec_layer_thickness  Value: 1.0E7, minimum: 0.1, maximum: 1.0E8 Status: not refinable, only positive values permitted, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Bulk Material:_reflectivity_layer_critical_qc  Value: 0.04, minimum: 0.0010, maximum: 0.5 Status: not refinable, only positive values permitted, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Bulk Material:_reflectivity_layer_absorption  Value: 2.0E-7, minimum: 1.0E-8, maximum: 1.0E-5 Status: not refinable, only positive values permitted, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Bulk Material:_reflectivity_layer_roughness  Value: 2.0, minimum: 0.01, maximum: 100.0 Status: not refinable, only positive values permitted, minimum significant value: 0.0
+
+Parameter loop informations :
+Parameter loop number : 0
+- Parameter:  MaudAnalysis.par:Sample:Bulk Material:_pd_phase_atom_%0  Value: .75, minimum: 0.0, maximum: 1.0 Status: not refinable, only positive values permitted, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Bulk Material:_pd_phase_atom_%1  Value: .25, minimum: 0.0, maximum: 1.0 Status: not refinable, only positive values permitted, minimum significant value: 0.0
+
+
+
+ Object loop number 1 :
+  Object number 0 :
+
+                 Object: Cu Tube, null data
+
+String informations (CIF term, value) :
+_pd_meas_datetime_initiated, Date/time meas
+_pd_meas_info_author_name, 
+_riet_meas_datafile_format, 
+_pd_proc_ls_background_function, 
+_pd_proc_ls_profile_function, 
+_pd_proc_ls_peak_cutoff, 30
+_pd_proc_2theta_range_min, 0
+_pd_proc_2theta_range_max, 0
+_pd_proc_2theta_range_inc, 
+_diffrn_ambient_pressure, 
+_diffrn_ambient_temperature, 
+_riet_lorentz_restricted, true
+_riet_par_background_interpolated, false
+_riet_par_background_interpolation_range, 150
+_riet_meas_dataset_compute, true
+_riet_meas_datafile_replace, false
+_riet_meas_dataset_random_texture, false
+_maud_background_add_automatic, false
+_maud_interpolated_background_iterations, 10
+_pd_proc_ls_datafile_weight, 1.0
+
+Parameter informations :
+- Parameter:  MaudAnalysis.par:Sample:Cu Tube, null data:_riet_par_background_exp_shift  Value: 0, minimum: 0.0, maximum: 0.0 Status: not refinable, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Cu Tube, null data:_riet_par_background_exp_thermal_shift  Value: 0, minimum: 0.0, maximum: 0.0 Status: not refinable, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Cu Tube, null data:_pd_spec_orientation_omega  Value: 0, minimum: 0.0, maximum: 0.0 Status: not refinable, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Cu Tube, null data:_pd_spec_orientation_chi  Value: 0, minimum: 0.0, maximum: 0.0 Status: not refinable, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Cu Tube, null data:_pd_spec_orientation_phi  Value: 0, minimum: 0.0, maximum: 0.0 Status: not refinable, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Cu Tube, null data:_pd_meas_orientation_omega_offset  Value: 0, minimum: 0.0, maximum: 0.0 Status: not refinable, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Cu Tube, null data:_pd_meas_orientation_chi_offset  Value: 0, minimum: 0.0, maximum: 0.0 Status: not refinable, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Cu Tube, null data:_pd_meas_orientation_phi_offset  Value: 0, minimum: 0.0, maximum: 0.0 Status: not refinable, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Cu Tube, null data:_pd_meas_orientation_eta_offset  Value: 0, minimum: 0.0, maximum: 0.0 Status: not refinable, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Cu Tube, null data:_riet_par_spec_displac_x  Value: 0, minimum: 0.0, maximum: 0.0 Status: not refinable, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Cu Tube, null data:_riet_par_spec_displac_y  Value: 0, minimum: 0.0, maximum: 0.0 Status: not refinable, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Cu Tube, null data:_riet_par_spec_displac_z  Value: 0, minimum: 0.0, maximum: 0.0 Status: not refinable, minimum significant value: 0.0
+
+Parameter loop informations :
+Parameter loop number : 0
+- Parameter:  MaudAnalysis.par:Sample:Cu Tube, null data:_riet_par_background_pol0  Value: 0, minimum: 0.0, maximum: 0.0 Status: not refinable, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Cu Tube, null data:_riet_par_background_pol1  Value: 0, minimum: 0.0, maximum: 9.936206E-4 Status: not refinable, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Cu Tube, null data:_riet_par_background_pol2  Value: 0, minimum: 0.0, maximum: 9.936206E-4 Status: not refinable, minimum significant value: 0.0
+
+
+Subordinate objects :
+ Subordinate object number 0 :
+
+                 Object: Le Bail
+
+String informations (CIF term, value) :
+_riet_lebail_iteration_max, 5
+_riet_lebail_error_max, 0.005
+_riet_lebail_range_factor, 0.05
+_riet_lebail_use_bkg, true
+_riet_lebail_use_hkl, false
+_riet_lebail_summation_delta, 1.0E-4
+
+ Subordinate object number 1 :
+
+                 Object: none pe
+
+ Subordinate object number 2 :
+
+                 Object: none reflectivity
+
+ Subordinate object number 3 :
+
+                 Object: Diffraction Instrument
+
+String informations (CIF term, value) :
+_diffrn_measurement_device_type, Diffraction Instrument
+_maud_optional_intensity_factor, 1.0
+
+Parameter informations :
+- Parameter:  MaudAnalysis.par:Sample:Cu Tube, null data:Diffraction Instrument:_pd_proc_intensity_incident  Value: 1, minimum: 0.0, maximum: 10000.0 Status: not refinable, only positive values permitted, minimum significant value: 0.0
+
+Parameter loop informations :
+
+Subordinate objects :
+ Subordinate object number 0 :
+
+                 Object: none cal
+
+ Subordinate object number 1 :
+
+                 Object: Instrument disalignment
+
+Parameter loop informations :
+
+ Subordinate object number 2 :
+
+                 Object: Bragg-Brentano
+
+String informations (CIF term, value) :
+_diffrn_radiation_monochromator, filtered
+_pd_instr_2theta_monochr_post, 0
+_pd_instr_dist_src/samp, 175.0
+_pd_instr_monochr_pre_spec, filtered
+_pd_instr_2theta_monochr_pre, 0
+_pd_instr_divg_eq_src/samp, 0.0
+_pd_instr_divg_slit_auto, false
+_pd_instr_divg_ax_src/samp, 0.0
+
+Parameter informations :
+- Parameter:  MaudAnalysis.par:Sample:Cu Tube, null data:Diffraction Instrument:Bragg-Brentano:_diffrn_radiation_polarisn_norm  Value: 0, minimum: 0.0, maximum: 360.0 Status: not refinable, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Cu Tube, null data:Diffraction Instrument:Bragg-Brentano:_diffrn_radiation_polarisn_ratio  Value: 0, minimum: 0.0, maximum: 1.0 Status: not refinable, minimum significant value: 0.0
+
+ Subordinate object number 3 :
+
+                 Object: Theta-2Theta
+
+ Subordinate object number 4 :
+
+                 Object: X-ray
+
+String informations (CIF term, value) :
+_diffrn_dynamical_scattering_correction, true
+_diffrn_dynamical_scattering_correction_crystallite, false
+
+ Subordinate object number 5 :
+
+                 Object: Scintillation
+
+ Subordinate object number 6 :
+
+                 Object: Caglioti PV
+
+String informations (CIF term, value) :
+_riet_caglioti_d_dep, true
+_riet_asymmetry_tan_dep, true
+_riet_omega/chi_broadening_convoluted, false
+_riet_par_asymmetry_truncation, 1.0
+_riet_par_asymmetry_reciprocal, 
+
+Parameter loop informations :
+Parameter loop number : 0
+- Parameter:  MaudAnalysis.par:Sample:Cu Tube, null data:Diffraction Instrument:Caglioti PV:_riet_par_asymmetry_value0  Value: 72.17134, minimum: 5.0, maximum: 1000.0 Status: not refinable, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Cu Tube, null data:Diffraction Instrument:Caglioti PV:_riet_par_asymmetry_value1  Value: -0.229337, minimum: -10.0, maximum: 10.0 Status: not refinable, minimum significant value: 0.0
+
+Parameter loop number : 1
+- Parameter:  MaudAnalysis.par:Sample:Cu Tube, null data:Diffraction Instrument:Caglioti PV:_riet_par_caglioti_value0  Value: 0.00252935, minimum: -0.1, maximum: 0.1 Status: not refinable, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Cu Tube, null data:Diffraction Instrument:Caglioti PV:_riet_par_caglioti_value1  Value: 0.002716717, minimum: -0.3, maximum: 0.3 Status: not refinable, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Cu Tube, null data:Diffraction Instrument:Caglioti PV:_riet_par_caglioti_value2  Value: 0.002312246, minimum: -0.5, maximum: 0.5 Status: not refinable, minimum significant value: 0.0
+
+Parameter loop number : 2
+- Parameter:  MaudAnalysis.par:Sample:Cu Tube, null data:Diffraction Instrument:Caglioti PV:_riet_par_gaussian_value0  Value: 0, minimum: 0.0, maximum: 0.0 Status: not refinable, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Cu Tube, null data:Diffraction Instrument:Caglioti PV:_riet_par_gaussian_value1  Value: 0.012, minimum: -0.1, maximum: 0.1 Status: not refinable, minimum significant value: 0.0
+
+Parameter loop number : 3
+- Parameter:  MaudAnalysis.par:Sample:Cu Tube, null data:Diffraction Instrument:Caglioti PV:_riet_par_broadening_omega0  Value: 0, minimum: -1.0, maximum: 1.0 Status: not refinable, minimum significant value: 0.0
+
+
+ Subordinate object number 7 :
+
+                 Object: none abs
+
+
+Loops of subordinate objects :
+
+ Subordinate object number 4 :
+
+                 Object: none fluorescence
+
+
+Loops of subordinate objects :
+ Object loop number 2 :
+  Object number 0 :
+
+                 Object: Zeroed-180deg.prn
+
+String informations (CIF term, value) :
+_riet_meas_datafile_format, 
+_pd_meas_orientation_omega, 0.0
+_pd_meas_orientation_chi, 0.0
+_pd_meas_orientation_phi, 0.0
+_pd_meas_orientation_eta, 0.0
+_pd_meas_orientation_2theta, 0.0
+_pd_meas_energy_kev, 0.0
+_riet_meas_datafile_compute, true
+_riet_meas_datafile_fitting, false
+_pd_meas_detector_id, none
+_pd_meas_step_count_time, 1.0
+_pd_meas_units_of_intensity, counts
+_riet_meas_datafile_as_background, false
+_riet_meas_data_group_count, 1
+_riet_datafile_type, 0
+_riet_datafile_save_custom, 
+_pd_meas_image_id, -1
+_riet_background_interpolated_manual, false
+_pd_meas_datetime_initiated, 1984-01-01T00:00:00
+_pd_proc_ls_datafile_weight, 1.0
+_riet_use_count_time, false
+
+Parameter informations :
+- Parameter:  MaudAnalysis.par:Sample:Cu Tube, null data:Zeroed-180deg.prn:_pd_meas_counts_monitor  Value: 1.0, minimum: 0.0, maximum: 10.0 Status: not refinable, only positive values permitted, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Cu Tube, null data:Zeroed-180deg.prn:_riet_par_spec_displac_x_2R  Value: 0, minimum: -10.0, maximum: 10.0 Status: not refinable, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Cu Tube, null data:Zeroed-180deg.prn:_riet_par_spec_displac_z_2R  Value: 0, minimum: -10.0, maximum: 10.0 Status: not refinable, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Cu Tube, null data:Zeroed-180deg.prn:_riet_par_fluo_diffr_scale  Value: 1.0, minimum: 0.0, maximum: 100.0 Status: not refinable, only positive values permitted, minimum significant value: 0.0
+
+Parameter loop informations :
+
+
+
+
+ Object loop number 2 :
+  Object number 0 :
+
+                 Object: Ferrite
+
+       General position
+1)  +x  |  +y  |  +z
+2)  -y  |  +x  |  +z
+3)  -x  |  -y  |  +z
+4)  +y  |  -x  |  +z
+5)  +x  |  -z  |  +y
+6)  +x  |  -y  |  -z
+7)  +x  |  +z  |  -y
+8)  +z  |  +y  |  -x
+9)  -x  |  +y  |  -z
+10)  -z  |  +y  |  +x
+11)  +z  |  +x  |  +y
+12)  +y  |  +z  |  +x
+13)  -y  |  -z  |  +x
+14)  +z  |  -x  |  -y
+15)  -y  |  +z  |  -x
+16)  -z  |  -x  |  +y
+17)  -z  |  +x  |  -y
+18)  +y  |  -z  |  -x
+19)  +y  |  +x  |  -z
+20)  -y  |  -x  |  -z
+21)  -x  |  +z  |  +y
+22)  -x  |  -z  |  -y
+23)  +z  |  -y  |  +x
+24)  -z  |  -y  |  -x
+25)  -x  |  -y  |  -z
+26)  +y  |  -x  |  -z
+27)  +x  |  +y  |  -z
+28)  -y  |  +x  |  -z
+29)  -x  |  +z  |  -y
+30)  -x  |  +y  |  +z
+31)  -x  |  -z  |  +y
+32)  -z  |  -y  |  +x
+33)  +x  |  -y  |  +z
+34)  +z  |  -y  |  -x
+35)  -z  |  -x  |  -y
+36)  -y  |  -z  |  -x
+37)  +y  |  +z  |  -x
+38)  -z  |  +x  |  +y
+39)  +y  |  -z  |  +x
+40)  +z  |  +x  |  -y
+41)  +z  |  -x  |  +y
+42)  -y  |  +z  |  +x
+43)  -y  |  -x  |  +z
+44)  +y  |  +x  |  +z
+45)  +x  |  -z  |  -y
+46)  +x  |  +z  |  +y
+47)  -z  |  +y  |  -x
+48)  +z  |  +y  |  +x
+49)  +x+0.5  |  +y+0.5  |  +z+0.5
+50)  -y+0.5  |  +x+0.5  |  +z+0.5
+51)  -x+0.5  |  -y+0.5  |  +z+0.5
+52)  +y+0.5  |  -x+0.5  |  +z+0.5
+53)  +x+0.5  |  -z+0.5  |  +y+0.5
+54)  +x+0.5  |  -y+0.5  |  -z+0.5
+55)  +x+0.5  |  +z+0.5  |  -y+0.5
+56)  +z+0.5  |  +y+0.5  |  -x+0.5
+57)  -x+0.5  |  +y+0.5  |  -z+0.5
+58)  -z+0.5  |  +y+0.5  |  +x+0.5
+59)  +z+0.5  |  +x+0.5  |  +y+0.5
+60)  +y+0.5  |  +z+0.5  |  +x+0.5
+61)  -y+0.5  |  -z+0.5  |  +x+0.5
+62)  +z+0.5  |  -x+0.5  |  -y+0.5
+63)  -y+0.5  |  +z+0.5  |  -x+0.5
+64)  -z+0.5  |  -x+0.5  |  +y+0.5
+65)  -z+0.5  |  +x+0.5  |  -y+0.5
+66)  +y+0.5  |  -z+0.5  |  -x+0.5
+67)  +y+0.5  |  +x+0.5  |  -z+0.5
+68)  -y+0.5  |  -x+0.5  |  -z+0.5
+69)  -x+0.5  |  +z+0.5  |  +y+0.5
+70)  -x+0.5  |  -z+0.5  |  -y+0.5
+71)  +z+0.5  |  -y+0.5  |  +x+0.5
+72)  -z+0.5  |  -y+0.5  |  -x+0.5
+73)  -x+0.5  |  -y+0.5  |  -z+0.5
+74)  +y+0.5  |  -x+0.5  |  -z+0.5
+75)  +x+0.5  |  +y+0.5  |  -z+0.5
+76)  -y+0.5  |  +x+0.5  |  -z+0.5
+77)  -x+0.5  |  +z+0.5  |  -y+0.5
+78)  -x+0.5  |  +y+0.5  |  +z+0.5
+79)  -x+0.5  |  -z+0.5  |  +y+0.5
+80)  -z+0.5  |  -y+0.5  |  +x+0.5
+81)  +x+0.5  |  -y+0.5  |  +z+0.5
+82)  +z+0.5  |  -y+0.5  |  -x+0.5
+83)  -z+0.5  |  -x+0.5  |  -y+0.5
+84)  -y+0.5  |  -z+0.5  |  -x+0.5
+85)  +y+0.5  |  +z+0.5  |  -x+0.5
+86)  -z+0.5  |  +x+0.5  |  +y+0.5
+87)  +y+0.5  |  -z+0.5  |  +x+0.5
+88)  +z+0.5  |  +x+0.5  |  -y+0.5
+89)  +z+0.5  |  -x+0.5  |  +y+0.5
+90)  -y+0.5  |  +z+0.5  |  +x+0.5
+91)  -y+0.5  |  -x+0.5  |  +z+0.5
+92)  +y+0.5  |  +x+0.5  |  +z+0.5
+93)  +x+0.5  |  -z+0.5  |  -y+0.5
+94)  +x+0.5  |  +z+0.5  |  +y+0.5
+95)  -z+0.5  |  +y+0.5  |  -x+0.5
+96)  +z+0.5  |  +y+0.5  |  +x+0.5
+
+       AtomSite list
+n  label  symbol  quantity  occupancy  x  y  z  multiplicity  B  radius  weight  neutron scattering  neutron absorption
+1)  Iron 2.0 1.0 0 0 0 2 0.0 1.27 55.847
+
+
+       Atomic fractions
+n  label  atomic fraction
+1) Fe 1.0
+
+       Reflection list
+n  h  k  l  multiplicity  d-space  crystallite(Angstrom)  microstrain
+1)  1 1 0 12 2.0269215882712386 
+2)  2 0 0 6 1.4332500000000001 
+3)  2 1 1 24 1.1702437246146635 
+4)  2 2 0 12 1.0134607941356193 
+5)  3 1 0 24 0.906466891287266 
+6)  2 2 2 8 0.8274872733160311 
+7)  3 2 1 48 0.7661043499419645 
+8)  4 0 0 6 0.7166250000000001 
+
+String informations (CIF term, value) :
+_chemical_name_common, Ferrite
+_chemical_formula_sum, Ferrite
+_symmetry_cell_setting, cubic
+_symmetry_Int_Tables_number, 1
+_symmetry_space_group_name_sch, C1^1
+_symmetry_space_group_name_H-M, Im-3m
+_symmetry_space_group_name_Hall, P1
+_cell_formula_units_Z, 1
+_refine_ls_d_res_low, 0
+_refine_ls_d_res_high, 5000
+_reflns_d_resolution_low, 0.5
+_reflns_d_resolution_high, 50
+_maud_sg_centering_type, P
+
+Loop of string informations (CIF term, value) :
+
+Parameter informations :
+- Parameter:  MaudAnalysis.par:Sample:Ferrite:_cell_length_a  Value: 2.8665, minimum: 5.0, maximum: 30.0 Status: not refinable, only positive values permitted, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Ferrite:_cell_length_b  Value: 2.8665, minimum: 5.0, maximum: 30.0 Status: not refinable, only positive values permitted, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Ferrite:_cell_length_c  Value: 2.8665, minimum: 5.0, maximum: 30.0 Status: not refinable, only positive values permitted, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Ferrite:_cell_angle_alpha  Value: 90.0, minimum: 90.0, maximum: 120.0 Status: not refinable, only positive values permitted, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Ferrite:_cell_angle_beta  Value: 90.0, minimum: 90.0, maximum: 120.0 Status: not refinable, only positive values permitted, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Ferrite:_cell_angle_gamma  Value: 90, minimum: 90.0, maximum: 120.0 Status: not refinable, only positive values permitted, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Ferrite:_riet_par_strain_thermal  Value: 0, minimum: -0.1, maximum: 0.1 Status: not refinable, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Ferrite:_exptl_absorpt_cryst_size  Value: 0, minimum: 0.001, maximum: 100.0 Status: not refinable, only positive values permitted, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Ferrite:_riet_par_phase_scale_factor  Value: 1.0, minimum: 0.0, maximum: 100.0 Status: not refinable, only positive values permitted, minimum significant value: 0.0
+
+Subordinate objects :
+ Subordinate object number 0 :
+
+                 Object: E-WIMV
+
+String informations (CIF term, value) :
+_rita_generate_symmetry, none
+_rita_wimv_sum_coincidence, true
+_rita_wimv_iteration_max, 10
+_rita_wimv_exponent, 0.01
+_rita_wimv_refl_min_int, 0.001
+_rita_wimv_odf_resolution, 5
+_rita_wimv_tube_projection, true
+_rita_wimv_store_ang_conv, true
+_rita_wimv_odf_coverage_%, 0
+_rita_odf_sharpness, 3.2489417085110213
+_rita_wimv_phon_use, 
+_rita_wimv_tube_weight, 0.5
+_rita_wimv_normalize_pole_figures, true
+_rita_wimv_weigths_exponent, 0.5
+_rita_odf_refinable, true
+_rita_wimv_refl_min_dspacing, 0.0
+
+ Subordinate object number 1 :
+
+                 Object: Delft
+
+ Subordinate object number 2 :
+
+                 Object: Isotropic
+
+Parameter informations :
+- Parameter:  MaudAnalysis.par:Sample:Ferrite:Isotropic:_riet_par_cryst_size  Value: 1000.0, minimum: 50.0, maximum: 5000.0 Status: not refinable, only positive values permitted, minimum significant value: 5.0
+- Parameter:  MaudAnalysis.par:Sample:Ferrite:Isotropic:_riet_par_rs_microstrain  Value: 6.0E-4, minimum: 0.0, maximum: 0.005 Status: not refinable, only positive values permitted, minimum significant value: 1.0E-4
+
+ Subordinate object number 3 :
+
+                 Object: none abm
+
+ Subordinate object number 4 :
+
+                 Object: none pd
+
+ Subordinate object number 5 :
+
+                 Object: no magnetic
+
+ Subordinate object number 6 :
+
+                 Object: no strain
+
+ Subordinate object number 7 :
+
+                 Object: No microabsorption
+
+ Subordinate object number 8 :
+
+                 Object: Atomic Structure
+
+String informations (CIF term, value) :
+_riet_structure_quantity_from_occupancy, true
+_refine_ls_energy_weight, 1.0
+_riet_structure_use_U_dimensionless, false
+
+Subordinate objects :
+ Subordinate object number 0 :
+
+                 Object: No force field
+
+
+Loops of subordinate objects :
+ Object loop number 0 :
+  Object number 0 :
+
+                 Object: Iron
+
+String informations (CIF term, value) :
+_atom_site_type_symbol, dummy
+_atom_site_constraints, 
+_atom_type_number_in_cell, 2.0
+_atom_site_calc_flag, .
+
+Parameter informations :
+- Parameter:  MaudAnalysis.par:Sample:Ferrite:Atomic Structure:Iron:_atom_site_occupancy  Value: 1.0, minimum: 0.0, maximum: 1.0 Status: not refinable, only positive values permitted, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Ferrite:Atomic Structure:Iron:_atom_site_fract_x  Value: 0, minimum: 0.0, maximum: 1.0 Status: not refinable, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Ferrite:Atomic Structure:Iron:_atom_site_fract_y  Value: 0, minimum: 0.0, maximum: 1.0 Status: not refinable, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Ferrite:Atomic Structure:Iron:_atom_site_fract_z  Value: 0, minimum: 0.0, maximum: 1.0 Status: not refinable, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Ferrite:Atomic Structure:Iron:_atom_site_B_iso_or_equiv  Value: 0, minimum: -1.0, maximum: 10.0 Status: not refinable, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Ferrite:Atomic Structure:Iron:_atom_site_aniso_B_11  Value: 0, minimum: -1.0, maximum: 10.0 Status: not refinable, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Ferrite:Atomic Structure:Iron:_atom_site_aniso_B_22  Value: 0, minimum: -1.0, maximum: 10.0 Status: not refinable, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Ferrite:Atomic Structure:Iron:_atom_site_aniso_B_33  Value: 0, minimum: -1.0, maximum: 10.0 Status: not refinable, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Ferrite:Atomic Structure:Iron:_atom_site_aniso_B_12  Value: 0, minimum: -1.0, maximum: 10.0 Status: not refinable, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Ferrite:Atomic Structure:Iron:_atom_site_aniso_B_13  Value: 0, minimum: -1.0, maximum: 10.0 Status: not refinable, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Ferrite:Atomic Structure:Iron:_atom_site_aniso_B_23  Value: 0, minimum: -1.0, maximum: 10.0 Status: not refinable, minimum significant value: 0.0
+
+
+
+ Subordinate object number 9 :
+
+                 Object: atomic standard model
+
+ Subordinate object number 10 :
+
+                 Object: Le Bail
+
+String informations (CIF term, value) :
+_riet_lebail_iteration_max, 5
+_riet_lebail_error_max, 0.005
+_riet_lebail_range_factor, 0.05
+_riet_lebail_use_bkg, true
+_riet_lebail_summation_delta, 1.0E-4
+_riet_lebail_use_previous_factors, true
+
+ Subordinate object number 11 :
+
+                 Object: None TDS
+
+
+Loops of subordinate objects :
+
+  Object number 1 :
+
+                 Object: Austenite
+
+       General position
+1)  +x  |  +y  |  +z
+2)  -y  |  +x  |  +z
+3)  -x  |  -y  |  +z
+4)  +y  |  -x  |  +z
+5)  +x  |  -z  |  +y
+6)  +x  |  -y  |  -z
+7)  +x  |  +z  |  -y
+8)  +z  |  +y  |  -x
+9)  -x  |  +y  |  -z
+10)  -z  |  +y  |  +x
+11)  +z  |  +x  |  +y
+12)  +y  |  +z  |  +x
+13)  -y  |  -z  |  +x
+14)  +z  |  -x  |  -y
+15)  -y  |  +z  |  -x
+16)  -z  |  -x  |  +y
+17)  -z  |  +x  |  -y
+18)  +y  |  -z  |  -x
+19)  +y  |  +x  |  -z
+20)  -y  |  -x  |  -z
+21)  -x  |  +z  |  +y
+22)  -x  |  -z  |  -y
+23)  +z  |  -y  |  +x
+24)  -z  |  -y  |  -x
+25)  -x  |  -y  |  -z
+26)  +y  |  -x  |  -z
+27)  +x  |  +y  |  -z
+28)  -y  |  +x  |  -z
+29)  -x  |  +z  |  -y
+30)  -x  |  +y  |  +z
+31)  -x  |  -z  |  +y
+32)  -z  |  -y  |  +x
+33)  +x  |  -y  |  +z
+34)  +z  |  -y  |  -x
+35)  -z  |  -x  |  -y
+36)  -y  |  -z  |  -x
+37)  +y  |  +z  |  -x
+38)  -z  |  +x  |  +y
+39)  +y  |  -z  |  +x
+40)  +z  |  +x  |  -y
+41)  +z  |  -x  |  +y
+42)  -y  |  +z  |  +x
+43)  -y  |  -x  |  +z
+44)  +y  |  +x  |  +z
+45)  +x  |  -z  |  -y
+46)  +x  |  +z  |  +y
+47)  -z  |  +y  |  -x
+48)  +z  |  +y  |  +x
+49)  +x  |  +y+0.5  |  +z+0.5
+50)  -y  |  +x+0.5  |  +z+0.5
+51)  -x  |  -y+0.5  |  +z+0.5
+52)  +y  |  -x+0.5  |  +z+0.5
+53)  +x  |  -z+0.5  |  +y+0.5
+54)  +x  |  -y+0.5  |  -z+0.5
+55)  +x  |  +z+0.5  |  -y+0.5
+56)  +z  |  +y+0.5  |  -x+0.5
+57)  -x  |  +y+0.5  |  -z+0.5
+58)  -z  |  +y+0.5  |  +x+0.5
+59)  +z  |  +x+0.5  |  +y+0.5
+60)  +y  |  +z+0.5  |  +x+0.5
+61)  -y  |  -z+0.5  |  +x+0.5
+62)  +z  |  -x+0.5  |  -y+0.5
+63)  -y  |  +z+0.5  |  -x+0.5
+64)  -z  |  -x+0.5  |  +y+0.5
+65)  -z  |  +x+0.5  |  -y+0.5
+66)  +y  |  -z+0.5  |  -x+0.5
+67)  +y  |  +x+0.5  |  -z+0.5
+68)  -y  |  -x+0.5  |  -z+0.5
+69)  -x  |  +z+0.5  |  +y+0.5
+70)  -x  |  -z+0.5  |  -y+0.5
+71)  +z  |  -y+0.5  |  +x+0.5
+72)  -z  |  -y+0.5  |  -x+0.5
+73)  -x  |  -y+0.5  |  -z+0.5
+74)  +y  |  -x+0.5  |  -z+0.5
+75)  +x  |  +y+0.5  |  -z+0.5
+76)  -y  |  +x+0.5  |  -z+0.5
+77)  -x  |  +z+0.5  |  -y+0.5
+78)  -x  |  +y+0.5  |  +z+0.5
+79)  -x  |  -z+0.5  |  +y+0.5
+80)  -z  |  -y+0.5  |  +x+0.5
+81)  +x  |  -y+0.5  |  +z+0.5
+82)  +z  |  -y+0.5  |  -x+0.5
+83)  -z  |  -x+0.5  |  -y+0.5
+84)  -y  |  -z+0.5  |  -x+0.5
+85)  +y  |  +z+0.5  |  -x+0.5
+86)  -z  |  +x+0.5  |  +y+0.5
+87)  +y  |  -z+0.5  |  +x+0.5
+88)  +z  |  +x+0.5  |  -y+0.5
+89)  +z  |  -x+0.5  |  +y+0.5
+90)  -y  |  +z+0.5  |  +x+0.5
+91)  -y  |  -x+0.5  |  +z+0.5
+92)  +y  |  +x+0.5  |  +z+0.5
+93)  +x  |  -z+0.5  |  -y+0.5
+94)  +x  |  +z+0.5  |  +y+0.5
+95)  -z  |  +y+0.5  |  -x+0.5
+96)  +z  |  +y+0.5  |  +x+0.5
+97)  +x+0.5  |  +y  |  +z+0.5
+98)  -y+0.5  |  +x  |  +z+0.5
+99)  -x+0.5  |  -y  |  +z+0.5
+100)  +y+0.5  |  -x  |  +z+0.5
+101)  +x+0.5  |  -z  |  +y+0.5
+102)  +x+0.5  |  -y  |  -z+0.5
+103)  +x+0.5  |  +z  |  -y+0.5
+104)  +z+0.5  |  +y  |  -x+0.5
+105)  -x+0.5  |  +y  |  -z+0.5
+106)  -z+0.5  |  +y  |  +x+0.5
+107)  +z+0.5  |  +x  |  +y+0.5
+108)  +y+0.5  |  +z  |  +x+0.5
+109)  -y+0.5  |  -z  |  +x+0.5
+110)  +z+0.5  |  -x  |  -y+0.5
+111)  -y+0.5  |  +z  |  -x+0.5
+112)  -z+0.5  |  -x  |  +y+0.5
+113)  -z+0.5  |  +x  |  -y+0.5
+114)  +y+0.5  |  -z  |  -x+0.5
+115)  +y+0.5  |  +x  |  -z+0.5
+116)  -y+0.5  |  -x  |  -z+0.5
+117)  -x+0.5  |  +z  |  +y+0.5
+118)  -x+0.5  |  -z  |  -y+0.5
+119)  +z+0.5  |  -y  |  +x+0.5
+120)  -z+0.5  |  -y  |  -x+0.5
+121)  -x+0.5  |  -y  |  -z+0.5
+122)  +y+0.5  |  -x  |  -z+0.5
+123)  +x+0.5  |  +y  |  -z+0.5
+124)  -y+0.5  |  +x  |  -z+0.5
+125)  -x+0.5  |  +z  |  -y+0.5
+126)  -x+0.5  |  +y  |  +z+0.5
+127)  -x+0.5  |  -z  |  +y+0.5
+128)  -z+0.5  |  -y  |  +x+0.5
+129)  +x+0.5  |  -y  |  +z+0.5
+130)  +z+0.5  |  -y  |  -x+0.5
+131)  -z+0.5  |  -x  |  -y+0.5
+132)  -y+0.5  |  -z  |  -x+0.5
+133)  +y+0.5  |  +z  |  -x+0.5
+134)  -z+0.5  |  +x  |  +y+0.5
+135)  +y+0.5  |  -z  |  +x+0.5
+136)  +z+0.5  |  +x  |  -y+0.5
+137)  +z+0.5  |  -x  |  +y+0.5
+138)  -y+0.5  |  +z  |  +x+0.5
+139)  -y+0.5  |  -x  |  +z+0.5
+140)  +y+0.5  |  +x  |  +z+0.5
+141)  +x+0.5  |  -z  |  -y+0.5
+142)  +x+0.5  |  +z  |  +y+0.5
+143)  -z+0.5  |  +y  |  -x+0.5
+144)  +z+0.5  |  +y  |  +x+0.5
+145)  +x+0.5  |  +y+0.5  |  +z
+146)  -y+0.5  |  +x+0.5  |  +z
+147)  -x+0.5  |  -y+0.5  |  +z
+148)  +y+0.5  |  -x+0.5  |  +z
+149)  +x+0.5  |  -z+0.5  |  +y
+150)  +x+0.5  |  -y+0.5  |  -z
+151)  +x+0.5  |  +z+0.5  |  -y
+152)  +z+0.5  |  +y+0.5  |  -x
+153)  -x+0.5  |  +y+0.5  |  -z
+154)  -z+0.5  |  +y+0.5  |  +x
+155)  +z+0.5  |  +x+0.5  |  +y
+156)  +y+0.5  |  +z+0.5  |  +x
+157)  -y+0.5  |  -z+0.5  |  +x
+158)  +z+0.5  |  -x+0.5  |  -y
+159)  -y+0.5  |  +z+0.5  |  -x
+160)  -z+0.5  |  -x+0.5  |  +y
+161)  -z+0.5  |  +x+0.5  |  -y
+162)  +y+0.5  |  -z+0.5  |  -x
+163)  +y+0.5  |  +x+0.5  |  -z
+164)  -y+0.5  |  -x+0.5  |  -z
+165)  -x+0.5  |  +z+0.5  |  +y
+166)  -x+0.5  |  -z+0.5  |  -y
+167)  +z+0.5  |  -y+0.5  |  +x
+168)  -z+0.5  |  -y+0.5  |  -x
+169)  -x+0.5  |  -y+0.5  |  -z
+170)  +y+0.5  |  -x+0.5  |  -z
+171)  +x+0.5  |  +y+0.5  |  -z
+172)  -y+0.5  |  +x+0.5  |  -z
+173)  -x+0.5  |  +z+0.5  |  -y
+174)  -x+0.5  |  +y+0.5  |  +z
+175)  -x+0.5  |  -z+0.5  |  +y
+176)  -z+0.5  |  -y+0.5  |  +x
+177)  +x+0.5  |  -y+0.5  |  +z
+178)  +z+0.5  |  -y+0.5  |  -x
+179)  -z+0.5  |  -x+0.5  |  -y
+180)  -y+0.5  |  -z+0.5  |  -x
+181)  +y+0.5  |  +z+0.5  |  -x
+182)  -z+0.5  |  +x+0.5  |  +y
+183)  +y+0.5  |  -z+0.5  |  +x
+184)  +z+0.5  |  +x+0.5  |  -y
+185)  +z+0.5  |  -x+0.5  |  +y
+186)  -y+0.5  |  +z+0.5  |  +x
+187)  -y+0.5  |  -x+0.5  |  +z
+188)  +y+0.5  |  +x+0.5  |  +z
+189)  +x+0.5  |  -z+0.5  |  -y
+190)  +x+0.5  |  +z+0.5  |  +y
+191)  -z+0.5  |  +y+0.5  |  -x
+192)  +z+0.5  |  +y+0.5  |  +x
+
+       AtomSite list
+n  label  symbol  quantity  occupancy  x  y  z  multiplicity  B  radius  weight  neutron scattering  neutron absorption
+1)  4a sites 4.0 1.0 0 0 0 4 0.0 1.27 55.847
+
+
+       Atomic fractions
+n  label  atomic fraction
+1) Fe 1.0
+
+       Reflection list
+n  h  k  l  multiplicity  d-space  crystallite(Angstrom)  microstrain
+1)  1 1 1 8 2.105423226653808 
+2)  2 0 0 6 1.82335 
+3)  2 2 0 12 1.2893031494764915 
+4)  3 1 1 24 1.0995214202717305 
+5)  2 2 2 8 1.052711613326904 
+6)  4 0 0 6 0.911675 
+7)  3 3 1 24 0.8366103567057775 
+8)  4 2 0 24 0.8154269093548484 
+9)  4 2 2 24 0.7443795204172846 
+10)  5 1 1 24 0.7018077422179361 
+11)  3 3 3 8 0.701807742217936 
+
+String informations (CIF term, value) :
+_chemical_name_common, Austenite
+_chemical_formula_sum, Austenite
+_symmetry_cell_setting, cubic
+_symmetry_Int_Tables_number, 1
+_symmetry_space_group_name_sch, C1^1
+_symmetry_space_group_name_H-M, Fm-3m
+_symmetry_space_group_name_Hall, P1
+_cell_formula_units_Z, 1
+_refine_ls_d_res_low, 0
+_refine_ls_d_res_high, 5000
+_reflns_d_resolution_low, 0.7
+_reflns_d_resolution_high, 50
+_maud_sg_centering_type, P
+
+Loop of string informations (CIF term, value) :
+
+Parameter informations :
+- Parameter:  MaudAnalysis.par:Sample:Austenite:_cell_length_a  Value: 3.6467, minimum: 5.0, maximum: 30.0 Status: not refinable, only positive values permitted, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Austenite:_cell_length_b  Value: 3.6467, minimum: 5.0, maximum: 30.0 Status: not refinable, only positive values permitted, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Austenite:_cell_length_c  Value: 3.6467, minimum: 5.0, maximum: 30.0 Status: not refinable, only positive values permitted, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Austenite:_cell_angle_alpha  Value: 90.0, minimum: 90.0, maximum: 120.0 Status: not refinable, only positive values permitted, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Austenite:_cell_angle_beta  Value: 90.0, minimum: 90.0, maximum: 120.0 Status: not refinable, only positive values permitted, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Austenite:_cell_angle_gamma  Value: 90.0, minimum: 90.0, maximum: 120.0 Status: not refinable, only positive values permitted, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Austenite:_riet_par_strain_thermal  Value: 0, minimum: -0.1, maximum: 0.1 Status: not refinable, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Austenite:_exptl_absorpt_cryst_size  Value: 0, minimum: 0.001, maximum: 100.0 Status: not refinable, only positive values permitted, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Austenite:_riet_par_phase_scale_factor  Value: 1.0, minimum: 0.0, maximum: 100.0 Status: not refinable, only positive values permitted, minimum significant value: 0.0
+
+Subordinate objects :
+ Subordinate object number 0 :
+
+                 Object: E-WIMV
+
+String informations (CIF term, value) :
+_rita_generate_symmetry, none
+_rita_wimv_sum_coincidence, true
+_rita_wimv_iteration_max, 10
+_rita_wimv_exponent, 0.01
+_rita_wimv_refl_min_int, 0.001
+_rita_wimv_odf_resolution, 5
+_rita_wimv_tube_projection, true
+_rita_wimv_store_ang_conv, true
+_rita_wimv_odf_coverage_%, 0
+_rita_odf_sharpness, 1.598736452809623
+_rita_wimv_phon_use, 
+_rita_wimv_tube_weight, 0.5
+_rita_wimv_normalize_pole_figures, true
+_rita_wimv_weigths_exponent, 0.5
+_rita_odf_refinable, true
+_rita_wimv_refl_min_dspacing, 0.0
+
+ Subordinate object number 1 :
+
+                 Object: Delft
+
+ Subordinate object number 2 :
+
+                 Object: Isotropic
+
+Parameter informations :
+- Parameter:  MaudAnalysis.par:Sample:Austenite:Isotropic:_riet_par_cryst_size  Value: 1000.0, minimum: 50.0, maximum: 5000.0 Status: not refinable, only positive values permitted, minimum significant value: 5.0
+- Parameter:  MaudAnalysis.par:Sample:Austenite:Isotropic:_riet_par_rs_microstrain  Value: 6.0E-4, minimum: 0.0, maximum: 0.005 Status: not refinable, only positive values permitted, minimum significant value: 1.0E-4
+
+ Subordinate object number 3 :
+
+                 Object: none abm
+
+ Subordinate object number 4 :
+
+                 Object: none pd
+
+ Subordinate object number 5 :
+
+                 Object: no magnetic
+
+ Subordinate object number 6 :
+
+                 Object: no strain
+
+ Subordinate object number 7 :
+
+                 Object: No microabsorption
+
+ Subordinate object number 8 :
+
+                 Object: Atomic Structure
+
+String informations (CIF term, value) :
+_riet_structure_quantity_from_occupancy, true
+_refine_ls_energy_weight, 1.0
+_riet_structure_use_U_dimensionless, false
+
+Subordinate objects :
+ Subordinate object number 0 :
+
+                 Object: No force field
+
+
+Loops of subordinate objects :
+ Object loop number 0 :
+  Object number 0 :
+
+                 Object: 4a sites
+
+String informations (CIF term, value) :
+_atom_site_type_symbol, dummy
+_atom_site_constraints, 
+_atom_type_number_in_cell, 4.0
+_atom_site_calc_flag, .
+
+Parameter informations :
+- Parameter:  MaudAnalysis.par:Sample:Austenite:Atomic Structure:4a sites:_atom_site_occupancy  Value: 1.0, minimum: 0.0, maximum: 1.0 Status: not refinable, only positive values permitted, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Austenite:Atomic Structure:4a sites:_atom_site_fract_x  Value: 0, minimum: 0.0, maximum: 1.0 Status: not refinable, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Austenite:Atomic Structure:4a sites:_atom_site_fract_y  Value: 0, minimum: 0.0, maximum: 1.0 Status: not refinable, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Austenite:Atomic Structure:4a sites:_atom_site_fract_z  Value: 0, minimum: 0.0, maximum: 1.0 Status: not refinable, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Austenite:Atomic Structure:4a sites:_atom_site_B_iso_or_equiv  Value: 0, minimum: -1.0, maximum: 10.0 Status: not refinable, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Austenite:Atomic Structure:4a sites:_atom_site_aniso_B_11  Value: 0, minimum: -1.0, maximum: 10.0 Status: not refinable, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Austenite:Atomic Structure:4a sites:_atom_site_aniso_B_22  Value: 0, minimum: -1.0, maximum: 10.0 Status: not refinable, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Austenite:Atomic Structure:4a sites:_atom_site_aniso_B_33  Value: 0, minimum: -1.0, maximum: 10.0 Status: not refinable, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Austenite:Atomic Structure:4a sites:_atom_site_aniso_B_12  Value: 0, minimum: -1.0, maximum: 10.0 Status: not refinable, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Austenite:Atomic Structure:4a sites:_atom_site_aniso_B_13  Value: 0, minimum: -1.0, maximum: 10.0 Status: not refinable, minimum significant value: 0.0
+- Parameter:  MaudAnalysis.par:Sample:Austenite:Atomic Structure:4a sites:_atom_site_aniso_B_23  Value: 0, minimum: -1.0, maximum: 10.0 Status: not refinable, minimum significant value: 0.0
+
+
+
+ Subordinate object number 9 :
+
+                 Object: atomic standard model
+
+ Subordinate object number 10 :
+
+                 Object: Le Bail
+
+String informations (CIF term, value) :
+_riet_lebail_iteration_max, 5
+_riet_lebail_error_max, 0.005
+_riet_lebail_range_factor, 0.05
+_riet_lebail_use_bkg, true
+_riet_lebail_summation_delta, 1.0E-4
+_riet_lebail_use_previous_factors, true
+
+ Subordinate object number 11 :
+
+                 Object: None TDS
+
+
+Loops of subordinate objects :
+
+
+
+
+
