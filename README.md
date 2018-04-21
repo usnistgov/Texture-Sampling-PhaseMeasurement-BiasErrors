@@ -24,10 +24,9 @@ Date | Description
 
 # How to Cite
 
-## The data set contents should be cited as [To be updated]:
+## The data set contents should be cited as:
 
-A. Creuziger, C. Calhoun, W. Poling, T. Gnaupel-Herold, "Data Set: Assessment of Bias Errors Caused by Texture and Sampling Methods in Diffraction-Based Steel Phase Measurements", (Publisher), (Publication Year), (DOI)
-
+A. Creuziger, C. Calhoun, W. Poling, T. Gnaupel-Herold, "Data Set: Assessment of Bias Errors Caused by Texture and Sampling Methods in Diffraction-Based Steel Phase Measurements", https://github.com/usnistgov/Texture-Sampling-PhaseMeasurement-BiasErrors
 
 ## This data set is a companion to the following technical paper:
 
