@@ -1,7 +1,7 @@
-*.svg
+
 *.eps
 *.tif
-*.png
+
 *.graffle
 .DS_Store
 .ipynb_checkpoints
