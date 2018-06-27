@@ -30,7 +30,7 @@ A. Creuziger, C. Calhoun, W. Poling, T. Gnaupel-Herold, "Data Set: Assessment of
 
 ## This data set is a companion to the following technical paper:
 
-A. Creuziger, C. Calhoun, W. Poling, T. Gnaupel-Herold "Assessment of Bias Errors Caused by Texture and Sampling Methods in Diffraction-Based Steel Phase Measurements" (2018) Journal of Applied Crystallography, 51, in press. DOI: https://doi.org/10.1107/S160057671800420X
+A. Creuziger, C. Calhoun, W. Poling, T. Gnaupel-Herold "Assessment of Bias Errors Caused by Texture and Sampling Methods in Diffraction-Based Steel Phase Measurements" (2018) Journal of Applied Crystallography, 51, p720-731. DOI: https://doi.org/10.1107/S160057671800420X
 
 The technical paper describes the motivation and background for this data set, as well as analysis and key insights that were made from this data set.
 
