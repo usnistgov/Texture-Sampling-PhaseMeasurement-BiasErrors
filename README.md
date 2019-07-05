@@ -95,7 +95,7 @@ The Matlab scripts assume that you have successfully installed the Matlab packag
 
 ### Additional Python packages
 
-The environment snapshot (AusteniteModeling.yml) and requirements files (stable-req.txt) listing the python packages used in the jupyter notebook scripts are included in the JupyterNotebooks/ directory. Citations for these additional packages are listed below. With the exception of the mplstereonet package [10], used for plotting pole figures, most of the packages are fairly conventional in scientific computing. For the mplstereonet package Anaconda Navigator was not useful in installation, instead the pip install was used in the command terminal.
+The environment snapshot (AusteniteModeling.yml) and requirements files (stable-req.txt) listing the python packages used in the jupyter notebook scripts are included in the JupyterNotebooks/ directory. Citations for these additional packages are listed below. With the exception of the mplstereonet package [10], used for plotting pole figures, and fortanformat most of the packages are included in the environment. For the mplstereonet and fortranformat packages 'pip install <package>' was used in the active envornment.
 
 ### Citations for additional packages used in jupyter notebooks:
 
