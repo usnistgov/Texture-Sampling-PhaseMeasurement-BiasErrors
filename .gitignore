@@ -5,3 +5,5 @@
 *.graffle
 .DS_Store
 .ipynb_checkpoints
+*.xlsx
+JupyterNotebooks/.ipynb_checkpoints/PoleFigurePhaseFractions-checkpoint.ipynb
