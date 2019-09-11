@@ -1,0 +1,16 @@
+name: AusteniteModeling-GitHub
+channels:
+  - anaconda
+dependencies:
+  - python=2.7.12
+  - numpy=1.11.1
+  - pandas=0.18.1
+  - matplotlib=1.5.3
+  - scipy=0.18.1
+  - statistics=1.0.3.5
+  - pip:
+    - fortranformat==0.2.5
+    - mplstereonet==0.5
+
+prefix: /Users/creuzige/anaconda2/envs/AusteniteModeling-GitHub
+
