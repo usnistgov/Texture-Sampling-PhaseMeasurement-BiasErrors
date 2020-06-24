@@ -260,8 +260,12 @@ saveas(fig,fullfile(AddFiguresDir,strcat(bname,'-HW', tmp,'-phi2ODF.png')))
 %% Create PF plot
 
 figure; plotPDF(odf,h_ferrite, cs,ss, 'projection','eangle', 'antipodal');CLim(gcm,[0, 4]);mtexColorbar;
+fig = gcf;
+fig.PaperPositionMode = 'auto';
 saveas(fig,fullfile(AddFiguresDir,strcat(bname,'-HW', tmp,'-FerPF.png')))
 figure; plotPDF(odf,h_austenite, cs,ss, 'projection','eangle', 'antipodal');CLim(gcm,[0, 4]);mtexColorbar;
+fig = gcf;
+fig.PaperPositionMode = 'auto';
 saveas(fig,fullfile(AddFiguresDir,strcat(bname,'-HW', tmp,'-AustPF.png')))
 
 %% Commands for output
