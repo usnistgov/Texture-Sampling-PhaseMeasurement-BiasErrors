@@ -245,63 +245,44 @@ import math
 # The angluar spacing is determined recursively based on the values of Phi and Chi
 #on the run before, so I think these are the appropriate parameters...
 def SpiralScheme(name, chi_max, phi_max):
-    """A function used to create a spiral grid scheme. A principle that has emerged in response to the hexagonal grid scheme, the spiral scheme uses less data points over a
-    given grid compared with the hex scheme. This function accepts the sample name, the maximum chi degree value (elaborated upon in the "Parameters" section), and the maximum 
-    phi degree value (related to the number of revolutions the spiral makes about the center of the grid).
-       Parameters
-       ----------
-       name : str
-           The name of the sample used
-           
-       chi_max : float
-           A float value that represents the maximum possible "chi" degree value (In a pole figure, this represents the maximum possible tilt angle
-           made with the normal of the plane and the location of the point on the plane translated upwards onto the surface of the reference sphere
-           (an imaginary point).
-       
-       phi_max : float
-           A float value that represents the maximum possible "phi" degree value (In a pole figure, this value in degrees divided by 360
-           provides us with the total number of revolutions made on the 2-Dimensional Spiral Grid. The higher this value is, the more data 
-           points to be generated
-        """
     xaxis=[] #Chi Array of values to be outputted
     yaxis=[] #Phi Array of values to be outputted
     i=1 # Chi Counter, very important for the determination of Phi 
-    j=1 # Phi Counter, reason it starts at 1 is because the function for phi is recursive (based on n-1 value)
     chi_N=0 
     phi_N=0
     
-    xaxis.append(math.degrees(0)) #The paper sees we must manually input the coordinate values (0,0) before we enter the
+    xaxis.append(0) #The paper sees we must manually input the coordinate values (0,0) before we enter the
     
-    yaxis.append(math.degrees(0))# while-loop.
+    yaxis.append(0)# while-loop.
+    
+    xaxis.append(5) #Since this is also a one-time occurence, I decided to take care of it beforehand...
+    
+    yaxis.append(0)
+    
+    chi_N=5
     
     b=np.log(chi_max)/phi_max # A constant that is to be used in the values for Chi_n
-   
-    while (chi_N<=chi_max): # endless loop error, TO BE FIXED. This is due to the assignment of the phi_N value. My guess is that
-                            #the assignment of new values to phi_N is where the error eminates, and is a matter of knowing where to adjust 
-                            # phi_N so we don't get loop error
-        while(phi_N<=phi_max):
-            if (phi_N==0):
-                chi_N=5;
-                yaxis.append(phi_N)
-            else:
-                y_axis.append(phi_N)
-                if (phi_N<phi_max):
-                    chi_N=np.exp(b*phi_N)
-                elif (phi_N==phi_max):
-                    chi_N=chi_max
-                xaxis.append(chi_N)
-                i=i+1 # moved to right before the assignment of phi_N because then we would be dividing by 0 in calculation of phi_N
-            phi_N=yaxis[j-1]+ (5*chi_max/xaxis[i-1])  
+    while (phi_N<=phi_max): # might change this condition to while (phi...)
+        phi_N=phi_N+ (5*chi_max/xaxis[i]) 
+        yaxis.append(phi_N)
+        if (phi_N<phi_max):
+            chi_N=np.exp(b*phi_N)
+        elif (phi_N==phi_max):
+            chi_N=chi_max
+            xaxis.append(chi_N)
+            break
+        
+        xaxis.append(chi_N)
+               
             # Need to perform the translations (arctan, scale down by 1/45 as the research paper, but would like to
             #understand why this needs to be done before implementing it...)
         
-        j=j+1
-    
+    i=i+1
     
     
     values = {'Tilt' : xaxis, 'Rotation' : yaxis}
     coordinates=pd.DataFrame(values)   
-    DroppedVals = coordinates[coordinates['Tilt'] < 5.0].index #drops the chi values less than 5.0 as prescribed by tHe document
-    coordinates.drop(DroppedVals , inplace=True)                      
+    DroppedVals = coordinates[coordinates['Tilt'] < 5.0].index #drops the chi values less than 5.0 as prescribed by the document
+    coordinates.drop(DroppedVals , inplace=False)                      
     return name, coordinates
-    
+print(SpiralScheme("Austenite",90,6480))
