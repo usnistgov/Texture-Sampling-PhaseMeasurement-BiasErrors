@@ -285,4 +285,4 @@ def SpiralScheme(name, chi_max, phi_max):
     DroppedVals = coordinates[coordinates['Tilt'] < 5.0].index #drops the chi values less than 5.0 as prescribed by the document
     coordinates.drop(DroppedVals , inplace=False)                      
     return name, coordinates
-print(SpiralScheme("Austenite",90,6480))
+print(SpiralScheme("Austenite",90,6480)) # a test to see if the values are reasonable
