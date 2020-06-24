@@ -245,11 +245,9 @@ import math
 # The angluar spacing is determined recursively based on the values of Phi and Chi
 #on the run before, so I think these are the appropriate parameters...
 def SpiralScheme(name, chi_max, phi_max):
-    """A function used to create a spiral grid scheme. A principle that has emerged in response to the hexagonal grid scheme, the spiral scheme
-    requires significantly less data points than the Hex scheme, and is far less computationally tedious with the help of polar equations and the
-    function increasing in radius as datapoints are generated. 
-    As a drawback, this sampling method is not as representative of the pole figure as the Hex scheme, though it is more efficient in generating 
-    data points.
+    """A function used to create a spiral grid scheme. A principle that has emerged in response to the hexagonal grid scheme, the spiral scheme uses less data points over a
+    given grid compared with the hex scheme. This function accepts the sample name, the maximum chi degree value (elaborated upon in the "Parameters" section), and the maximum 
+    phi degree value (related to the number of revolutions the spiral makes about the center of the grid).
        Parameters
        ----------
        name : str
