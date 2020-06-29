@@ -239,6 +239,26 @@ def HexGrid(name, chi_max, angular_spacing):
 
 
 Define function to create a spiral grid scheme (INCOMPLETE):
+     """A function used to create a spiral grid scheme (a polar grpahical representation of data in certain atomic planes, to be used in analysis of material texture). 
+     This function accepts three parameters: the name of the sample to be used, the maximum chi degree value (elaborated upon below in the parameters description), as well
+     as the maximum phi degree value (similarly focused upon in the parameters section of this docstring. Like other methods in this family of grid schemes, it outputs arrays
+     of tilt angle (represented by chi) and rotation angle (represented by phi)
+       
+       Parameters
+       ----------
+       name : str
+           The name of the sample used
+           
+       chi_max : float
+           A float value that represents the maximum possible "chi" degree value (In a pole figure, this represents the maximum possible tilt angle
+           made with the normal of the plane and the location of the point on the plane translated upwards onto the surface of the reference sphere
+           (an imaginary point).
+       
+       phi_max : float
+           A float value that represents the maximum possible "phi" degree value (In a pole figure and using our spiral grid scheme, this is related to the amount of times our cycle
+           will revolve around the pole figure as it moves radially outwards and collects points throughout the plane.
+        """
+    
 import numpy as np
 import pandas as pd
 import math
@@ -286,3 +306,93 @@ def SpiralScheme(name, chi_max, phi_max):
     coordinates.drop(DroppedVals , inplace=False)                      
     return name, coordinates
 print(SpiralScheme("Austenite",90,6480)) # a test to see if the values are reasonable
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Rings Perpendicular to A Sample Direction Documentation:
+    """This method takes a look at graphically exploring specific rings perpendicular to the normal direction of the sample. The parameters to be accepted are very simple:
+    only the desired angluar distance to be incremented as we measure the rotation degree value along the circular plane. Outputs the directional relationship between the ring and 
+    the sample direction, and a set of coordinates, with "Tilt" being 90 degrees for each of the corresponding "Rotation values" as we work around the circular shaped plane. 
+    Tilt is always 90 degrees, of course, because the ring is perpendicular to the normal direction.
+    
+   
+    Parameters
+    ----------
+    res : float
+        A float value that determines the step size of the rotation array base as it goes from 0 to 360 degrees (around the circular plane).
+        """
+    
+    
+    # Perpendicular to ND
+def RingPerpND(res):
+    name="Ring Perpendicular to ND"
+    yaxis=np.ndarray.tolist(np.arange(0.0, 360.0001, res))#rotation
+    xaxis=[90.0] * len(yaxis) #tilt 
+    d = {'Tilt' : xaxis, 'Rotation' : yaxis}
+    coordsDF=pd.DataFrame(d)
+    return name, coordsDF
+   
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+    """This method takes a look at graphically exploring specific rings perpendicular to the rolling direction of the sample. The parameters to be accepted are very simple:
+    only the desired angluar distance to be incremented as we measure the tilt degree value along the circular plane. Outputs the directional relationship between the ring and 
+    the sample direction, and a set of coordinates, with "Rotation" values being a constant 90 or 270 degrees, and tilt varying until we hit 90 degrees, but because this
+    only covers a semicircle of the circular plane normal to the Rolling direction, I wonder why the tilt bound is 90 degrees instead of 180...and with the commented out code, 
+    it only covers a quarter circle of the circular plane perpendicular to the rolling direction.
+    
+   
+    Parameters
+    ----------
+    res : float
+        A float value that determines the step size of the tilt array base as it goes from 0 to 90 degrees (around the circular plane), though it should be noted that with
+        the extra code for the y- axis that allows for the 90 degree value to be rotation value constant as well, this would cover only a semicircle of the circular plane 
+        perpendicular to the rolling direction.
+        """
+    
+    
+   # Perpendicular to RD
+def RingPerpRD(res):
+    name="Ring Perpendicular to RD"
+    xaxis=np.ndarray.tolist(np.arange(0.0, 90.001, res))#tilt Note for me (Surya) Ask Dr. Creuziger why this doesn't go upto 180.001
+    #yaxis=[90.0] * len(xaxis) #rotation
+    yaxis=[270.0] * len(xaxis) #rotation
+    d = {'Tilt' : xaxis, 'Rotation' : yaxis}
+    coordsDF=pd.DataFrame(d)
+    return name, coordsDF
+   # Perpendicular to RD
+
+    
+    
+    
+    
+    -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+    """This method takes a look at graphically exploring specific rings perpendicular to the transverse direction of the sample. The parameters to be accepted are very simple:
+    only the desired angluar distance to be incremented as we measure the tilt degree value along the circular plane. Outputs the directional relationship between the ring and 
+    the sample direction, and a set of coordinates, with "Rotation" values being a constant 0 or 180 degrees, and tilt varying until we hit 90 degrees, but because this
+    only covers a semicircle of the circular plane normal to the Transverse direction, I wonder why the tilt bound is 90 degrees instead of 180...and with the commented out code, 
+    it only covers a quarter circle of the circular plane perpendicular to the transverse direction.
+    
+   
+    Parameters
+    ----------
+    res : float
+        A float value that determines the step size of the tilt array base as it goes from 0 to 90 degrees (around the circular plane), though it should be noted that with
+        the extra code for the y-axis that allows for the 0 degree value to be rotation value constant as well (along with the default 180 degree value), this would cover
+        only a semicircle of the circular plane perpendicular to the transverse direction.
+        """
+    
+    
+    
+    # Perpendicular to TD
+def RingPerpTD(res):
+    name="Ring Perpendicular to TD"
+    xaxis=np.ndarray.tolist(np.arange(0.0, 90.001, res))#tilt Note for me (Surya) Ask Dr. Creuziger why this doesn't go upto 180.001
+    #yaxis=[0.0] * len(xaxis) #rotation
+    yaxis=[180.0] * len(xaxis) #rotation
+    d = {'Tilt' : xaxis, 'Rotation' : yaxis}
+    coordsDF=pd.DataFrame(d)
+    return name, coordsDF
