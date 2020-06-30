@@ -389,3 +389,38 @@ def RingPerpTD(res):
     d = {'Tilt' : xaxis, 'Rotation' : yaxis}
     coordsDF=pd.DataFrame(d)
     return name, coordsDF
+
+
+ 
+    -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    
+    """This function defines a singular, specific orientation for sampling, as it works in concert with other methods that output tilt and rotation arrays. It accepts the
+    sample name, "tilt" array and "rotation" array that have been provided by other methods, and simply outputs a neater version of the data, giving it a name and creating
+    a Pandas dataframe that records the tilt and rotation of each relevant data point.
+    
+   
+    Parameters
+    ----------
+    name : str
+        The name of the sample orientation to be used
+     
+    tilt : array of float values
+        An array of float values representing the corresponding tilt angles (or chi), to be used as reference for pole figure geometry
+    
+    rotation : array of floar values
+        An array of floar values representing the corresponding rotation angles (or phi), to be used as reference for pole figure geometry.
+        """
+    
+
+    
+def SingleOrientation(name, tilt, rotation):
+    coordslist=[[tilt,rotation]]
+    xaxis=[]
+    yaxis=[]
+    for item in coordslist: 
+        xaxis.append(item[0])
+        yaxis.append(item[1])
+    #coordslist[0][:]
+    d = {'Tilt' : xaxis, 'Rotation' : yaxis}
+    coordsDF=pd.DataFrame(d)
+    return name, coordsDF
