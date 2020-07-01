@@ -424,3 +424,43 @@ def SingleOrientation(name, tilt, rotation):
     d = {'Tilt' : xaxis, 'Rotation' : yaxis}
     coordsDF=pd.DataFrame(d)
     return name, coordsDF
+
+  -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Plot pole figures of sampling positions:
+
+
+
+Test functions:
+
+    SchemeName,Coordinates=SingleOrientation("Morris", 60.0,90.0)
+    Coordinates
+
+
+
+Simple plot to work out mplsteronet conventions:
+    """This function is to help us undersrand the conventions of mplstereonet. It accepts no parameters and outputs a plot that translates the 3 Dimensional representations
+    of the sampling sphere into a stereographic 2-Dimensional projection, with the help of creating a sample orientation from the "SingleOrientation" method.
+   
+    Parameters
+    ----------
+    None
+        """
+    
+
+
+fig = plt.figure(figsize=(8,8), dpi=600)
+
+ax2 = fig.add_subplot(111, projection='stereonet')
+
+#SingleOrientation - Name, Tilt, Rotation
+#SchemeName,Coordinates=SingleOrientation("RD Single", 90.0,180.0)
+SchemeName,Coordinates=SingleOrientation("TD Single", 90.0,270.0)
+
+dip, strike =Coordinates['Tilt'], Coordinates['Rotation']-90.0
+l1=ax2.pole(strike, dip, 'bD', markersize=10, clip_on=False)
+#dip tilts about the 0 axis (RD), left handed
+#strike tilts about the normal axis (ND), left handed
+#Looking at the bottom of the sphere, not the top
+#this is just convention of mplstereonet, does not affect averaging methods
+
+plt.show()
