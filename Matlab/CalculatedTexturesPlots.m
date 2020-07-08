@@ -70,13 +70,13 @@ fclose(fileID);
 %for HW=[10*degree 15*degree 20*degree 25*degree 30*degree 35*degree 40*degree 45*degree 50*degree]
 
 %single halfwidth
-HW=20*degree;
+HW=10*degree;
 
 tmp=num2str(round(HW/degree));
 disp(['Halfwidth: ', tmp, ' Degrees'])
 
 disp(HW)
-psi = deLaValeePoussinKernel('HALFWIDTH',HW);
+psi = deLaValleePoussinKernel('HALFWIDTH',HW);
 %psi = vonMisesFisherKernel('HALFWIDTH',HW);
 
 %% Start for loop of different orientaions
