@@ -1,4 +1,15 @@
 #####################################
+# convert rotations per minute to radians per second
+#####################################
+def rpm2radpsec(rpm):
+    """
+    TO ADD: docstring
+    """
+    import math
+    radpsec=(rpm*math.pi*2.0)/60.0
+    return radpsec
+
+#####################################
 # Define function to tilt and rotate
 #####################################
 def TiltRotate(name, time, datapoints, rpm,maxtilt,tiltcpm):
@@ -10,7 +21,7 @@ def TiltRotate(name, time, datapoints, rpm,maxtilt,tiltcpm):
     rotationposition and tiltposition that correspond to certain "time
     values"
     
-    TO ADD: Citation
+    Citation: Adapted from C. F. Jatczak, J. A. Larson, and S. W. Shin, Retained austenite and its measurements by X-ray diffraction: an information manual. Warrendale, PA: Society of Automotive Engineers, 1980.
     
     Parameters
     ----------
@@ -31,6 +42,11 @@ def TiltRotate(name, time, datapoints, rpm,maxtilt,tiltcpm):
        the apparatus reaches the other side of the diameter of the pole figure and back to
        original position
     """
+    
+    import numpy as np
+    import pandas as pd
+    import math
+    from scipy import signal
     rotationspeed=(rpm2radpsec(rpm)) # radians per second
     #maxtilt=60.0  # in degrees
     tiltspeed=(tiltcpm/60.0)  #cycles per second
@@ -81,7 +97,9 @@ def HexGrid(name, chi_max, angular_spacing):
     Phase Fraction, compared to other potential schemes.   This function accepts the sample name, maximum "chi-angle" for measurements
     (elaborated upon in the "Parameters" description), and the desired angle amount to increment each data point by. Outputs arrays of
     "Tilt" and "Rotation" angle values.
-       
+    
+    TO ADD: Citation
+    
     Parameters
     ----------
     name : str
@@ -96,7 +114,9 @@ def HexGrid(name, chi_max, angular_spacing):
        A float value that represents the desired incrementing angle to be applied in measurements; correspondingly increases the
        spacing of the grid.
     """
-    
+    import numpy as np
+    import pandas as pd
+    import math
     #chi_max=90.0  #maximum tilt angle in degrees
     #angular_spacing=7.0
     d_max=2.0*math.sin(math.radians(chi_max)/2.0)
@@ -245,6 +265,8 @@ def SpiralScheme(name, chi_max, phi_max):
     as the maximum phi degree value (similarly focused upon in the parameters section of this docstring. Like other methods in this family of grid schemes, it outputs arrays
     of tilt angle (represented by chi) and rotation angle (represented by phi)
 
+    TO ADD: Citation
+
     Parameters
     ----------
     name : str
@@ -326,7 +348,9 @@ def RingPerpND(res):
     res : float
         A float value that determines the step size of the rotation array base as it goes from 0 to 360 degrees (around the circular plane).
     """
-    
+    import numpy as np
+    import pandas as pd
+    import math
     
     # Perpendicular to ND
 
@@ -351,7 +375,9 @@ def RingPerpRD(res):
     res : float
         A float value that determines the step size of the tilt array base as it goes from 0 to 90 degrees (around the circular plane).
         """
-    
+    import numpy as np
+    import pandas as pd
+    import math
     
    # Perpendicular to RD
 
@@ -381,7 +407,9 @@ def RingPerpTD(res):
         A float value that determines the step size of the tilt array base as it goes from 0 to 90 degrees (around the circular plane).
         """
     
-    
+    import numpy as np
+    import pandas as pd
+    import math
     
     # Perpendicular to TD
 
@@ -415,7 +443,10 @@ def SingleOrientation(name, tilt, rotation):
     rotation : array of floar values
         An array of floar values representing the corresponding rotation angles (or phi), to be used as reference for pole figure geometry.
         """
-
+    import numpy as np
+    import pandas as pd
+    import math
+    
     coordslist=[[tilt,rotation]]
     xaxis=[]
     yaxis=[]
