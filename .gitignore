@@ -8,3 +8,4 @@
 Matlab/MtexData/*.maa
 Matlab/ODFFigures/*.png
 *.pyc
+JupyterNotebooks/.ipynb_checkpoints/*

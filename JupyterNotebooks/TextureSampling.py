@@ -1,4 +1,206 @@
 #####################################
+# Read in Polefigures in .xpc format
+#####################################
+def xpcformat(mode=None, filename=None):
+
+    """
+    
+    FIX: Docstring too long and complicated
+    
+    MAUD uses an .xpc format for pole figures, likely derived from BearTex [1].  This format is similar to the General Intensity File Format in POPLA [2, appendix B2], with a slightly different header
+
+    [1] http://eps.berkeley.edu/~wenk/TexturePage/beartex.htm
+
+    [2] Popla Manual http://pajarito.materials.cmu.edu/rollett/27750/popLA_Manual.pdf
+
+
+    #        Adapted .xpc format parser, from
+    #        https://github.com/usnistgov/texture
+    #        commit 9c0ac85
+    #        Program upf.py
+    # direct link: https://github.com/usnistgov/texture/blob/9c0ac8531276a5d8d27c0e895074ca66fda76608/src/upf.py
+
+    # .xpc format
+    # line with a phase, reflection and trailing '#'
+    # 4 blank lines
+    # 1 line with lattice parameters
+    # 1 line with reflection and pole figure explaination
+    # 4 lines, with 18 terms each, integers - fixed width (fortran format)
+        
+    
+    Experimental pole figure format controller
+    mode:
+  ->    "steglich"
+  ->    "bruker"  *.uxd file
+  ->    "epf" (2011-Oct-6) epf popLA experimental pole figure format
+    Returns the pole figure data as
+  ->  the standard format (m x n numpy array)
+  ->  each of axes stands for rotating (phi) and tilting (khi)
+  ->  angle in the laboratory space.
+    These angles will be angle and radius in the
+    space onto which a pole figure is projected.
+    conventions:
+     tilting angle: khi
+     rotating angle: phi
+     dk: incremental khi angle
+     dp: incremental phi angle
+     nk: number of points along khi axis
+     np: number of points along phi axis
+     angles are converted into radian whenever possible
+    Arguments
+    =========
+    mode     = None
+    filename = None
+    """
+    import fortranformat as ff
+    import numpy as np
+    import pandas as pd
+    import math
+    
+    print ('Pole Figure Parsing')
+
+    if mode=='xpc':
+        """
+        Adapted .xpc format parser, from
+        https://github.com/usnistgov/texture
+        commit 9c0ac85
+        based on ready made popLA epf format parser
+        consider the possibility of multiple number of polefigure
+        ## phi must be 0~355, khi must be 0~90 with 5 as an ang
+        resolution
+        """
+        print ('You are now reading experimental pole figure(s) :%s'%filename)
+        blocks = open(filename, 'r').read().split('\n\n\n\n')[1:]
+        #blocks = open(filename, 'rU').read().split('\n\n\n\n')[1:]   #changed, U mode deprecated
+        print ('There are %s blocks of data found'%len(blocks))
+        if len(blocks)==0:
+            msg1 = 'xpc parser in upf assumes that pole figures are separated by 4 new lines'
+            msg2 = ' searching %s finds no set of 4 new lines in '%filename
+            msg  = '%s \n %s'%(msg1,msg2)
+            raise IOError (msg)
+            # blocks = parse_epf(filename)
+        npf = len(blocks)
+        if npf==0: raise IOError ('No pf block found.')
+
+        datasets = []; max_khi = []
+        if  npf>1: hkls=["HKL"] ## multiple number of pole figures in a file
+        
+        for part in blocks:
+            line=part.split('\n')
+            #print len(line)
+
+            structureline=ff.FortranRecordReader('(6f10.4,1x,i4,1x,i4)')
+            [a,b,c,alpha,beta,gamma,crystalclass,something]=structureline.read(line[1])
+            pfDefline=ff.FortranRecordReader('(1x,3i3,6f5.1,2i2)')
+            [h,k,l,unknown1,tilt,tiltinc,unknown2,rotation,rotationinc,unknown3,unknown4]=pfDefline.read(line[2])
+            
+            #for the rest of the lines, do the following
+            dataline=ff.FortranRecordReader('(1x,18i4)')
+            
+            # Pretty ugly code, but works...
+            grouping=[[3,4,5,6],[7,8,9,10],[11,12,13,14],[15,16,17,18],[19,20,21,22],[23,24,25,26],
+                      [27,28,29,30],[31,32,33,34],[35,36,37,38],[39,40,41,42],[43,44,45,46],[47,48,49,50],
+                      [51,52,53,54],[55,56,57,58],[59,60,61,62],[63,64,65,66],[67,68,69,70],[71,72,73,74],
+                     [75,76,77,78]]
+            
+            
+            dataset=[]
+            for item in grouping:
+                #print item[0],item[1],item[2],item[3]
+                parsed=dataline.read(line[item[0]])
+                parsed.extend(dataline.read(line[item[1]]))
+                parsed.extend(dataline.read(line[item[2]]))
+                parsed.extend(dataline.read(line[item[3]]))
+                dataset.append(parsed)
+            #print dataset
+            
+            #Saves as a Pandas dataframe, and maps the 360 degree phi data from the 0 degree phi data
+            #row and column indexes are by degrees
+            
+            # FIX - changed in new version of pandas
+            df=pd.DataFrame(dataset, index=np.arange(0,91,5))
+            df.columns=[np.arange(0,360,5)]
+            df[360]=df.iloc[:,0]  #tried changing .loc to .iloc
+            
+            # Save the hkl value
+            hkl = [h,k,l] #hkl
+            #print hkl
+            hkls.append(hkl)
+
+            datasets.append(df)
+            
+        #print hkls
+        print ("number of pole figures:"), len(datasets)
+
+        return datasets, hkls
+    else: raise IOError ('Unexpected mode is given')
+    #return data
+
+#####################################
+# Calculate Intensity from Pole Figure Coordinates
+#####################################
+def pfIntensitySum(name, PoleFigures, Coordinates):
+
+    """
+    Define function to take a pole figure (or series of pole figures) and series of coordinate pairs, returning an average intensity for all of the pole figures and coordinates
+    For each coordinate pair passed to this function, interpolate the pole figure to find intensity
+    Average intenisity for all coordinate pairs
+    Average intensity for all pole figures passed
+    
+    conventions:
+
+    Input Arguments
+    =========
+    name: passed through program to help mark columns
+    PoleFigures - series of
+    -> FORMAT
+    Coordinates
+    -> FORMAT
+    array of coordinates (rotation,tilt)
+  
+    Output Arguments
+    =========
+    AverageIntensity Array for each pole figure with average intensity
+    """
+    import numpy as np
+    import pandas as pd
+    import scipy as scipy
+    from scipy import interpolate
+    
+    #print "Averaging Intensity from Pole Figures"
+    AverageIntensity=[name]
+
+    ## For each pole figure:
+    for pf in PoleFigures:
+        IntensityValues=[]
+        #print "Pole Figure Data:"
+        #print len(list(pf.columns.values))
+        #print len(list(pf.index.values))
+        #print pf
+
+        ## Interpolate the pole figure
+        #set kx,ky=1 for linear interpolation, otherwise got odd behavior near zero on edges
+        InterpPF=scipy.interpolate.RectBivariateSpline(list(pf.index.values),list(pf.columns.values), pf, kx=1, ky=1)
+
+        ## For each coordinate:
+        ## Read the value from the pole figure, append to new array
+        #print Coordinates
+        for index, row in Coordinates.iterrows():
+            #print row['Tilt'], row['Rotation'], InterpPF.ev(row['Tilt'],row['Rotation'])
+            IntensityValues.append(InterpPF.ev(row['Tilt'],row['Rotation']))
+
+        #print IntensityValues
+        #Factor of 100 is divided to convert from POPLA style format of 100 = 1 MRD/MUD
+        AverageIntensity.append(sum(IntensityValues)/(100*len(IntensityValues)))
+
+    #print AverageIntensity
+
+    ## return average value
+    return AverageIntensity
+
+
+
+#####################################
 # convert rotations per minute to radians per second
 #####################################
 def rpm2radpsec(rpm):
@@ -98,7 +300,7 @@ def HexGrid(name, chi_max, angular_spacing):
     (elaborated upon in the "Parameters" description), and the desired angle amount to increment each data point by. Outputs arrays of
     "Tilt" and "Rotation" angle values.
     
-    TO ADD: Citation
+    Citation: Adapted from A. C. Rizzie, “Elaboration on the Hexagonal Grid and Spiral Method for Data Collection Via Pole Figures,” Spring 2008 [Online]. Available: http://www.bsu.edu/libraries/beneficencepress/mathexchange/05-01/rizzie.pdf. [Accessed: 13-Dec-2016]
     
     Parameters
     ----------
