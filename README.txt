@@ -20,7 +20,7 @@ Questions regarding this data set may be directed to Adam Creuziger (adam.creuzi
 Date | Description
 --- | ---
 2018 Apr 21 | Posted on GitHub
-
+2020 July | Moved JupyterNotebooks to modules, updated to python 3.7 from 2.7
 
 # How to Cite
 
