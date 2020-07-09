@@ -1,31 +1,36 @@
-Define function to tilt and rotate:
+#####################################
+# Define function to tilt and rotate
+#####################################
 def TiltRotate(name, time, datapoints, rpm,maxtilt,tiltcpm):
     #time=120  # in seconds
     #datapoints = 5000.0
-    """A function used to represent the tilting angles and rotational angles
-       of a sample for a given amount of datapoints, and outputs arrays of
-       rotationposition and tiltposition that correspond to certain "time
-       values"
-       
-       Parameters
-       ----------
-       name : str
-           The name of the sample used
-       time : int
-           The value representing, in seconds, the total amount of time the sample will
-           be subjected to measurements
-       datapoints : int
-           The number of times we would like to measure the tilt angles and rotation positions of the sample
-       rpm : float
-           The revolutions per minute expected that our apparatus will revolve; to be converted
-           to a more appropriate radians/second measure
-       maxtilt : float
-           The maximum value the cycle will be tilted(?)
-       tiltcpm : float
-           The tilt cycles per minute, operating almost as a frequency of the number of times
-           the apparatus reaches the other side of the diameter of the pole figure and back to
-           original position
-        """
+    """
+    A function used to represent the tilting angles and rotational angles
+    of a sample for a given amount of datapoints, and outputs arrays of
+    rotationposition and tiltposition that correspond to certain "time
+    values"
+    
+    TO ADD: Citation
+    
+    Parameters
+    ----------
+    name : str
+       The name of the sample used
+    time : int
+       The value representing, in seconds, the total amount of time the sample will
+       be subjected to measurements
+    datapoints : int
+       The number of times we would like to measure the tilt angles and rotation positions of the sample
+    rpm : float
+       The revolutions per minute expected that our apparatus will revolve; to be converted
+       to a more appropriate radians/second measure
+    maxtilt : float
+       The maximum value the cycle will be tilted(?)
+    tiltcpm : float
+       The tilt cycles per minute, operating almost as a frequency of the number of times
+       the apparatus reaches the other side of the diameter of the pole figure and back to
+       original position
+    """
     rotationspeed=(rpm2radpsec(rpm)) # radians per second
     #maxtilt=60.0  # in degrees
     tiltspeed=(tiltcpm/60.0)  #cycles per second
@@ -66,39 +71,35 @@ def TiltRotate(name, time, datapoints, rpm,maxtilt,tiltcpm):
         #print coordsDF.sort_values('Tilt')    
     return name, coordinates
 
-
-----------------------------------------------------------------------------------------------------------------------------------------
-
-
-Define function to create a hexagonal grid:
-
+#############################################
+# Define function to create a hexagonal grid:
+#############################################
 def HexGrid(name, chi_max, angular_spacing):
- """A function used to create a hexagonal grid scheme, to be used for displaying the crystallographic texture of, in this case, various
- steels. The Hexagonal Grid Scheme has experimentally proven to be effective in the reduction of error associated with measuring Austenite
- Phase Fraction, compared to other potential schemes.   This function accepts the sample name, maximum "chi-angle" for measurements 
- (elaborated upon in the "Parameters" description), and the desired angle amount to increment each data point by. Outputs arrays of
- "Tilt" and "Rotation" angle values.
+    """
+    A function used to create a hexagonal grid scheme, to be used for displaying the crystallographic texture of, in this case, various
+    steels. The Hexagonal Grid Scheme has experimentally proven to be effective in the reduction of error associated with measuring Austenite
+    Phase Fraction, compared to other potential schemes.   This function accepts the sample name, maximum "chi-angle" for measurements
+    (elaborated upon in the "Parameters" description), and the desired angle amount to increment each data point by. Outputs arrays of
+    "Tilt" and "Rotation" angle values.
        
-       Parameters
-       ----------
-       name : str
-           The name of the sample used
-           
-       chi_max : float
-           A float value that represents the maximum possible "chi" degree value (In a pole figure, this represents the maximum possible tilt angle
-           made with the normal of the plane and the location of the point on the plane translated upwards onto the surface of the reference sphere
-           (an imaginary point).
+    Parameters
+    ----------
+    name : str
+       The name of the sample used
        
-       angular_spacing : float
-           A float value that represents the desired incrementing angle to be applied in measurements; correspondingly increases the 
-           spacing of the grid.
-        """
+    chi_max : float
+       A float value that represents the maximum possible "chi" degree value (In a pole figure, this represents the maximum possible tilt angle
+       made with the normal of the plane and the location of the point on the plane translated upwards onto the surface of the reference sphere
+       (an imaginary point).
+
+    angular_spacing : float
+       A float value that represents the desired incrementing angle to be applied in measurements; correspondingly increases the
+       spacing of the grid.
+    """
     
-#chi_max=90.0  #maximum tilt angle in degrees
-#angular_spacing=7.0
-
-
-    d_max=2.0*math.sin(math.radians(chi_max)/2.0) %
+    #chi_max=90.0  #maximum tilt angle in degrees
+    #angular_spacing=7.0
+    d_max=2.0*math.sin(math.radians(chi_max)/2.0)
 
     N=d_max/math.radians(angular_spacing)
 
@@ -232,39 +233,39 @@ def HexGrid(name, chi_max, angular_spacing):
     return name, coordinates
 
 
+###################################
 
-
-
-----------------------------------------------------------------------------------------------------------------------------------------
-
-
-Define function to create a spiral grid scheme (INCOMPLETE):
-     """A function used to create a spiral grid scheme (a polar grpahical representation of data in certain atomic planes, to be used in analysis of material texture). 
-     This function accepts three parameters: the name of the sample to be used, the maximum chi degree value (elaborated upon below in the parameters description), as well
-     as the maximum phi degree value (similarly focused upon in the parameters section of this docstring. Like other methods in this family of grid schemes, it outputs arrays
-     of tilt angle (represented by chi) and rotation angle (represented by phi)
-       
-       Parameters
-       ----------
-       name : str
-           The name of the sample used
-           
-       chi_max : float
-           A float value that represents the maximum possible "chi" degree value (In a pole figure, this represents the maximum possible tilt angle
-           made with the normal of the plane and the location of the point on the plane translated upwards onto the surface of the reference sphere
-           (an imaginary point).
-       
-       phi_max : float
-           A float value that represents the maximum possible "phi" degree value (In a pole figure and using our spiral grid scheme, this is related to the amount of times our cycle
-           will revolve around the pole figure as it moves radially outwards and collects points throughout the plane.
-        """
-    
-import numpy as np
-import pandas as pd
-import math
-# The angluar spacing is determined recursively based on the values of Phi and Chi
-#on the run before, so I think these are the appropriate parameters...
+###################################
+#Define function to create a spiral grid scheme (INCOMPLETE):
+###################################
 def SpiralScheme(name, chi_max, phi_max):
+    """
+    A function used to create a spiral grid scheme (a polar grpahical representation of data in certain atomic planes, to be used in analysis of material texture).
+    This function accepts three parameters: the name of the sample to be used, the maximum chi degree value (elaborated upon below in the parameters description), as well
+    as the maximum phi degree value (similarly focused upon in the parameters section of this docstring. Like other methods in this family of grid schemes, it outputs arrays
+    of tilt angle (represented by chi) and rotation angle (represented by phi)
+
+    Parameters
+    ----------
+    name : str
+       The name of the sample used
+       
+    chi_max : float
+       A float value that represents the maximum possible "chi" degree value (In a pole figure, this represents the maximum possible tilt angle
+       made with the normal of the plane and the location of the point on the plane translated upwards onto the surface of the reference sphere
+       (an imaginary point).
+
+    phi_max : float
+       A float value that represents the maximum possible "phi" degree value (In a pole figure and using our spiral grid scheme, this is related to the amount of times our cycle
+       will revolve around the pole figure as it moves radially outwards and collects points throughout the plane.
+    """
+
+    import numpy as np
+    import pandas as pd
+    import math
+    # The angluar spacing is determined recursively based on the values of Phi and Chi
+    #on the run before, so I think these are the appropriate parameters...
+
     xaxis=[] #Chi Array of values to be outputted
     yaxis=[] #Phi Array of values to be outputted
     i=1 # Chi Counter, very important for the determination of Phi 
@@ -305,13 +306,16 @@ def SpiralScheme(name, chi_max, phi_max):
     DroppedVals = coordinates[coordinates['Tilt'] < 5.0].index #drops the chi values less than 5.0 as prescribed by the document
     coordinates.drop(DroppedVals , inplace=False)                      
     return name, coordinates
-print(SpiralScheme("Austenite",90,6480)) # a test to see if the values are reasonable
+    print(SpiralScheme("Austenite",90,6480)) # a test to see if the values are reasonable
 
 
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-Rings Perpendicular to A Sample Direction Documentation:
-    """This method takes a look at graphically exploring specific rings perpendicular to the normal direction of the sample. The parameters to be accepted are very simple:
+###################################
+# Rings Perpendicular to ND
+###################################
+def RingPerpND(res):
+    """
+    This method takes a look at graphically exploring specific rings perpendicular to the normal direction of the sample. The parameters to be accepted are very simple:
     only the desired angluar distance to be incremented as we measure the rotation degree value along the circular plane. Outputs the directional relationship between the ring and 
     the sample direction, and a set of coordinates, with "Tilt" being 90 degrees for each of the corresponding "Rotation values" as we work around the circular shaped plane. 
     Tilt is always 90 degrees, of course, because the ring is perpendicular to the normal direction.
@@ -321,11 +325,11 @@ Rings Perpendicular to A Sample Direction Documentation:
     ----------
     res : float
         A float value that determines the step size of the rotation array base as it goes from 0 to 360 degrees (around the circular plane).
-        """
+    """
     
     
     # Perpendicular to ND
-def RingPerpND(res):
+
     name="Ring Perpendicular to ND"
     yaxis=np.ndarray.tolist(np.arange(0.0, 360.0001, res))#rotation
     xaxis=[90.0] * len(yaxis) #tilt 
@@ -333,9 +337,10 @@ def RingPerpND(res):
     coordsDF=pd.DataFrame(d)
     return name, coordsDF
    
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
+###################################
+# Rings Perpendicular to RD
+###################################
+def RingPerpRD(res):
     """This method takes a look at graphically exploring specific rings perpendicular to the rolling direction of the sample. The parameters to be accepted are very simple:
     only the desired angluar distance to be incremented as we measure the tilt degree value along the circular plane. Outputs the directional relationship between the ring and 
     the sample direction, and a set of coordinates, with "Rotation" values being a constant 90 or 270 degrees, and tilt varying until we hit 90 degrees (no need for the full 180 
@@ -349,7 +354,7 @@ def RingPerpND(res):
     
     
    # Perpendicular to RD
-def RingPerpRD(res):
+
     name="Ring Perpendicular to RD"
     xaxis=np.ndarray.tolist(np.arange(0.0, 90.001, res))#tilt
     #yaxis=[90.0] * len(xaxis) #rotation
@@ -360,12 +365,10 @@ def RingPerpRD(res):
    # Perpendicular to RD
 
     
-    
-    
-    
-    -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
+###################################
+# Rings Perpendicular to RD
+###################################
+def RingPerpTD(res):
     """This method takes a look at graphically exploring specific rings perpendicular to the transverse direction of the sample. The parameters to be accepted are very simple:
     only the desired angluar distance to be incremented as we measure the tilt degree value along the circular plane. Outputs the directional relationship between the ring and 
     the sample direction, and a set of coordinates, with "Rotation" values being a constant 0 or 180 degrees, and tilt varying until we hit 90 degrees (no need for the full 180 
@@ -381,7 +384,7 @@ def RingPerpRD(res):
     
     
     # Perpendicular to TD
-def RingPerpTD(res):
+
     name="Ring Perpendicular to TD"
     xaxis=np.ndarray.tolist(np.arange(0.0, 90.001, res))#tilt Note for me (Surya) Ask Dr. Creuziger why this doesn't go upto 180.001
     #yaxis=[0.0] * len(xaxis) #rotation
@@ -391,10 +394,12 @@ def RingPerpTD(res):
     return name, coordsDF
 
 
- 
-    -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    
-    """This function defines a singular, specific orientation for sampling, as it works in concert with other methods that output tilt and rotation arrays. It accepts the
+###################################
+# Single Orientation
+###################################
+def SingleOrientation(name, tilt, rotation):
+    """
+    This function defines a singular, specific orientation for sampling, as it works in concert with other methods that output tilt and rotation arrays. It accepts the
     sample name, "tilt" array and "rotation" array that have been provided by other methods, and simply outputs a neater version of the data, giving it a name and creating
     a Pandas dataframe that records the tilt and rotation of each relevant data point.
     
@@ -410,10 +415,7 @@ def RingPerpTD(res):
     rotation : array of floar values
         An array of floar values representing the corresponding rotation angles (or phi), to be used as reference for pole figure geometry.
         """
-    
 
-    
-def SingleOrientation(name, tilt, rotation):
     coordslist=[[tilt,rotation]]
     xaxis=[]
     yaxis=[]
@@ -425,42 +427,44 @@ def SingleOrientation(name, tilt, rotation):
     coordsDF=pd.DataFrame(d)
     return name, coordsDF
 
-  -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-Plot pole figures of sampling positions:
-
-
-
-Test functions:
-
-    SchemeName,Coordinates=SingleOrientation("Morris", 60.0,90.0)
-    Coordinates
-
-
-
-Simple plot to work out mplsteronet conventions:
-    """This function is to help us undersrand the conventions of mplstereonet. It accepts no parameters and outputs a plot that translates the 3 Dimensional representations
-    of the sampling sphere into a stereographic 2-Dimensional projection, with the help of creating a sample orientation from the "SingleOrientation" method.
-   
-    Parameters
-    ----------
-    None
-        """
-    
-
-
-fig = plt.figure(figsize=(8,8), dpi=600)
-
-ax2 = fig.add_subplot(111, projection='stereonet')
-
-#SingleOrientation - Name, Tilt, Rotation
-#SchemeName,Coordinates=SingleOrientation("RD Single", 90.0,180.0)
-SchemeName,Coordinates=SingleOrientation("TD Single", 90.0,270.0)
-
-dip, strike =Coordinates['Tilt'], Coordinates['Rotation']-90.0
-l1=ax2.pole(strike, dip, 'bD', markersize=10, clip_on=False)
-#dip tilts about the 0 axis (RD), left handed
-#strike tilts about the normal axis (ND), left handed
-#Looking at the bottom of the sphere, not the top
-#this is just convention of mplstereonet, does not affect averaging methods
-
-plt.show()
+###################################
+# ????
+###################################
+#Plot pole figures of sampling positions:
+#
+#
+#
+#Test functions:
+#
+#    SchemeName,Coordinates=SingleOrientation("Morris", 60.0,90.0)
+#    Coordinates
+#
+#
+#
+#Simple plot to work out mplsteronet conventions:
+#    """This function is to help us undersrand the conventions of mplstereonet. It accepts no parameters and outputs a plot that translates the 3 Dimensional representations
+#    of the sampling sphere into a stereographic 2-Dimensional projection, with the help of creating a sample orientation from the "SingleOrientation" method.
+#
+#    Parameters
+#    ----------
+#    None
+#        """
+#
+#
+#
+#fig = plt.figure(figsize=(8,8), dpi=600)
+#
+#ax2 = fig.add_subplot(111, projection='stereonet')
+#
+##SingleOrientation - Name, Tilt, Rotation
+##SchemeName,Coordinates=SingleOrientation("RD Single", 90.0,180.0)
+#SchemeName,Coordinates=SingleOrientation("TD Single", 90.0,270.0)
+#
+#dip, strike =Coordinates['Tilt'], Coordinates['Rotation']-90.0
+#l1=ax2.pole(strike, dip, 'bD', markersize=10, clip_on=False)
+##dip tilts about the 0 axis (RD), left handed
+##strike tilts about the normal axis (ND), left handed
+##Looking at the bottom of the sphere, not the top
+##this is just convention of mplstereonet, does not affect averaging methods
+#
+#plt.show()

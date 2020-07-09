@@ -7,3 +7,4 @@
 .ipynb_checkpoints
 Matlab/MtexData/*.maa
 Matlab/ODFFigures/*.png
+*.pyc
