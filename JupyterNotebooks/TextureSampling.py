@@ -751,3 +751,15 @@ def PlotHeatmap(DataFrame, HW, PeakCombination, Sampling Scheme, Range):
     corrplot(data.corr(), size_scale=500);
 
     #Can change the size of the figure (right now it is 8 inches by 8 inches), or can change how the squares in the heatmap are sized relative to the heatmap (size scale)
+
+    ### Example pseudo code ###
+    
+    ## Use pandas mask or matching to subset the data file to only specific HW
+    
+    ## Further select a specific peak combination
+    
+    ## Further selection a specific sampling scheme
+    
+    ## Reshape list to a matrix
+
+    ## plot matrix as a heatmap
