@@ -4,8 +4,10 @@
 •.png
 *.graffle
 .DS_Store
-.ipynb_checkpoints
+.ipynb_checkpoints/*
 Matlab/MtexData/*.maa
 Matlab/ODFFigures/*.png
 *.pyc
 JupyterNotebooks/.ipynb_checkpoints/*
+JupyterNotebooks/.ipynb_checkpoints/Plot45Phi2SectionKey-checkpoint.ipynb
+JupyterNotebooks/.ipynb_checkpoints/PoleFigurePhaseFractions-checkpoint.ipynb

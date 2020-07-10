@@ -1,4 +1,74 @@
 #####################################
+# ODF Key
+#####################################
+def ODFKey(save=False,cmd=False,savename='test.png'):
+    """
+    Figure 2: Phi2 = 45° ODF Key for Cubic-Orthotropic Symmetry
+
+    Figure 2 from J App Cryst paper
+    """
+    import matplotlib.pyplot as plt
+
+    fig=plt.figure(figsize=(4,3), dpi=600)
+    ax1 = fig.add_subplot(111)
+
+
+    labels=[0,15,30,45,60,75,90]
+    ax1.set_xlim(0,90)
+    ax1.set_xlabel(r'$\phi_1$', fontsize=20)
+    ax1.xaxis.set_tick_params(labelsize=16)
+    plt.xticks(labels, labels)
+
+    ax1.set_ylim(-0,90)
+    ax1.set_ylabel(r'$\Phi$', fontsize=20)
+    ax1.set_ylim(ax1.get_ylim()[::-1]) #mirror for conventional plot
+    ax1.yaxis.set_tick_params(labelsize=16)
+    plt.yticks(labels, labels)
+
+
+    #legend=ax1.legend(loc='upper right',fontsize=10)
+
+
+    ax1.scatter([45],[0], label='Cube',color='k', marker='s', clip_on=False,s=100.0,zorder=10)
+    ax1.scatter([0,90],[0,0], label='Shear',color='k', marker='D', clip_on=False,s=100.0,zorder=10)
+
+    ax1.scatter([90],[90], label='Goss',color='#9400D3', marker='o', clip_on=False,s=150.0,zorder=10)
+    ax1.scatter([0],[90], label='Rot. Goss', facecolors='none', edgecolors='#9400D3', marker='o', clip_on=False,s=150.0,zorder=10)
+    ax1.scatter([54.74],[90], label='Brass',color='g', marker='^', clip_on=False,s=150.0,zorder=10)
+    ax1.scatter([90],[35.26], label='Copper',color='g', marker='v', clip_on=False,s=150.0,zorder=10)
+
+    ax1.scatter([0],[15.79], label='alpha1',color='r', marker='1', clip_on=False,s=200.0,zorder=10)
+    ax1.scatter([0],[25.24], label='alpha2',color='r', marker='2', clip_on=False,s=200.0,zorder=10)
+    ax1.scatter([0],[35.26], label='alpha3',color='r', marker='3', clip_on=False,s=200.0,zorder=10)
+    ax1.scatter([0],[43.31], label='alpha4',color='r', marker='4', clip_on=False,s=200.0,zorder=10)
+
+    ax1.scatter([0,60],[54.7,54.7], label='gamma1',color='b', marker='x', clip_on=False,s=150.0,zorder=10)
+    ax1.scatter([30,90],[54.7,54.7], label='gamma2',color='b', marker='+', clip_on=False,s=200.0,zorder=10)
+    ax1.scatter([90],[60.5], label='554',color='#20B2AA', marker='p', clip_on=False,s=200.0,zorder=10)
+
+    ax1.plot([0,90],[54.7,54.7],label='gamma fiber',color='b', clip_on=False,linewidth=1, zorder=2)
+    ax1.plot([0,0],[0,90],label='alpha fiber',color='r', clip_on=False,linewidth=1, zorder=9)
+    #ax1.plot(TRIP700Data[:,0],TRIP700Data[:,1], label='',color='m')
+
+    ax1.set_axisbelow(True)
+    ax1.grid(color='#9F9F9F', linestyle='-', linewidth=0.5)
+
+    #ax1.set_xlim([40, 145])
+
+    box = ax1.get_position()
+    ax1.set_position([box.x0, box.y0, box.width * 0.75, box.height])
+
+    # Put a legend to the right of the current axis
+    ax1.legend(loc='center left', bbox_to_anchor=(1.1, 0.5),fontsize=16,ncol=2)
+
+
+    if save==True:
+        plt.savefig(savename, bbox_inches='tight')
+
+    if cmd==False:
+        plt.show()
+
+#####################################
 # Simple Test Plot
 #####################################
 def SimpleTestPlot(Name, Coordinates, save=False,cmd=False,savename='test.png'):
