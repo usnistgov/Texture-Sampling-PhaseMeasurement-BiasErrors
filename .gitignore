@@ -5,3 +5,4 @@
 *.graffle
 .DS_Store
 .ipynb_checkpoints
+JupyterNotebooks/__pycache__/TextureSampling.cpython-37.pyc
