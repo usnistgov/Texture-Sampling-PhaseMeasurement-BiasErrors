@@ -701,3 +701,64 @@ def SingleOrientation(name, tilt, rotation):
 ##this is just convention of mplstereonet, does not affect averaging methods
 #
 #plt.show()
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+HEATMAP CODE [INCOMPLETE]:
+    # The following code is referenced from the following website: https://towardsdatascience.com/better-heatmaps-and-correlation-matrix-plots-in-python-41445d0f2bec
+    # Multiple spaces between code segments shows these are carried out in different cells in Jupyter Notebook
+    # Cell 1- Import all necessary libraries and packages;
+
+import pandas as pd
+from matplotlib import pyplot as plt
+from pylab import rcParams
+rcParams['figure.figsize'] = 7,7 
+import seaborn as sns
+import numpy as np
+sns.set(color_codes=True, font_scale=0.8)
+
+%matplotlib inline
+%config InlineBackend.figure_format = 'retina'
+%load_ext autoreload
+%autoreload 2
+
+
+
+#Cell 2- The most important import to carry out this function!
+
+!pip install heatmapz
+
+
+
+
+
+
+#Cell 3- Import specific methods from Heatmap library
+
+# Import the two methods from heatmap library
+from heatmap import heatmap, corrplot
+
+
+
+
+
+
+
+#Cell 4- Read CSV File (COULD BE CHANGED)
+
+
+data = pd.read_csv(#https://raw.githubusercontent.com/drazenz/heatmap/master/autos.clean.csv'#) #need to replace the CSV to be generated
+
+
+#Debating whether or not to accept the databases simply as parameters and go from there?
+
+
+
+    
+    
+    
+    
+#Cell 5- Final configurations for plot size and display
+
+plt.figure(figsize=(8, 8))
+corrplot(data.corr(), size_scale=500);
+
+#Can change the size of the figure (right now it is 8 inches by 8 inches), or can change how the squares in the heatmap are sized relative to the heatmap (size scale)
