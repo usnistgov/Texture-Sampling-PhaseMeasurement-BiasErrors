@@ -5,5 +5,3 @@
 *.graffle
 .DS_Store
 .ipynb_checkpoints
-Matlab/MtexData/*.maa
-Matlab/ODFFigures/*.png
