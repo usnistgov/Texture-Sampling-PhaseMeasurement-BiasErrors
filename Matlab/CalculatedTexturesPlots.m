@@ -22,33 +22,35 @@ mkdir(MtexDataDir)
 
 disp('Define Orientations')
 
-Cube = orientation('Miller',[0 0 1],[1 0 0],cs,ss);
-Goss = orientation('Miller',[0 1 1],[1 0 0],cs,ss);
-Shear = orientation('Miller',[0 0 1],[1 -1 0],cs,ss);
-RGoss = orientation('Euler',0*degree,90*degree,45*degree,cs,ss);
+Cube = orientation.byMiller([0 0 1],[1 0 0],cs,ss);
+Goss = orientation.byMiller([0 1 1],[1 0 0],cs,ss);
+Shear = orientation.byMiller([0 0 1],[1 -1 0],cs,ss);
+RGoss = orientation.byEuler(0*degree,90*degree,45*degree,cs,ss);
 
-alpha1=orientation('Miller',[1 1 5],[1 -1 0],cs,ss);
-alpha2=orientation('Miller',[1 1 3],[1 -1 0],cs,ss);
-alpha3=orientation('Miller',[1 1 2],[1 -1 0],cs,ss);
-alpha4=orientation('Miller',[2 2 3],[1 -1 0],cs,ss);
+alpha1=orientation.byMiller([1 1 5],[1 -1 0],cs,ss);
+alpha2=orientation.byMiller([1 1 3],[1 -1 0],cs,ss);
+alpha3=orientation.byMiller([1 1 2],[1 -1 0],cs,ss);
+alpha4=orientation.byMiller([2 2 3],[1 -1 0],cs,ss);
 
-o554=orientation('Miller',[5 5 4],[-2 -2 5],cs,ss);
+o554=orientation.byMiller([5 5 4],[-2 -2 5],cs,ss);
 
-Copper = orientation('Euler',90*degree,35.264*degree,45*degree,cs,ss);
-CopperS=orientation('Euler',74.49*degree,35.982*degree,54.2175*degree,cs,ss);
-S = orientation('Euler',58.98*degree,36.699*degree,63.435*degree,cs,ss);
-BrassS=orientation('Euler',47.122*degree,40.85*degree,76.718*degree,cs,ss);
-Brass = orientation('Euler',35.264*degree,45*degree,90*degree,cs,ss);
+Copper = orientation.byEuler(90*degree,35.264*degree,45*degree,cs,ss);
+CopperS=orientation.byEuler(74.49*degree,35.982*degree,54.2175*degree,cs,ss);
+S = orientation.byEuler(58.98*degree,36.699*degree,63.435*degree,cs,ss);
+BrassS=orientation.byEuler(47.122*degree,40.85*degree,76.718*degree,cs,ss);
+Brass = orientation.byEuler(35.264*degree,45*degree,90*degree,cs,ss);
 
-gamma1 = orientation('Euler',0*degree,54.736*degree,45*degree,cs,ss);
-gamma2 = orientation('Euler',30*degree,54.736*degree,45*degree,cs,ss);
+gamma1 = orientation.byEuler(0*degree,54.736*degree,45*degree,cs,ss);
+gamma2 = orientation.byEuler(30*degree,54.736*degree,45*degree,cs,ss);
 
 % Fiber textures are not working properly in mtex when created with fibre()
 % command
 % Fiber textures will be created by a series of unimodal orientations
 
 
-
+%% Define pole figures to plot
+h_ferrite = {Miller(1,1,0,cs),Miller(2,0,0,cs),Miller(2,1,1,cs),Miller(2,2,0,cs),Miller(3,1,0,cs),Miller(2,2,2,cs)} ;
+h_austenite = {Miller(1,1,1,cs),Miller(2,0,0,cs),Miller(2,2,0,cs),Miller(3,1,1,cs),Miller(2,2,2,cs),Miller(4,0,0,cs),Miller(3,3,1,cs),Miller(4,2,0,cs)} ;
 
 
 %% open file to save the Name, texture intex and Entropy
@@ -68,18 +70,18 @@ fclose(fileID);
 %for HW=[10*degree 15*degree 20*degree 25*degree 30*degree 35*degree 40*degree 45*degree 50*degree]
 
 %single halfwidth
-HW=20*degree;
+HW=10*degree;
 
 tmp=num2str(round(HW/degree));
 disp(['Halfwidth: ', tmp, ' Degrees'])
 
 disp(HW)
-psi = deLaValeePoussinKernel('HALFWIDTH',HW);
+psi = deLaValleePoussinKernel('HALFWIDTH',HW);
 %psi = vonMisesFisherKernel('HALFWIDTH',HW);
 
 %% Start for loop of different orientaions
 % Define ODFs
-for i=1:21
+for i=1:21 % change to adjust number
 
     %% uniform distributions - creates lots of them, but I couldn't find an elegant way to stop that from happening
     
@@ -243,9 +245,6 @@ saveas(fig,fullfile(AddFiguresDir,strcat(bname,'-HW', tmp,'-phi2ODF.png')))
 %fig = gcf;
 
 
-
-
-
 %figure; plot(odf,'phi2',[45]*degree,'projection','plain','silent',cs,ss,'FontSize',20);CLim(gcm,[0, 4]);mtexColorbar;
 %export_fig(strcat(savepath,'/',bname,'-phi2-45ODF.png'),'-r300')  
 
@@ -257,6 +256,17 @@ saveas(fig,fullfile(AddFiguresDir,strcat(bname,'-HW', tmp,'-phi2ODF.png')))
 %saveas(fig,fullfile(AddFiguresDir,strcat(bname,'-HW', tmp,'-phi2ODF.png')))
 
 %Save 45 cross section
+
+%% Create PF plot
+
+figure; plotPDF(odf,h_ferrite, cs,ss, 'projection','eangle', 'antipodal');CLim(gcm,[0, 4]);mtexColorbar;
+fig = gcf;
+fig.PaperPositionMode = 'auto';
+saveas(fig,fullfile(AddFiguresDir,strcat(bname,'-HW', tmp,'-FerPF.png')))
+figure; plotPDF(odf,h_austenite, cs,ss, 'projection','eangle', 'antipodal');CLim(gcm,[0, 4]);mtexColorbar;
+fig = gcf;
+fig.PaperPositionMode = 'auto';
+saveas(fig,fullfile(AddFiguresDir,strcat(bname,'-HW', tmp,'-AustPF.png')))
 
 %% Commands for output
 %disp('Output ODFs to .maa and mtex')
