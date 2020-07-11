@@ -147,10 +147,137 @@ def SingleSchemePlot(Name, Coordinates, Marker, Markersize, save=False, cmd=Fals
 ###################################
 # Texture Component Heatmap
 ###################################
-def PlotHeatmap(Directory, HW, PeakCombination, SamplingScheme, Range):
-    """
-    Read list of files from directory and then operate on them
-    """
+import numpy as np
+import pandas as pd
+import scipy as scipy
+from scipy import interpolate
+from scipy import signal
+import matplotlib.pyplot as plt
+from matplotlib.ticker import FormatStrFormatter
+#import mplstereonet
+import math
+import os
+import glob
+import statistics
+
+
+
+# Get the current working directory path
+cwd=os.getcwd()
+#print cwd
+xpcdatapath=os.path.abspath(os.path.join(os.path.dirname( cwd)))
+#print xpcdatapath
+Folder=cwd+'/AveragedIntensites'
+
+
+
+
+def PlotHeatmap(hw,PeakCombo,Scheme):
+    import fnmatch
+    HW=str(hw)
+
+    
+
+
+    #Read in Texture files matching HW of 20 degrees
+    AusteniteTextures=[]
+    FerriteTextures=[]  
+
+
+    for file in os.listdir(Folder):
+    
+        if (file.find("A-HW"+HW)>0):
+            AusteniteTextures.append(file)
+        elif (file.find("F-HW"+HW)>0):
+            FerriteTextures.append(file)
+        else: ()
+        
+        #print FerriteTextures
+        #print AusteniteTextures
+
+    # create a dataframe shape from existing data
+    DFA=pd.read_excel((os.path.join(Folder, FerriteTextures[0])),header=1,skip_footer=0)
+    
+
+    #copy the HKL reflection indexes
+    df2pair=DFA["HKL"]
+    df4pair=DFA["HKL"]
+    dfMaxUnique=DFA["HKL"]
+
+    for AustOrient in AusteniteTextures:
+        for FerrOrient in FerriteTextures:
+        
+
+            DFF=pd.read_excel(os.path.join(Folder,FerrOrient),header=1,skip_footer=0)
+            DFA=pd.read_excel(os.path.join(Folder,AustOrient),header=1,skip_footer=0)
+
+            #Switch position of Tilt -row 7 and Rotate -row 8 data rows, matches Figure 4 better
+            #http://stackoverflow.com/questions/32929927/pandas-swap-rows-between-dataframes
+            tempF=DFF.loc[8]
+            DFF.loc[8,:]=DFF.loc[7,:].values
+            DFF.loc[7,:]=tempF.values
+
+            tempA=DFA.loc[8]
+            DFA.loc[8,:]=DFA.loc[7,:].values
+            DFA.loc[7,:]=tempA.values
+        
+            #print (DFF)
+            #print (DFA)
+        
+            # add minus VF for plotting
+            DF1=(VF*DFA["2Pairs"]/(VF*DFA["2Pairs"]+((1.0-VF)*DFF["2Pairs"])))#-VF
+            DF2=(VF*DFA["4Pairs"]/(VF*DFA["4Pairs"]+((1.0-VF)*DFF["4Pairs"])))#-VF
+            DF3=(VF*DFA["MaxUnique"]/(VF*DFA["MaxUnique"]+((1.0-VF)*DFF["MaxUnique"])))#-VF
+        
+            Fname=FerrOrient.split(".")
+            Aname=AustOrient.split(".")
+        
+            MixName= Fname[0]+"-"+Aname[0]
+        
+            
+        
+            data1 = pd.DataFrame({MixName: DF1})
+            data2 = pd.DataFrame({MixName: DF2})
+            data3 = pd.DataFrame({MixName: DF3})
+        
+            
+        
+            df2pair = pd.concat([df2pair, data1], axis=1)
+            df4pair = pd.concat([df4pair, data2], axis=1)
+            dfMaxUnique = pd.concat([dfMaxUnique, data3], axis=1)
+        
+    if(PeakCombo.lower()=='df2'):
+        data=df2pair
+    elif (PeakCombo.lower()=='df4'):
+        data=df4pair
+    else:
+        data=dfMaxUnique
+    
+    
+    i=0
+    for i in range (len(data.iloc[:,0])):
+        if (data.iloc[:,0][i].lower()==Scheme.lower()):
+            break
+    
+    relevantdata=data.iloc[i]
+    print(relevantdata) #relevantdata is the dataframe of interest here
+
+
+
+print(PlotHeatmap(20,"df4","ND Single"))  #must type df2 for df2pair and df4 for df4pair; type anything else you want
+#and you get dfMaxUnique!    
+   
+    
+    ## Reshape list to a matrix
+
+    ## plot matrix as a heatmap
+    
+    ## need to end the definition
+    return
+
+
+
+
 
 
     # The following code is referenced from the following website: https://towardsdatascience.com/better-heatmaps-and-correlation-matrix-plots-in-python-41445d0f2bec
@@ -197,18 +324,3 @@ def PlotHeatmap(Directory, HW, PeakCombination, SamplingScheme, Range):
 #    corrplot(data.corr(), size_scale=500);
 
     #Can change the size of the figure (right now it is 8 inches by 8 inches), or can change how the squares in the heatmap are sized relative to the heatmap (size scale)
-
-    ### Example pseudo code ###
-    
-    ## Use pandas mask or matching to subset the data file to only specific HW
-    
-    ## Further select a specific peak combination
-    
-    ## Further selection a specific sampling scheme
-    
-    ## Reshape list to a matrix
-
-    ## plot matrix as a heatmap
-    
-    ## need to end the definition
-    return
