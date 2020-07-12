@@ -176,7 +176,7 @@ def PlotHeatmap(hw,PeakCombo,Scheme):
     import fnmatch
     HW=str(hw)
 
-    
+    VF=0.25 #Austenite Volume Fraction
 
 
     #Read in Texture files matching HW of 20 degrees
