@@ -1,4 +1,10 @@
 #####################################
+#####################################
+# Begin Operations on Intensities
+#####################################
+#####################################
+
+#####################################
 # Read in Polefigures in .xpc format
 #####################################
 def xpcformat(mode=None, filename=None):
@@ -136,6 +142,7 @@ def xpcformat(mode=None, filename=None):
     else: raise IOError ('Unexpected mode is given')
     #return data
 
+
 #####################################
 # Calculate Intensity from Pole Figure Coordinates
 #####################################
@@ -197,6 +204,194 @@ def pfIntensitySum(name, PoleFigures, Coordinates):
 
     ## return average value
     return AverageIntensity
+
+
+def GenerateAveIntesity(SchemesList,)
+    """
+    Generate average intensity based on pole figures and coordinates
+
+        This section calculates the average intensity and saves to file
+        Looks for the list of XPC files and calculates a table (.xlsx) for each
+
+        SchemesList: Pandas dataframe of schemes
+    """
+
+    #SchemeName,Coordinates=
+
+    # Get the current working directory path
+    cwd=os.getcwd()
+    #print cwd
+    xpcdatapath=os.path.abspath(os.path.join(os.path.dirname( cwd)))
+    #print xpcdatapath
+    #Folder=xpcdatapath+'/MAUD/XPCFiles'
+    Folder='C:\Research\Texture-Sampling-PhaseMeasurement-BiasErrors-master\MAUD\XPCFiles'
+    #SaveFolder="AveragedIntensites"  Temporary fix
+    SaveFolder='C:\Research\Texture-Sampling-PhaseMeasurement-BiasErrors-master\JupyterNotebooks\AveragedIntensites'
+
+    if not os.path.isdir(SaveFolder):
+        os.makedirs(SaveFolder)
+        
+    os.chdir(SaveFolder)
+
+
+    for file in os.listdir(Folder):
+        print (file)
+        if file.endswith(".xpc"):
+            XPCfile=(os.path.join(Folder, file))
+            
+            #
+            if "-" in file:
+                orientation, hw=file.split('-')
+            else:
+                orientation, ext=file.split('.')
+                
+            PhaseType= orientation[-1:]
+
+
+        #for XPCfile in listoffiles:
+
+            (pfs,hkllist)=xpcformat('xpc',XPCfile)
+
+            #create subsets for phase fractions
+
+            hkllist.append('2Pairs')
+            hkllist.append('4Pairs')
+            hkllist.append('MaxUnique')
+
+            OutputList=[hkllist]
+
+            for q in list([1,2,3,4,5,6,7,8,9,10,11,12,13]):
+
+                if q==1: SchemeName,Coordinates=SingleOrientation("ND Single", 0.0,0.0)
+                elif q==2: SchemeName,Coordinates=SingleOrientation("RD Single", 90.0,0.0)
+                elif q==3: SchemeName,Coordinates=SingleOrientation("TD Single", 90.0,90.0)
+                elif q==4: SchemeName,Coordinates=SingleOrientation("Morris", 60.0,90.0)
+                    ## Add other orientation
+
+                elif q==5: SchemeName,Coordinates=RingPerpND(5.0)
+                elif q==6: SchemeName,Coordinates=RingPerpRD(5.0)
+                elif q==7: SchemeName,Coordinates=RingPerpTD(5.0)
+
+                    # re-arranged to match plotting
+                elif q==8: SchemeName,Coordinates=TiltRotate("NoRotation-tilt60deg", 120.0, 1600.0, 0.0,60.0,56.0)
+                elif q==9: SchemeName,Coordinates=TiltRotate("Rotation-NoTilt", 120.0, 1600.0, 30.0,0.0,56.0)
+                elif q==10: SchemeName,Coordinates=TiltRotate("Rotation-60detTilt", 120.0, 5000.0, 30.0,60.0,56.0)
+    #MCchanges
+    #      elif q==11: SchemeName,Coordinates=HexGrid("HexGrid-90degTilt5degRes",90.0,5.0)
+    #             elif q==12: SchemeName,Coordinates=HexGrid("HexGrid-90degTilt22p5degRes",90.0,22.5)
+    #             elif q==13: SchemeName,Coordinates=HexGrid("HexGrid-60degTilt5degRes",60.0,5.0)
+        
+        
+                elif q==11: SchemeName,Coordinates=HexGrid("HexGrid-90degTilt5degRes",60.0,21.0)
+                elif q==12: SchemeName,Coordinates=HexGrid("HexGrid-90degTilt22p5degRes",60.0,22.0)
+                elif q==13: SchemeName,Coordinates=HexGrid("HexGrid-60degTilt5degRes",60.0,20.5)
+    #MCchanges
+                else:
+                    print ("No Schemes of that index")
+                    break
+
+                PfIS=pfIntensitySum(SchemeName,pfs,Coordinates)
+                
+                # 2 Pairs
+                PfIS.append(np.mean([PfIS[2],PfIS[3]]))
+                # 4 Pairs
+                PfIS.append(np.mean([PfIS[1],PfIS[2],PfIS[3],PfIS[4]]))
+                
+                # Max unique
+                if PhaseType=="A":
+                    PfIS.append(np.mean([PfIS[1],PfIS[2],PfIS[3],PfIS[4],PfIS[7],PfIS[8],PfIS[9],PfIS[10]]))
+                elif PhaseType=="F":
+                    PfIS.append(np.mean([PfIS[1],PfIS[2],PfIS[3],PfIS[5],PfIS[6],PfIS[7]]))
+                    #used to include 4, exclude 5, but that is incorrect
+                else:
+                    print ("Unrecognized Phase")
+
+                OutputList.append(PfIS)
+
+                #print q,SchemeName
+                #print "List of average pole Figure Intensities:\n", PfIS
+                #print "Average of all pole figures listed: ", sum(PfIS)/len(PfIS)
+                #print ""
+
+                #np.mean()
+            #print (XPCfile.rsplit('/',1))
+            #directory, outfile=XPCfile.rsplit('/', 1)  #use this version for MAC
+            directory, outfile=XPCfile.rsplit('\\', 1)  #use this version for Windows
+            print (outfile)
+            OutputList.append([XPCfile])
+            IntensitiesDF=pd.DataFrame(OutputList)
+            IntensitiesDF
+
+            # save to excel
+
+            s=""
+
+            writer = pd.ExcelWriter(s.join([outfile.split('.')[0], ".xlsx"]))
+            IntensitiesDF.to_excel(writer,outfile)
+            writer.save()
+        else:
+            print ("Not an .xpc file")
+    os.chdir("..")
+
+
+
+
+###################################
+# ????
+###################################
+#Plot pole figures of sampling positions:
+#
+#
+#
+#Test functions:
+#
+#    SchemeName,Coordinates=SingleOrientation("Morris", 60.0,90.0)
+#    Coordinates
+#
+#
+#
+#Simple plot to work out mplsteronet conventions:
+#    """This function is to help us undersrand the conventions of mplstereonet. It accepts no parameters and outputs a plot that translates the 3 Dimensional representations
+#    of the sampling sphere into a stereographic 2-Dimensional projection, with the help of creating a sample orientation from the "SingleOrientation" method.
+#
+#    Parameters
+#    ----------
+#    None
+#        """
+#
+#
+#
+#fig = plt.figure(figsize=(8,8), dpi=600)
+#
+#ax2 = fig.add_subplot(111, projection='stereonet')
+#
+##SingleOrientation - Name, Tilt, Rotation
+##SchemeName,Coordinates=SingleOrientation("RD Single", 90.0,180.0)
+#SchemeName,Coordinates=SingleOrientation("TD Single", 90.0,270.0)
+#
+#dip, strike =Coordinates['Tilt'], Coordinates['Rotation']-90.0
+#l1=ax2.pole(strike, dip, 'bD', markersize=10, clip_on=False)
+##dip tilts about the 0 axis (RD), left handed
+##strike tilts about the normal axis (ND), left handed
+##Looking at the bottom of the sphere, not the top
+##this is just convention of mplstereonet, does not affect averaging methods
+#
+#plt.show()
+
+
+
+#####################################
+#####################################
+# End Operations on Intensities
+#####################################
+#####################################
+
+
+#####################################
+#####################################
+# Begin Sampling Schemes
+#####################################
+#####################################
 
 
 
@@ -660,45 +855,8 @@ def SingleOrientation(name, tilt, rotation):
     coordsDF=pd.DataFrame(d)
     return name, coordsDF
 
-###################################
-# ????
-###################################
-#Plot pole figures of sampling positions:
-#
-#
-#
-#Test functions:
-#
-#    SchemeName,Coordinates=SingleOrientation("Morris", 60.0,90.0)
-#    Coordinates
-#
-#
-#
-#Simple plot to work out mplsteronet conventions:
-#    """This function is to help us undersrand the conventions of mplstereonet. It accepts no parameters and outputs a plot that translates the 3 Dimensional representations
-#    of the sampling sphere into a stereographic 2-Dimensional projection, with the help of creating a sample orientation from the "SingleOrientation" method.
-#
-#    Parameters
-#    ----------
-#    None
-#        """
-#
-#
-#
-#fig = plt.figure(figsize=(8,8), dpi=600)
-#
-#ax2 = fig.add_subplot(111, projection='stereonet')
-#
-##SingleOrientation - Name, Tilt, Rotation
-##SchemeName,Coordinates=SingleOrientation("RD Single", 90.0,180.0)
-#SchemeName,Coordinates=SingleOrientation("TD Single", 90.0,270.0)
-#
-#dip, strike =Coordinates['Tilt'], Coordinates['Rotation']-90.0
-#l1=ax2.pole(strike, dip, 'bD', markersize=10, clip_on=False)
-##dip tilts about the 0 axis (RD), left handed
-##strike tilts about the normal axis (ND), left handed
-##Looking at the bottom of the sphere, not the top
-##this is just convention of mplstereonet, does not affect averaging methods
-#
-#plt.show()
-
+#####################################
+#####################################
+# End Sampling Schemes
+#####################################
+#####################################

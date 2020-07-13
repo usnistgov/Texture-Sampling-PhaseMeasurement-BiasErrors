@@ -269,7 +269,8 @@ def PlotHeatmap(hw,PeakCombo,Scheme):
 
 
 
-    print(PlotHeatmap(20,"df4","ND Single"))  #must type df2 for df2pair and df4 for df4pair; type anything else you want
+    #print(PlotHeatmap(20,"df4","ND Single"))  #must type df2 for df2pair and df4 for df4pair; type anything else you want
+    
     #and you get dfMaxUnique!
        
     
