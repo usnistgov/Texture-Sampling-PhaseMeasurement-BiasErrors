@@ -147,32 +147,37 @@ def SingleSchemePlot(Name, Coordinates, Marker, Markersize, save=False, cmd=Fals
 ###################################
 # Texture Component Heatmap
 ###################################
-import numpy as np
-import pandas as pd
-import scipy as scipy
-from scipy import interpolate
-from scipy import signal
-import matplotlib.pyplot as plt
-from matplotlib.ticker import FormatStrFormatter
-#import mplstereonet
-import math
-import os
-import glob
-import statistics
-
-
-
-# Get the current working directory path
-cwd=os.getcwd()
-#print cwd
-xpcdatapath=os.path.abspath(os.path.join(os.path.dirname( cwd)))
-#print xpcdatapath
-Folder=cwd+'/AveragedIntensites'
-
-
-
-
 def PlotHeatmap(hw,PeakCombo,Scheme):
+    #def PlotHeatmap(Directory, HW, PeakCombination, SamplingScheme, Range):
+    """
+    Read list of files from directory and then operate on them
+    """
+
+    import numpy as np
+    import pandas as pd
+    import scipy as scipy
+    from scipy import interpolate
+    from scipy import signal
+    import matplotlib.pyplot as plt
+    from matplotlib.ticker import FormatStrFormatter
+    #import mplstereonet
+    import math
+    import os
+    import glob
+    import statistics
+
+
+
+    # Get the current working directory path
+    cwd=os.getcwd()
+    #print cwd
+    xpcdatapath=os.path.abspath(os.path.join(os.path.dirname( cwd)))
+    #print xpcdatapath
+    # Use join instead, it's better cross platform
+    Folder=os.path.join(cwd,'AveragedIntensites')
+
+
+
     import fnmatch
     HW=str(hw)
 
@@ -264,9 +269,9 @@ def PlotHeatmap(hw,PeakCombo,Scheme):
 
 
 
-print(PlotHeatmap(20,"df4","ND Single"))  #must type df2 for df2pair and df4 for df4pair; type anything else you want
-#and you get dfMaxUnique!    
-   
+    print(PlotHeatmap(20,"df4","ND Single"))  #must type df2 for df2pair and df4 for df4pair; type anything else you want
+    #and you get dfMaxUnique!
+       
     
     ## Reshape list to a matrix
 
