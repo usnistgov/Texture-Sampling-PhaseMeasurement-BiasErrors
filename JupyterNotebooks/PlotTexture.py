@@ -184,7 +184,7 @@ def PlotHeatmap(hw,PeakCombo,Scheme):
     VF=0.25 #Austenite Volume Fraction
 
 
-    #Read in Texture files matching HW of 20 degrees
+    #Read in Files and Sort by Austenite and Ferrite
     AusteniteTextures=[]
     FerriteTextures=[]  
 
@@ -264,13 +264,26 @@ def PlotHeatmap(hw,PeakCombo,Scheme):
         if (data.iloc[:,0][i].lower()==Scheme.lower()):
             break
     
-    relevantdata=data.iloc[i]
-    print(relevantdata) #relevantdata is the dataframe of interest here
-
-
-
-    #print(PlotHeatmap(20,"df4","ND Single"))  #must type df2 for df2pair and df4 for df4pair; type anything else you want
+     names=[]
     
+    for j in range (len(data.columns.to_numpy())):
+        names.append(data.columns.to_numpy()[j])
+    names=np.delete(names,0)
+    
+    values=[]
+    for k in range (len(data.columns.to_numpy())):
+        values.append(data.iloc[i,k])
+    values=np.delete(values,0)
+    
+    components=pd.DataFrame(data=names,columns=['Components'])
+    fraction=pd.DataFrame(data=values,columns=['Phase Fraction'])
+    relevantdata=pd.concat([components, fraction],axis=1)
+    print (relevantdata) # this is a dataframe for sure
+  
+
+
+
+    print(PlotHeatmap(20,"df4","ND Single"))  #must type df2 for df2pair and df4 for df4pair; type anything else you want
     #and you get dfMaxUnique!
        
     
