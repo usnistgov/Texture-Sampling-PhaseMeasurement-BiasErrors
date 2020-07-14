@@ -148,43 +148,13 @@ def SingleSchemePlot(Name, Coordinates, Marker, Markersize, save=False, cmd=Fals
 # Texture Component Heatmap
 ###################################
 def PlotHeatmap(hw,PeakCombo,Scheme):
-    #def PlotHeatmap(Directory, HW, PeakCombination, SamplingScheme, Range):
-    """
-    Read list of files from directory and then operate on them
-    """
-
-    import numpy as np
-    import pandas as pd
-    import scipy as scipy
-    from scipy import interpolate
-    from scipy import signal
-    import matplotlib.pyplot as plt
-    from matplotlib.ticker import FormatStrFormatter
-    #import mplstereonet
-    import math
-    import os
-    import glob
-    import statistics
-
-
-
-    # Get the current working directory path
-    cwd=os.getcwd()
-    #print cwd
-    xpcdatapath=os.path.abspath(os.path.join(os.path.dirname( cwd)))
-    #print xpcdatapath
-    # Use join instead, it's better cross platform
-    Folder=os.path.join(cwd,'AveragedIntensites')
-
-
-
     import fnmatch
     HW=str(hw)
 
-    VF=0.25 #Austenite Volume Fraction
+    VF=.25
 
 
-    #Read in Files and Sort by Austenite and Ferrite
+    
     AusteniteTextures=[]
     FerriteTextures=[]  
 
@@ -208,11 +178,12 @@ def PlotHeatmap(hw,PeakCombo,Scheme):
     df2pair=DFA["HKL"]
     df4pair=DFA["HKL"]
     dfMaxUnique=DFA["HKL"]
+    
 
     for AustOrient in AusteniteTextures:
         for FerrOrient in FerriteTextures:
         
-
+            
             DFF=pd.read_excel(os.path.join(Folder,FerrOrient),header=1,skip_footer=0)
             DFA=pd.read_excel(os.path.join(Folder,AustOrient),header=1,skip_footer=0)
 
@@ -259,12 +230,12 @@ def PlotHeatmap(hw,PeakCombo,Scheme):
         data=dfMaxUnique
     
     
-    i=0
+    
     for i in range (len(data.iloc[:,0])):
         if (data.iloc[:,0][i].lower()==Scheme.lower()):
             break
     
-     names=[]
+    names=[]
     
     for j in range (len(data.columns.to_numpy())):
         names.append(data.columns.to_numpy()[j])
@@ -275,71 +246,44 @@ def PlotHeatmap(hw,PeakCombo,Scheme):
         values.append(data.iloc[i,k])
     values=np.delete(values,0)
     
-    components=pd.DataFrame(data=names,columns=['Components'])
+    
     fraction=pd.DataFrame(data=values,columns=['Phase Fraction'])
+    Fnames=[]
+    Anames=[]
+    for name in names:
+        index=name.find(HW)+2
+        Fnames.append(name[:index])
+        Anames.append(name[index+1:])
+    Ferrite=pd.DataFrame(data=Fnames,columns=['Ferrite Component'])
+    Austenite=pd.DataFrame(data=Anames,columns=['Austenite Component'])
+    components=pd.concat([Ferrite,Austenite],axis=1)
     relevantdata=pd.concat([components, fraction],axis=1)
-    print (relevantdata) # this is a dataframe for sure
+    xaxis=np.unique(Ferrite.to_numpy())
+    yaxis=np.unique(Austenite.to_numpy())
+    array=np.ndarray(shape=(len(yaxis),len(xaxis)))
+    
+    
+    k=0
+    for i in range (len(yaxis)):
+        for j in range (len(xaxis)):
+            array[i,j]=values[k]
+            k=k+1
+    
+    #print(array)    
+    values[values == ''] = 0.0
+    Values = values.astype(np.float)  
+    
+               
+    
+    df=pd.DataFrame({'Austenite Components': Anames, 'Ferrite Components': Fnames, 'Phase Fraction': Values })
+ 
+    # plotting
+    df_wide=df.pivot_table( index='Ferrite Components', columns='Austenite Components', values='Phase Fraction' )
+    color= sns.diverging_palette(220, 20, sep=20, as_cmap=True)
+    figure=sns.heatmap( df_wide, cmap=color,center=0.25,linewidths=0.5,square=True)
+    return figure
   
 
 
-
-    print(PlotHeatmap(20,"df4","ND Single"))  #must type df2 for df2pair and df4 for df4pair; type anything else you want
-    #and you get dfMaxUnique!
-       
-    
-    ## Reshape list to a matrix
-
-    ## plot matrix as a heatmap
-    
-    ## need to end the definition
-    return
-
-
-
-
-
-
-    # The following code is referenced from the following website: https://towardsdatascience.com/better-heatmaps-and-correlation-matrix-plots-in-python-41445d0f2bec
-    # Multiple spaces between code segments shows these are carried out in different cells in Jupyter Notebook
-    # Cell 1- Import all necessary libraries and packages;
-
-#    import pandas as pd
-#    from matplotlib import pyplot as plt
-#    from pylab import rcParams
-#    rcParams['figure.figsize'] = 7,7
-#    import seaborn as sns
-#    import numpy as np
-#    sns.set(color_codes=True, font_scale=0.8)
-
-#    #AC - not sure if these belong here
-#    %matplotlib inline
-#    %config InlineBackend.figure_format = 'retina'
-#    %load_ext autoreload
-#    %autoreload 2
-#
-#    #Cell 2- The most important import to carry out this function!
-#
-#    #AC - pip commands belong elsewhere. We should work out a conda env.
-#    !pip install heatmapz
-#
-#
-#    #Cell 3- Import specific methods from Heatmap library
-#
-#    # Import the two methods from heatmap library
-#    from heatmap import heatmap, corrplot
-#
-#    #Cell 4- Read CSV File (COULD BE CHANGED)
-#
-#    data = pd.read_csv(#https://raw.githubusercontent.com/drazenz/heatmap/master/autos.clean.csv'#) #need to replace the CSV to be generated
-#
-#
-#    #Debating whether or not to accept the databases simply as parameters and go from there?
-#
-#
-#
-#    #Cell 5- Final configurations for plot size and display
-#
-#    plt.figure(figsize=(8, 8))
-#    corrplot(data.corr(), size_scale=500);
-
-    #Can change the size of the figure (right now it is 8 inches by 8 inches), or can change how the squares in the heatmap are sized relative to the heatmap (size scale)
+print(PlotHeatmap(20,"dF2","ND Single")) #debug step/view output
+   
