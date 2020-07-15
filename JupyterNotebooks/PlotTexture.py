@@ -278,12 +278,15 @@ def PlotHeatmap(hw,PeakCombo,Scheme):
     df=pd.DataFrame({'Austenite Components': Anames, 'Ferrite Components': Fnames, 'Phase Fraction': Values })
  
     # plotting
-    df_wide=df.pivot_table( index='Ferrite Components', columns='Austenite Components', values='Phase Fraction' )
-    color= sns.diverging_palette(220, 20, sep=20, as_cmap=True)
-    figure=sns.heatmap( df_wide, cmap=color,center=0.25,linewidths=0.5,square=True)
+    df_wide=df.pivot_table( index='Austenite Components', columns='Ferrite Components', values='Phase Fraction' )
+    color= sns.color_palette("coolwarm", 25)
+    plt.figure(figsize = (13,7))
+    figure=sns.heatmap(df_wide,vmin=0.0, vmax=0.5, cmap=color,center=0.25,linewidths=0.5,square=True,cbar_kws={"shrink": .80})
+    plt.title("Halfwidth of "+HW+" , "+ Scheme+ " Sampling Scheme, "+ PeakCombo.upper()+ " Peak Combination" ,fontsize =18)
+    bottom, top = figure.get_ylim()
+    figure.set_ylim(bottom + 0.5, top - 0.5)
     return figure
   
 
 
-print(PlotHeatmap(20,"dF2","ND Single")) #debug step/view output
-   
+print(PlotHeatmap(20,"dF2","ND Single"))
