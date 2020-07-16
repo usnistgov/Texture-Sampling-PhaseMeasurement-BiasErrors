@@ -154,12 +154,32 @@ def PlotHeatmap(Folder, hw,PeakCombo,Scheme, CBrange):
     import numpy as np
     import seaborn as sns
     from matplotlib import pyplot as plt
+    """
+    A method that accepts a desired HalfWidth value, Peak Combination, and a specific Sampling Scheme, and outputs a heatmap of the
+    resulting Austenite Phase Fraction Values. In order for the function to work as intended, please make sure you note the format
+    of the parameters and their specifications!
+    
+    Parameters
+    ----------
+    
+    hw: int
+    Desired HalfWidth Value. Halfwidths should range from 5 to 50, increasing by multiples of 5 (check me on
+    this).
+    
+    
+    PeakCombo: String
+    Desired Peak Combination to study. Peak Combinations fall under DF2, DF4, and DFUnique, each of which refer to the specific combinations of XRD peaks used
+    in calculations.
+    
+    Scheme: String
+    Desired Sampling Scheme. Make sure the format of the inputted scheme exactly matches that which is prescribed by the original
+    data. For example, to view "HexGrid-60degTilt5degRes" sampling scheme, you need to type that exactly for the code to work.
+    """
+
     HW=str(hw)
 
     VF=.25
 
-
-    
     AusteniteTextures=[]
     FerriteTextures=[]  
 

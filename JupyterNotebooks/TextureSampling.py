@@ -480,7 +480,7 @@ def TiltRotate(name, time, datapoints, rpm,maxtilt,tiltcpm):
 
     d = {'Tilt' : tiltposition, 'Rotation' : rotationposition}
     coordinates=pd.DataFrame(d)
-    help(TiltRotate)
+    #help(TiltRotate)
 
         #print coordsDF.sort_values('Tilt')    
     return name, coordinates
