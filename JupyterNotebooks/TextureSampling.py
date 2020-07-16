@@ -206,7 +206,7 @@ def pfIntensitySum(name, PoleFigures, Coordinates):
     return AverageIntensity
 
 
-def GenerateAveIntesity(SchemesList,)
+def GenerateAveIntesity(SchemesList):
     """
     Generate average intensity based on pole figures and coordinates
 
@@ -215,7 +215,8 @@ def GenerateAveIntesity(SchemesList,)
 
         SchemesList: Pandas dataframe of schemes
     """
-
+    import os
+    import pandas as pd
     #SchemeName,Coordinates=
 
     # Get the current working directory path

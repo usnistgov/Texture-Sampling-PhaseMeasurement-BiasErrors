@@ -147,8 +147,13 @@ def SingleSchemePlot(Name, Coordinates, Marker, Markersize, save=False, cmd=Fals
 ###################################
 # Texture Component Heatmap
 ###################################
-def PlotHeatmap(hw,PeakCombo,Scheme):
+def PlotHeatmap(Folder, hw,PeakCombo,Scheme, CBrange):
+    import os
     import fnmatch
+    import pandas as pd
+    import numpy as np
+    import seaborn as sns
+    from matplotlib import pyplot as plt
     HW=str(hw)
 
     VF=.25
@@ -281,7 +286,7 @@ def PlotHeatmap(hw,PeakCombo,Scheme):
     df_wide=df.pivot_table( index='Austenite Components', columns='Ferrite Components', values='Phase Fraction' )
     color= sns.color_palette("coolwarm", 25)
     plt.figure(figsize = (13,7))
-    figure=sns.heatmap(df_wide,vmin=0.0, vmax=0.5, cmap=color,center=0.25,linewidths=0.5,square=True,cbar_kws={"shrink": .80})
+    figure=sns.heatmap(df_wide,vmin=CBrange[0], vmax=CBrange[1], cmap=color,center=0.25,linewidths=0.5,square=True,cbar_kws={"shrink": .80})
     plt.title("Halfwidth of "+HW+" , "+ Scheme+ " Sampling Scheme, "+ PeakCombo.upper()+ " Peak Combination" ,fontsize =18)
     bottom, top = figure.get_ylim()
     figure.set_ylim(bottom + 0.5, top - 0.5)
@@ -289,4 +294,4 @@ def PlotHeatmap(hw,PeakCombo,Scheme):
   
 
 
-print(PlotHeatmap(20,"dF2","ND Single"))
+#print(PlotHeatmap(20,"dF2","ND Single"))
