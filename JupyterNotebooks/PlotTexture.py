@@ -147,35 +147,13 @@ def SingleSchemePlot(Name, Coordinates, Marker, Markersize, save=False, cmd=Fals
 ###################################
 # Texture Component Heatmap
 ###################################
-import os
-import fnmatch
-import pandas as pd
-import numpy as np
-import seaborn as sns
-from matplotlib import pyplot as plt
-def PlotHeatmap(hw,PeakCombo,Scheme):
-    """
-    A method that accepts a desired HalfWidth value, Peak Combination, and a specific Sampling Scheme, and outputs a heatmap of the 
-    resulting Austenite Phase Fraction Values. In order for the function to work as intended, please make sure you note the format 
-    of the parameters and their specifications!
-    
-    Parameters
-    ----------
-    
-    hw: int
-    Desired HalfWidth Value. Halfwidths should range from 5 to 50, increasing by multiples of 5 (check me on 
-    this).
-    
-    
-    PeakCombo: String
-    Desired Peak Combination to study. Peak Combinations fall under DF2, DF4, and DFUnique, each of which refer to the specific combinations of XRD peaks used
-    in calculations.
-    
-    Scheme: String
-    Desired Sampling Scheme. Make sure the format of the inputted scheme exactly matches that which is prescribed by the original
-    data. For example, to view "HexGrid-60degTilt5degRes" sampling scheme, you need to type that exactly for the code to work.
-    """
+def PlotHeatmap(Folder, hw,PeakCombo,Scheme, CBrange):
+    import os
     import fnmatch
+    import pandas as pd
+    import numpy as np
+    import seaborn as sns
+    from matplotlib import pyplot as plt
     HW=str(hw)
 
     VF=.25
@@ -303,16 +281,17 @@ def PlotHeatmap(hw,PeakCombo,Scheme):
                
     
     df=pd.DataFrame({'Austenite Components': Anames, 'Ferrite Components': Fnames, 'Phase Fraction': Values })
-
  
     # plotting
     df_wide=df.pivot_table( index='Austenite Components', columns='Ferrite Components', values='Phase Fraction' )
     color= sns.color_palette("coolwarm", 25)
     plt.figure(figsize = (13,7))
-    figure=sns.heatmap(df_wide,vmin=0.0, vmax=0.50, cmap=color,center=0.25,linewidths=0.5,square=True,cbar_kws={"shrink": .80})
+    figure=sns.heatmap(df_wide,vmin=CBrange[0], vmax=CBrange[1], cmap=color,center=0.25,linewidths=0.5,square=True,cbar_kws={"shrink": .80})
     plt.title("Halfwidth of "+HW+" , "+ Scheme+ " Sampling Scheme, "+ PeakCombo.upper()+ " Peak Combination" ,fontsize =18)
     bottom, top = figure.get_ylim()
     figure.set_ylim(bottom + 0.5, top - 0.5)
     return figure
+  
+
 
 #print(PlotHeatmap(20,"dF2","ND Single"))
