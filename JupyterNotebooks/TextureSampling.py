@@ -206,7 +206,7 @@ def pfIntensitySum(name, PoleFigures, Coordinates):
     return AverageIntensity
 
 
-def GenerateAveIntesity(SchemesList):
+def GenerateAveIntesity(SchemesListDF, XPCFolder, SaveFolder):
     """
     Generate average intensity based on pole figures and coordinates
 
@@ -220,14 +220,14 @@ def GenerateAveIntesity(SchemesList):
     #SchemeName,Coordinates=
 
     # Get the current working directory path
-    cwd=os.getcwd()
+    #cwd=os.getcwd()
     #print cwd
-    xpcdatapath=os.path.abspath(os.path.join(os.path.dirname( cwd)))
+    #xpcdatapath=os.path.abspath(os.path.join(os.path.dirname( cwd)))
     #print xpcdatapath
     #Folder=xpcdatapath+'/MAUD/XPCFiles'
-    Folder='C:\Research\Texture-Sampling-PhaseMeasurement-BiasErrors-master\MAUD\XPCFiles'
+    #Folder='C:\Research\Texture-Sampling-PhaseMeasurement-BiasErrors-master\MAUD\XPCFiles'
     #SaveFolder="AveragedIntensites"  Temporary fix
-    SaveFolder='C:\Research\Texture-Sampling-PhaseMeasurement-BiasErrors-master\JupyterNotebooks\AveragedIntensites'
+    #SaveFolder='C:\Research\Texture-Sampling-PhaseMeasurement-BiasErrors-master\JupyterNotebooks\AveragedIntensites'
 
     if not os.path.isdir(SaveFolder):
         os.makedirs(SaveFolder)
@@ -235,10 +235,10 @@ def GenerateAveIntesity(SchemesList):
     os.chdir(SaveFolder)
 
 
-    for file in os.listdir(Folder):
+    for file in os.listdir(XPCFolder):
         print (file)
         if file.endswith(".xpc"):
-            XPCfile=(os.path.join(Folder, file))
+            XPCfile=(os.path.join(XPCFolder, file))
             
             #
             if "-" in file:
@@ -256,48 +256,34 @@ def GenerateAveIntesity(SchemesList):
             #create subsets for phase fractions
 
             hkllist.append('2Pairs')
+            hkllist.append('3Pairs')
             hkllist.append('4Pairs')
             hkllist.append('MaxUnique')
 
             OutputList=[hkllist]
-
-            for q in list([1,2,3,4,5,6,7,8,9,10,11,12,13]):
-
-                if q==1: SchemeName,Coordinates=SingleOrientation("ND Single", 0.0,0.0)
-                elif q==2: SchemeName,Coordinates=SingleOrientation("RD Single", 90.0,0.0)
-                elif q==3: SchemeName,Coordinates=SingleOrientation("TD Single", 90.0,90.0)
-                elif q==4: SchemeName,Coordinates=SingleOrientation("Morris", 60.0,90.0)
-                    ## Add other orientation
-
-                elif q==5: SchemeName,Coordinates=RingPerpND(5.0)
-                elif q==6: SchemeName,Coordinates=RingPerpRD(5.0)
-                elif q==7: SchemeName,Coordinates=RingPerpTD(5.0)
-
-                    # re-arranged to match plotting
-                elif q==8: SchemeName,Coordinates=TiltRotate("NoRotation-tilt60deg", 120.0, 1600.0, 0.0,60.0,56.0)
-                elif q==9: SchemeName,Coordinates=TiltRotate("Rotation-NoTilt", 120.0, 1600.0, 30.0,0.0,56.0)
-                elif q==10: SchemeName,Coordinates=TiltRotate("Rotation-60detTilt", 120.0, 5000.0, 30.0,60.0,56.0)
-    #MCchanges
-    #      elif q==11: SchemeName,Coordinates=HexGrid("HexGrid-90degTilt5degRes",90.0,5.0)
-    #             elif q==12: SchemeName,Coordinates=HexGrid("HexGrid-90degTilt22p5degRes",90.0,22.5)
-    #             elif q==13: SchemeName,Coordinates=HexGrid("HexGrid-60degTilt5degRes",60.0,5.0)
-        
-        
-                elif q==11: SchemeName,Coordinates=HexGrid("HexGrid-90degTilt5degRes",60.0,21.0)
-                elif q==12: SchemeName,Coordinates=HexGrid("HexGrid-90degTilt22p5degRes",60.0,22.0)
-                elif q==13: SchemeName,Coordinates=HexGrid("HexGrid-60degTilt5degRes",60.0,20.5)
-    #MCchanges
-                else:
-                    print ("No Schemes of that index")
-                    break
-
-                PfIS=pfIntensitySum(SchemeName,pfs,Coordinates)
+            #print(OutputList)
+            for Scheme in SchemesListDF["SchemeName"]:
+                #print(Scheme)
                 
-                # 2 Pairs
+                # df.loc[df['column_name'] == some_value]
+                PfIS=pfIntensitySum(Scheme,pfs,SchemesListDF["Coordinates"].loc[SchemesListDF["SchemeName"] == Scheme] )
+
+                # 2 Pairs: Ferrite (200), (211); Austenite (200), (220)
                 PfIS.append(np.mean([PfIS[2],PfIS[3]]))
-                # 4 Pairs
-                PfIS.append(np.mean([PfIS[1],PfIS[2],PfIS[3],PfIS[4]]))
                 
+                # 3 Pairs:  Ferrite (200), (211), (310) - Skip (22; Austenite (200), (220), (311)
+                # Max unique
+                if PhaseType=="A":
+                    PfIS.append(np.mean([PfIS[1],PfIS[2],PfIS[3],PfIS[4],PfIS[7],PfIS[8],PfIS[9],PfIS[10]]))
+                elif PhaseType=="F":
+                    PfIS.append(np.mean([PfIS[1],PfIS[2],PfIS[3],PfIS[5],PfIS[6],PfIS[7]]))
+                    #used to include 4, exclude 5, but that is incorrect
+                else:
+                    print ("Unrecognized Phase")
+
+                # 4 Pairs:  Ferrite (200), (211); Austenite (200), (220)
+                PfIS.append(np.mean([PfIS[1],PfIS[2],PfIS[3],PfIS[4]]))
+
                 # Max unique
                 if PhaseType=="A":
                     PfIS.append(np.mean([PfIS[1],PfIS[2],PfIS[3],PfIS[4],PfIS[7],PfIS[8],PfIS[9],PfIS[10]]))
