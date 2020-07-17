@@ -214,6 +214,8 @@ def GenerateAveIntesity(SchemesListDF, XPCFolder, SaveFolder):
         Looks for the list of XPC files and calculates a table (.xlsx) for each
 
         SchemesList: Pandas dataframe of schemes
+        
+        TO ADD - list of peak combinations, citations
     """
     import os
     import pandas as pd
@@ -255,8 +257,10 @@ def GenerateAveIntesity(SchemesListDF, XPCFolder, SaveFolder):
 
             #create subsets for phase fractions
 
-            hkllist.append('2Pairs')
-            hkllist.append('3Pairs')
+            hkllist.append('2Pairs-A')
+            hkllist.append('2Pairs-B')
+            hkllist.append('3Pairs-A')
+            hkllist.append('3Pairs-B')
             hkllist.append('4Pairs')
             hkllist.append('MaxUnique')
 
@@ -267,12 +271,33 @@ def GenerateAveIntesity(SchemesListDF, XPCFolder, SaveFolder):
                 
                 # df.loc[df['column_name'] == some_value]
                 PfIS=pfIntensitySum(Scheme,pfs,SchemesListDF["Coordinates"].loc[SchemesListDF["SchemeName"] == Scheme] )
-
-                # 2 Pairs: Ferrite (200), (211); Austenite (200), (220)
+                
+                # TO DO - fix what columns are read in
+                
+                #####################
+                
+                # 2 Pairs A: Ferrite (200), (211); Austenite (200), (220)
+                # Used in JAC paper, matches ASTM E975 with Chromium radiation, Jacques 2009 Round Robin (XRD3)
                 PfIS.append(np.mean([PfIS[2],PfIS[3]]))
                 
-                # 3 Pairs:  Ferrite (200), (211), (310) - Skip (22; Austenite (200), (220), (311)
-                # Max unique
+                # 2 Pairs B: Ferrite (200), (211); Austenite (220), (311)
+                # Jacques 2009 Round Robin (XRD5)
+                PfIS.append(np.mean([PfIS[2],PfIS[3]]))
+
+                #####################
+
+                # 3 Pairs A:  Ferrite (200), (211), (310); Austenite (200), (220), (222)
+                # Used in DXC 2020 presentation
+                if PhaseType=="A":
+                    PfIS.append(np.mean([PfIS[1],PfIS[2],PfIS[3],PfIS[4],PfIS[7],PfIS[8],PfIS[9],PfIS[10]]))
+                elif PhaseType=="F":
+                    PfIS.append(np.mean([PfIS[1],PfIS[2],PfIS[3],PfIS[5],PfIS[6],PfIS[7]]))
+                    #used to include 4, exclude 5, but that is incorrect
+                else:
+                    print ("Unrecognized Phase")
+                
+                # 3 Pairs B:  Ferrite (200), (211), (220); Austenite (200), (220), (311)
+                # Skip A111/F110 and A222
                 if PhaseType=="A":
                     PfIS.append(np.mean([PfIS[1],PfIS[2],PfIS[3],PfIS[4],PfIS[7],PfIS[8],PfIS[9],PfIS[10]]))
                 elif PhaseType=="F":
@@ -281,8 +306,35 @@ def GenerateAveIntesity(SchemesListDF, XPCFolder, SaveFolder):
                 else:
                     print ("Unrecognized Phase")
 
-                # 4 Pairs:  Ferrite (200), (211); Austenite (200), (220)
+                # 3 Pairs C:  Ferrite (110), (200), (211); Austenite (111), (200), (220)
+                # Jacques 2009 Round Robin (XRD2)
+                if PhaseType=="A":
+                    PfIS.append(np.mean([PfIS[1],PfIS[2],PfIS[3],PfIS[4],PfIS[7],PfIS[8],PfIS[9],PfIS[10]]))
+                elif PhaseType=="F":
+                    PfIS.append(np.mean([PfIS[1],PfIS[2],PfIS[3],PfIS[5],PfIS[6],PfIS[7]]))
+                    #used to include 4, exclude 5, but that is incorrect
+                else:
+                    print ("Unrecognized Phase")
+
+                #####################
+
+                # 4 Pairs A:  Ferrite (110), (200), (211), (220); Austenite (111), (200), (220), (311)
+                # Used in JAC paper, Jacques 2009 Round Robin (XRD1 and XRD 4)
                 PfIS.append(np.mean([PfIS[1],PfIS[2],PfIS[3],PfIS[4]]))
+
+                #####################
+
+                # 5A4F Pairs:  Ferrite (110), (200), (211), (220); Austenite (111), (200), (220), (311), (222)
+                # Jacques 2009 Round Robin (XRD6)
+                if PhaseType=="A":
+                    PfIS.append(np.mean([PfIS[1],PfIS[2],PfIS[3],PfIS[4],PfIS[7],PfIS[8],PfIS[9],PfIS[10]]))
+                elif PhaseType=="F":
+                    PfIS.append(np.mean([PfIS[1],PfIS[2],PfIS[3],PfIS[5],PfIS[6],PfIS[7]]))
+                    #used to include 4, exclude 5, but that is incorrect
+                else:
+                    print ("Unrecognized Phase")
+
+                ####################
 
                 # Max unique
                 if PhaseType=="A":
