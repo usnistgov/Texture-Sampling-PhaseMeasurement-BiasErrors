@@ -894,6 +894,22 @@ def SingleOrientation(name, tilt, rotation):
     coordsDF=pd.DataFrame(d)
     return name, coordsDF
 
+#######################################
+#Equal Angle Sampling Scheme
+#######################################
+
+def EqualAngleSampling(name,stepsize):
+    tilt=[]
+    rotation=[]
+    i=0
+    while(round(i)<=360):
+        tilt.append(i)
+        rotation.append(i)
+        i=i+stepsize
+    d = {'Tilt' : tilt, 'Rotation' : rotation}
+    coordsDF=pd.DataFrame(d)
+    return name, coordsDF
+#print(EqualAngleSampling("Austenite",5.0)) (Debug)
 #####################################
 #####################################
 # End Sampling Schemes
