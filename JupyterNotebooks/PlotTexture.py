@@ -147,23 +147,17 @@ def SingleSchemePlot(Name, Coordinates, Marker, Markersize, save=False, cmd=Fals
 ###################################
 # Texture Component Heatmap
 ###################################
-def PlotHeatmap(Folder, hw,PeakCombo,Scheme, CBrange):
-    import os
-    import fnmatch
-    import pandas as pd
-    import numpy as np
-    import seaborn as sns
-    from matplotlib import pyplot as plt
+def PlotHeatmap(hw,PeakCombo,Scheme):
     """
-    A method that accepts a desired HalfWidth value, Peak Combination, and a specific Sampling Scheme, and outputs a heatmap of the
-    resulting Austenite Phase Fraction Values. In order for the function to work as intended, please make sure you note the format
+    A method that accepts a desired HalfWidth value, Peak Combination, and a specific Sampling Scheme, and outputs a heatmap of the 
+    resulting Austenite Phase Fraction Values. In order for the function to work as intended, please make sure you note the format 
     of the parameters and their specifications!
     
     Parameters
     ----------
     
     hw: int
-    Desired HalfWidth Value. Halfwidths should range from 5 to 50, increasing by multiples of 5 (check me on
+    Desired HalfWidth Value. Halfwidths should range from 5 to 50, increasing by multiples of 5 (check me on 
     this).
     
     
@@ -175,11 +169,13 @@ def PlotHeatmap(Folder, hw,PeakCombo,Scheme, CBrange):
     Desired Sampling Scheme. Make sure the format of the inputted scheme exactly matches that which is prescribed by the original
     data. For example, to view "HexGrid-60degTilt5degRes" sampling scheme, you need to type that exactly for the code to work.
     """
-
+    import fnmatch
     HW=str(hw)
 
     VF=.25
 
+
+    
     AusteniteTextures=[]
     FerriteTextures=[]  
 
@@ -192,7 +188,7 @@ def PlotHeatmap(Folder, hw,PeakCombo,Scheme, CBrange):
             FerriteTextures.append(file)
         else: ()
         
-        #print FerriteTextures
+        #print (FerriteTextures)
         #print AusteniteTextures
 
     # create a dataframe shape from existing data
@@ -279,8 +275,14 @@ def PlotHeatmap(Folder, hw,PeakCombo,Scheme, CBrange):
         index=name.find(HW)+2
         Fnames.append(name[:index])
         Anames.append(name[index+1:])
-    Ferrite=pd.DataFrame(data=Fnames,columns=['Ferrite Component'])
-    Austenite=pd.DataFrame(data=Anames,columns=['Austenite Component'])
+    Fname=[]
+    Aname=[]
+    for name in Fnames:
+        Fname.append(name[:-5])
+    for name in Anames:
+        Aname.append(name[:-5])
+    Ferrite=pd.DataFrame(data=Fname,columns=['Ferrite Component'])
+    Austenite=pd.DataFrame(data=Aname,columns=['Austenite Component'])
     components=pd.concat([Ferrite,Austenite],axis=1)
     relevantdata=pd.concat([components, fraction],axis=1)
     xaxis=np.unique(Ferrite.to_numpy())
@@ -293,20 +295,31 @@ def PlotHeatmap(Folder, hw,PeakCombo,Scheme, CBrange):
         for j in range (len(xaxis)):
             array[i,j]=values[k]
             k=k+1
-    
-    #print(array)    
+        
     values[values == ''] = 0.0
-    Values = values.astype(np.float)  
-    
-               
-    
-    df=pd.DataFrame({'Austenite Components': Anames, 'Ferrite Components': Fnames, 'Phase Fraction': Values })
+    Values = values.astype(np.float) 
+    labels=[]
+    for val in Values:
+        if(val>=0.255):
+            labels.append("+")
+        elif(val<=0.245):
+            labels.append("-")
+        else:
+            labels.append("O")
+    labels=np.asarray(labels)
+    #labels.resize(len(yaxis),len(xaxis)) 
+    #labels=pd.DataFrame(labels)
+    df=pd.DataFrame({'Austenite Components': Aname, 'Ferrite Components': Fname, 'Phase Fraction': Values })
+    df2=pd.DataFrame({'Austenite Components': Aname, 'Ferrite Components': Fname, 'Phase Fraction': labels })
+    dw=df2.pivot( index='Austenite Components', columns='Ferrite Components', values='Phase Fraction' )
+
  
     # plotting
-    df_wide=df.pivot_table( index='Austenite Components', columns='Ferrite Components', values='Phase Fraction' )
-    color= sns.color_palette("coolwarm", 25)
+    df_wide=df.pivot_table(index='Austenite Components', columns='Ferrite Components', values='Phase Fraction' )
+    color= sns.diverging_palette(359, 359, 99, l=0, sep=1, n=50, center='light', as_cmap=True)
     plt.figure(figsize = (13,7))
-    figure=sns.heatmap(df_wide,vmin=CBrange[0], vmax=CBrange[1], cmap=color,center=0.25,linewidths=0.5,square=True,cbar_kws={"shrink": .80})
+    #figure=sns.heatmap(df_wide,vmin=0.0, vmax=0.50, cmap=color,center=0.25,annot=True,linewidths=0.5,square=True,cbar_kws={"shrink": .80})
+    figure=sns.heatmap(df_wide,vmin=0.0, vmax=0.50, cmap=color,center=0.25,annot=dw, annot_kws={"size": 18},fmt='',linewidths=0.5,square=True,cbar_kws={"shrink": .80})
     plt.title("Halfwidth of "+HW+" , "+ Scheme+ " Sampling Scheme, "+ PeakCombo.upper()+ " Peak Combination" ,fontsize =18)
     bottom, top = figure.get_ylim()
     figure.set_ylim(bottom + 0.5, top - 0.5)
@@ -314,4 +327,4 @@ def PlotHeatmap(Folder, hw,PeakCombo,Scheme, CBrange):
   
 
 
-#print(PlotHeatmap(20,"dF2","ND Single"))
+
