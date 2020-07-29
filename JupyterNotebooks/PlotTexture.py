@@ -140,7 +140,47 @@ def SingleSchemePlot(Name, Coordinates, Marker, Markersize, save=False, cmd=Fals
     if cmd==False:
         plt.show()
 
+#####################################
+# Plot a Filled Contour with Density of points
+#####################################
+def DensityContourPlot(Name, Coordinates, save=False, cmd=False, savename='test.png'):
+    import pandas as pd
+    import mplstereonet
+    from matplotlib import pyplot as plt
+    import numpy as np
+    from matplotlib.colors import ListedColormap, LinearSegmentedColormap
+    fig = plt.figure(figsize=(6,6), dpi=300)
 
+    ### Using same colormap as the Matlab/Colormap4, adding alpha in the vector
+    n=4
+    v = np.linspace(0, n, n*10+1)
+
+    newcolors2=np.array([[0, 0, 0, 1],    [.1, .1, .1, 1], [.2, .2, .2, 1], [.3, .3, .3, 1 ],  [.4, .4, .4, 1], [.5, .5, .5, 1],
+             [.6, .6, .6, 1], [.7, .7, .7, 1], [.8, .8, .8, 1], [.9, .9, .9, 1],
+             [ 0, 0, 1, 1],   [ 0, .1, .9, 1], [0, .2, .8, 1],  [0, .3, .7, 1],  [0, .4, .6, 1], [0, .5, .5, 1],
+             [0, .6, .4, 1],  [0, .7, .3, 1],  [0, .8, .2, 1],  [0, .9, .1, 1],  [0, 1, 0, 1],   [ .1, 1, 0, 1],
+             [.2, 1, 0, 1],   [.3, 1, 0, 1],   [.4, 1, 0, 1],   [.5, 1, 0, 1],   [.6, 1, 0, 1],  [.7, 1, 0, 1],
+             [.8, 1, 0, 1], [.9, 1, 0, 1],   [1, 1, 0, 1],    [1, .9, 0, 1],   [1, .8, 0, 1],   [1, .7, 0, 1],
+             [1, .6, 0, 1], [1, .5, 0, 1],
+             [1, .4, 0, 1],   [1, .3, 0, 1],   [1, .2, 0, 1],   [1, .1, 0, 1],   [1, 0, 0, 1]] )
+             
+    newcmp2 = ListedColormap(newcolors2)
+
+    ax09 = fig.add_subplot(111, projection='stereonet')
+    # FIX location
+    #ax09.set_azimuth_ticks([0,90], labels=['RD','TD'],fontsize=14)
+    #ax09.set_azimuth_ticks([90,0], labels=['',''])
+    dip, strike =Coordinates['Tilt'], (Coordinates['Rotation']-90.0)
+    cax = ax09.density_contourf(strike, dip,levels=v, measurement='poles',method='schmidt',cmap=newcmp2 )
+    
+    cbar=fig.colorbar(cax,orientation='vertical')
+    cbar.ax.set_xlabel("Oversampling Multiples")
+    
+    if save==True:
+        plt.savefig(savename, bbox_inches='tight')
+
+    if cmd==False:
+        plt.show()
 
 
 
