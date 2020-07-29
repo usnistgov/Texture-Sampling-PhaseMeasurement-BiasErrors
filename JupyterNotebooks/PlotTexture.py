@@ -104,7 +104,7 @@ def SimpleTestPlot(Name, Coordinates, save=False,cmd=False,savename='test.png'):
 #####################################
 # Plot a single sampling scheme
 #####################################
-def SingleSchemePlot(Name, Coordinates, Marker, Markersize, save=False, cmd=False, savename='test.png'):
+def SingleSchemePlot(Name, Coordinates, Marker, MarkerSize, save=False, cmd=False, savename='test.png'):
     """
     Test plot to work out conventions
     """
@@ -128,7 +128,7 @@ def SingleSchemePlot(Name, Coordinates, Marker, Markersize, save=False, cmd=Fals
     #SchemeName,Coordinates=SingleOrientation("TD Single", 90.0,270.0)
 
     dip, strike =Coordinates['Tilt'], Coordinates['Rotation']-90.0
-    l1=ax1.pole(strike, dip, Marker, markersize=10, clip_on=False)
+    l1=ax1.pole(strike, dip, Marker, markersize=MarkerSize, clip_on=False)
     #dip tilts about the 0 axis (RD), left handed
     #strike tilts about the normal axis (ND), left handed
     #Looking at the bottom of the sphere, not the top
@@ -144,6 +144,11 @@ def SingleSchemePlot(Name, Coordinates, Marker, Markersize, save=False, cmd=Fals
 # Plot a Filled Contour with Density of points
 #####################################
 def DensityContourPlot(Name, Coordinates, save=False, cmd=False, savename='test.png'):
+    """
+    Uses the density_contourf function of mplstereonet to display how a particular scheme over- or under-samples locations on the pole figure.
+    mplstereonet has a hardcoded 1° sampling spacing, the resulting plot may look a little noisy.
+    """
+
     import pandas as pd
     import mplstereonet
     from matplotlib import pyplot as plt
@@ -169,12 +174,13 @@ def DensityContourPlot(Name, Coordinates, save=False, cmd=False, savename='test.
     ax09 = fig.add_subplot(111, projection='stereonet')
     # FIX location
     #ax09.set_azimuth_ticks([0,90], labels=['RD','TD'],fontsize=14)
-    #ax09.set_azimuth_ticks([90,0], labels=['',''])
+    ax09.set_azimuth_ticks([90,0], labels=['',''])
     dip, strike =Coordinates['Tilt'], (Coordinates['Rotation']-90.0)
     cax = ax09.density_contourf(strike, dip,levels=v, measurement='poles',method='schmidt',cmap=newcmp2 )
     
     cbar=fig.colorbar(cax,orientation='vertical')
-    cbar.ax.set_xlabel("Oversampling Multiples")
+    cbar.ax.get_yaxis().labelpad = 15
+    cbar.ax.set_ylabel("Oversampling Multiples", rotation=270)
     
     if save==True:
         plt.savefig(savename, bbox_inches='tight')
