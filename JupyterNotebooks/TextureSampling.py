@@ -556,7 +556,7 @@ def TiltRotate(name, time, datapoints, rpm,maxtilt,tiltcpm):
 #############################################
 # Define function to create a hexagonal grid:
 #############################################
-def HexGrid(name, chi_max, angular_spacing):
+def HexGrid(name, chi_max, angular_spacing, CoverageType="full", IncludeND=True):
     """
     A function used to create a hexagonal grid scheme, to be used for displaying the crystallographic texture of, in this case, various
     steels. The Hexagonal Grid Scheme has experimentally proven to be effective in the reduction of error associated with measuring Austenite
@@ -579,6 +579,10 @@ def HexGrid(name, chi_max, angular_spacing):
     angular_spacing : float
        A float value that represents the desired incrementing angle to be applied in measurements; correspondingly increases the
        spacing of the grid.
+    
+    CoverageType : "full" or "quad"
+        generate either "full" pole figure coverage, or only for a "quad" or quadrant of the pole figure.
+        Default is "full"
     """
     import numpy as np
     import pandas as pd
@@ -592,15 +596,17 @@ def HexGrid(name, chi_max, angular_spacing):
     #print "Max Tilt: ", chi_max
     #print "Angular Spacing: ", angular_spacing
 
-    xaxis=[]
-    yaxis=[]
+    xaxis=[] # tilt
+    yaxis=[] # rotation
 
+    # the following variable names are taken from Rizzle
+    # Note the quadrants aren't quite the same in the mplstereonet covention
     j=0
     i=0
     y_j=0.0
     x_ij=0.0
-    chi_ij=0.0
-    phi_ij=0.0
+    chi_ij=0.0 #tilt
+    phi_ij=0.0 #rotation
 
     while np.multiply((math.sqrt(3)*(d_max)/(2*N)), j ) < d_max:
 
@@ -637,52 +643,132 @@ def HexGrid(name, chi_max, angular_spacing):
             d_ij=math.sqrt(x_ij*x_ij + y_j*y_j)
             chi_ij=2.0*math.asin(d_ij/2.0)
             if math.degrees(chi_ij) <= chi_max:
+            
+                # points parallel to ND and -RD-ND plane
                 if y_j==0:
                     #do once to avoid duplicates
                     #print "do some nothing"
+                    
 
                     phi_ij=((180.0/math.pi)*math.atan2(y_j,x_ij))
-                    xaxis.append(math.degrees(chi_ij))
-                    yaxis.append(phi_ij)
+                    #print(phi_ij,chi_ij)
+                    
+                    if CoverageType=="full":
+                        if chi_ij==0:
+                            if IncludeND==True:
+                                # Just append all points
+                                xaxis.append(math.degrees(chi_ij))
+                                yaxis.append(phi_ij)
+                                #print("Full: ND added")
+                            # ND point
+                            else:
+                                # don't plot the point at chi_ij=0
+                                #print("Full: ND skipped")
+                                pass
+                        else:
+                            xaxis.append(math.degrees(chi_ij))
+                            yaxis.append(phi_ij)
+                            #print("Full: other RD-ND points added")
 
+                    elif CoverageType=="quad":
+                        # Is this the right place for this?
+                        if chi_ij==0:
+                            if IncludeND==True:
+                                xaxis.append(math.degrees(chi_ij))
+                                yaxis.append(phi_ij)
+                                #print("Quad: ND added")
+                            else:
+                                #print("Quad: ND skipped")
+                                pass
+                        
+                        else:
+                            if phi_ij>=-0.2 and phi_ij<=0.2:
+                                #print("Quad: -RD skipped")
+                                pass
+                            # ND point
+                            else:
+                                xaxis.append(math.degrees(chi_ij))
+                                yaxis.append(phi_ij)
+                                #print("Quad: +RD added")
+
+                    else:
+                        print(CoverageType, "is not a supported option")
+                        
+                    # Points along the RD-ND plane?
                     if x_ij!=0:
                         phi_ij=((180.0/math.pi)*math.atan2(y_j,-1.0*x_ij))
-                        xaxis.append(math.degrees(chi_ij))
-                        yaxis.append(phi_ij)
+                        #print(phi_ij,chi_ij)
+                        if CoverageType=="full":
+                            xaxis.append(math.degrees(chi_ij))
+                            yaxis.append(phi_ij)
+                            #print("Full: +/-RD added")
+                        # FIX somethings' not right here
+                        elif CoverageType=="quad":
+                            if phi_ij>=-0.2 and phi_ij<=0.2:
+                                #print("Quad: -RD skipped RD-ND section")
+                                pass
+                            else:
+                                xaxis.append(math.degrees(chi_ij))
+                                yaxis.append(phi_ij)
+                                #print("Quad: +/-RD added RD-ND section")
+                        else:
+                            print(CoverageType, "is not a supported option")
                     else:
                         #removes reduntant rotation
                         pass
-
+                        
+                # Points not along y_j=0
                 else:
                     if x_ij>0:
-                        #positive i values - quadrant I
-                        phi_ij=((180.0/math.pi)*math.atan2(y_j,x_ij))
-                        xaxis.append(math.degrees(chi_ij))
-                        yaxis.append(phi_ij)
-
-                        #negative i values -quadrant II
-                        phi_ij=((180.0/math.pi)*math.atan2(y_j,(-1.0*x_ij)))
-                        xaxis.append(math.degrees(chi_ij))
-                        yaxis.append(phi_ij)
-
                         #quadrant III
                         phi_ij=((180.0/math.pi)*math.atan2(y_j,x_ij)+180.0)
                         xaxis.append(math.degrees(chi_ij))
                         yaxis.append(phi_ij)
 
-                        #quadrant IV
-                        phi_ij=((180.0/math.pi)*math.atan2(y_j,(-1.0*x_ij))+180.0)
-                        xaxis.append(math.degrees(chi_ij))
-                        yaxis.append(phi_ij)
+                        if CoverageType=="full":
+                            #negative i values -quadrant II
+                            phi_ij=((180.0/math.pi)*math.atan2(y_j,(-1.0*x_ij)))
+                            xaxis.append(math.degrees(chi_ij))
+                            yaxis.append(phi_ij)
+                       
+                            #positive i values - quadrant I
+                            phi_ij=((180.0/math.pi)*math.atan2(y_j,x_ij))
+                            xaxis.append(math.degrees(chi_ij))
+                            yaxis.append(phi_ij)
 
+
+                            #quadrant IV
+                            phi_ij=((180.0/math.pi)*math.atan2(y_j,(-1.0*x_ij))+180.0)
+                            xaxis.append(math.degrees(chi_ij))
+                            yaxis.append(phi_ij)
+                            
+                        elif CoverageType=="quad":
+                            pass
+                        
+                        else:
+                            print(CoverageType, "is not a supported option")
+
+                    # Points along the TD-ND plane
                     else:
-                        phi_ij=(90.0)
-                        xaxis.append(math.degrees(chi_ij))
-                        yaxis.append(phi_ij)
-
-                        phi_ij=(270.0)
-                        xaxis.append(math.degrees(chi_ij))
-                        yaxis.append(phi_ij)
+                        if CoverageType=="full":
+                            # poisnt along -TD-ND plane
+                            phi_ij=(90.0)
+                            xaxis.append(math.degrees(chi_ij))
+                            yaxis.append(phi_ij)
+                            
+                            # points along +TD-ND plane
+                            phi_ij=(270.0)
+                            xaxis.append(math.degrees(chi_ij))
+                            yaxis.append(phi_ij)
+                        
+                        elif CoverageType=="quad":
+                            # points along along +TD-ND plane
+                            phi_ij=(270.0)
+                            xaxis.append(math.degrees(chi_ij))
+                            yaxis.append(phi_ij)
+                        
+                        else:
+                            print(CoverageType, "is not a supported option")
                 #print "j: ",j,"\ty_j: ", y_j , "\ti: ", i,  "\tx_ij: ", x_ij ,"\td_ij: ", d_ij ,"\tchi_ij: ",math.degrees(chi_ij), "\tphi_ij: ",phi_ij
                     #anglelist.append([math.degrees(chi_ij) ,phi_ij])
 
