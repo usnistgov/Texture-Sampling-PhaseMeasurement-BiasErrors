@@ -1014,6 +1014,247 @@ def SingleOrientation(name, tilt, rotation):
 #Equal Angle Sampling Scheme
 #######################################
 
+# Perpendicular to RD
+def RingRot(res,theta,omega_list,rotaxis): #add omega
+    """
+
+    FIX - Y rotaxis has an extra line in X direction
+    """
+    import numpy as np
+    import pandas as pd
+    import math
+    
+    name="Ring Perpendicular to "+rotaxis
+    #name="Ring Perpendicular to ND"
+    #print rotaxis
+    
+    #Generate the ring of rotations
+    yaxis=np.ndarray.tolist(np.arange(0.0, 360.0001, res))#rotation
+    xaxis=[90.0-theta] * len(yaxis) #tilt
+    # Don't save, or this gets repeated
+    #d = {'Tilt' : xaxis, 'Rotation' : yaxis,'Weights' : np.ones(len(xaxis))}
+    #coordsDF=pd.DataFrame(d)
+    
+    ## Additional rotations
+    #omega_list=[5]
+    
+    
+    for omega_counter, omega_step in enumerate(omega_list):
+        #print "Generating omega", omega_counter
+        #print "Additonal omegas: ", omega_step
+        r_list=[]
+        t_list=[]
+        weight_list=[]
+        rotation_index=[]
+        for i, value in enumerate(yaxis):
+            #print "Creating Point on ring", i
+            if rotaxis=='X':
+                #print "Rotating in X axis"
+                (r,t)=cart2sphDeg(np.einsum('ij,j', RotateXMatrix(omega_step), sph2cartDeg(value,xaxis[i])))
+                # 1- cos**6 works well, but I don't know why...
+                weight=(1.0-(np.einsum('i,i',
+                                 (np.einsum('ij,j', RotateXMatrix(omega_step), sph2cartDeg(value,xaxis[i]))),
+                                 [1,0,0]))**6)
+                
+                #y=(1/(2*(1-(np.cos(x))**4))) - doesn't work either
+                #weight=(1.0/(2*(1.0-(np.einsum('i,i',
+                #                 (np.einsum('ij,j', RotateXMatrix(omega_step), sph2cartDeg(value,xaxis[i]))),
+                #                 [1,0,0]))**4)))
+
+                
+                # weight function 22 Oct 2019 - doesn't work
+                #weight=(1.0-abs(np.einsum('i,i',
+                #                 (np.einsum('ij,j', RotateXMatrix(omega_step), sph2cartDeg(value,xaxis[i]))),
+                #                 [1,0,0])))
+                
+                
+                # Try a different function  - doesn't work well
+                #weight=(1.0-2*(np.einsum('i,i',
+                #                 (np.einsum('ij,j', RotateXMatrix(omega_step), sph2cartDeg(value,xaxis[i]))),
+                #                 [1,0,0])) -
+                #        abs(np.einsum('i,i',
+                #                 (np.einsum('ij,j', RotateXMatrix(omega_step), sph2cartDeg(value,xaxis[i]))),
+                #                 [1,0,0]))**2)
+            elif rotaxis=='Y':
+                #print "Rotating in Y axis"
+                (r,t)=cart2sphDeg(np.einsum('ij,j', RotateYMatrix(omega_step), sph2cartDeg(value,xaxis[i])))
+                
+                # Try area of a zone in a sphere
+                if (value!=90.0):
+                    x,y1,z=sph2cartDeg(value+res/2.0,xaxis[i])
+                    x,y2,z=sph2cartDeg(value-res/2.0,xaxis[i])
+                    weight=0.5*abs(y1-y2)
+                else:
+                    x,y1,z=sph2cartDeg(value,xaxis[i]) # the segment curves around
+                    x,y2,z=sph2cartDeg(value-res/2.0,xaxis[i])
+                    weight=0.5*abs(y1-y2)
+
+                # 1- cos**6 works well, but I don't know why...
+#                 weight=(1.0-(np.einsum('i,i',
+#                                  (np.einsum('ij,j', RotateXMatrix(omega_step), sph2cartDeg(value,xaxis[i]))),
+#                                  [0,1,0]))**6)
+
+                #y=(1/(2*(1-(np.cos(x))**4))) - doesn't work
+                #weight=(1.0/(2*(1.0-(np.einsum('i,i',
+                #                 (np.einsum('ij,j', RotateXMatrix(omega_step), sph2cartDeg(value,xaxis[i]))),
+                #                 [0,1,0]))**4)))
+                
+                # weight function 22 Oct 2019 - doesn't work
+                #weight=(1.0-abs(np.einsum('i,i',
+                #                 (np.einsum('ij,j', RotateXMatrix(omega_step), sph2cartDeg(value,xaxis[i]))),
+                #                 [0,1,0])))
+                
+                #weight=(1.0-2*(np.einsum('i,i',
+                #                 (np.einsum('ij,j', RotateXMatrix(omega_step), sph2cartDeg(value,xaxis[i]))),
+                #                 [0,1,0])) -
+                #        abs(np.einsum('i,i',
+                #                 (np.einsum('ij,j', RotateXMatrix(omega_step), sph2cartDeg(value,xaxis[i]))),
+                #                 [0,1,0]))**2)s
+                
+                #using this as an index on the rotation
+                # also fix omega step below
+                
+                
+            else:
+                print("Not a supported rotation axis")
+            
+            #(r,t)=StepRotateRing(value,xaxis[i],omega_step)
+            #print value, xaxis[i], omega_step,r,t
+            
+            #print "Adjusting angles"
+            # Add some logic to keep 0<=r<360 and 0<=t<90
+            if r<0:
+                r=r+360
+            elif r>=360:
+                r=r-360
+
+            # correct for tilt below the sphere.  Don't need to correct rotation here
+            if t>90:
+                t=180-t
+            
+            #print "Appending lists"
+            r_list.append(r)
+            t_list.append(t)
+            rotation_index.append(i)
+            #print weight, np.sin(np.radians(t))
+            
+            weight_list.append(weight)
+            
+            # correct for duplicate points at ±90°
+#             if abs(omega_step)==90.0:
+#                 #weight_list.append(weight/2.0)
+#                 weight_list.append(weight) #only for indexing
+#             else:
+#                 weight_list.append(weight)
+#                 #weight_list.append(weight)
+            #22 Oct 2019 need to change weight here, after correcting t - doesn't work
+            #weight_list.append(weight*np.sin(np.radians(t)))
+        #print "Creating Data Frames"
+        #print "Counter value",omega_counter
+        if omega_counter==0:
+            # initialize dataframe
+            #print "Intialize Data Frame at x=",omega_counter
+            d2 = {'Tilt' : t_list, 'Rotation' : r_list,
+                  'RotationIndex' : rotation_index,'Weights' : weight_list}
+            coordsDF=pd.DataFrame(d2)
+            
+        else:
+            d2 = {'Tilt' : t_list, 'Rotation' : r_list,
+                  'RotationIndex' : rotation_index, 'Weights' : weight_list}
+            d2DF=pd.DataFrame(d2)
+            coordsDF=coordsDF.append(d2DF, ignore_index=True)
+        
+        
+        
+        
+    # range and step of rotations
+    
+    # append
+    #df2 = pd.DataFrame([[5, 6], [7, 8]], columns=list('AB'))
+    #df.append(df2)
+    
+    return name, coordsDF
+
+
+# In[12]:
+
+
+# adapted from Steronet
+### Helper function for RotRing?
+def sph2cartDeg(rotation_deg, tilt_deg):
+    """
+    Converts a longitude and latitude (or sequence of lons and lats) given in
+    _radians_ to cartesian coordinates, `x`, `y`, `z`, where x=0, y=0, z=0 is
+    """
+    import numpy as np
+    import math
+    elevation_deg=90-tilt_deg
+    elevation=elevation_deg*math.pi/180
+    rotation=rotation_deg*math.pi/180
+    
+    x = np.cos(elevation) * np.cos(rotation)
+    y = np.cos(elevation) * np.sin(rotation)
+    z = np.sin(elevation)
+
+    return [x, y, z]
+    
+
+
+### Helper function for RotRing?
+def cart2sphDeg(a):
+    """
+
+    """
+    import numpy as np
+    import math
+    x=a[0]
+    y=a[1]
+    z=a[2]
+    #https://www.mathworks.com/help/matlab/ref/cart2sph.html
+    azimuth = np.arctan2(y,x)
+    elevation = np.arctan2(z,np.sqrt(x**2 + y**2))
+    #tilt=
+    
+    
+    #check on value of r?
+    r = np.sqrt(x**2 + y**2 + z**2)
+    #lat = np.arcsin(z/r) # original
+    #lat = np.arccos(z/r) # changed for tilt/rotate convention - didn't work out
+    #lat = -np.arccos(z/r) # changed to invert with RotateTilt
+
+    #lon = np.arctan2(y, x)
+    return np.degrees(azimuth), 90-np.degrees(elevation)
+
+
+### Helper function for RotRing?
+def RotateYMatrix(omega_deg):
+    import numpy as np
+    import math
+    omega=omega_deg*math.pi/180
+    R=[[math.cos(omega),0, -math.sin(omega)  ],
+        [0, 1,0],
+        [math.sin(omega), 0, math.cos(omega)]]
+    return np.transpose(np.array(R)) # transpose to change from active to passive
+
+
+
+### Helper function for RotRing?
+def RotateXMatrix(omega_deg):
+    import numpy as np
+    import math
+    omega=np.radians(omega_deg)
+    R=[[1,0, 0  ],
+        [0, math.cos(omega),math.sin(omega)],
+        [0,-math.sin(omega), math.cos(omega)]]
+    return np.transpose(np.array(R)) # transpose to change from active to passive
+
+
+
+
+#######################################
+#Equal Angle Sampling Scheme
+#######################################
+
 def EqualAngleSampling(name,stepsize):
     tilt=[]
     rotation=[]
