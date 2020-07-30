@@ -1245,15 +1245,21 @@ def RotateXMatrix(omega_deg):
 def EqualAngleSampling(name,stepsize):
     tilt=[]
     rotation=[]
+     
     i=0
-    while(round(i)<=360):
-        tilt.append(i)
-        rotation.append(i)
-        i=i+stepsize
+    j=0
+    while(round(i)<=90):
+        while(round(j)<360):
+            rotation.append(j)
+            j=j+stepsize
+            tilt.append(i)
+        i=i+stepsize 
+        j=0
+        
     d = {'Tilt' : tilt, 'Rotation' : rotation}
     coordsDF=pd.DataFrame(d)
     return name, coordsDF
-#print(EqualAngleSampling("Austenite",5.0)) (Debug)
+#print(EqualAngleSampling("Austenite",30)) (Debug)
 #####################################
 #####################################
 # End Sampling Schemes
