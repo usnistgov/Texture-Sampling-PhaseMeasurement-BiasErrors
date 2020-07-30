@@ -143,7 +143,7 @@ def SingleSchemePlot(Name, Coordinates, Marker, MarkerSize, save=False, cmd=Fals
 #####################################
 # Plot a Filled Contour with Density of points
 #####################################
-def DensityContourPlot(Name, Coordinates, save=False, cmd=False, savename='test.png'):
+def DensityContourPlot(Name, Coordinates, Weights=False, save=False, cmd=False, savename='test.png'):
     """
     Uses the density_contourf function of mplstereonet to display how a particular scheme over- or under-samples locations on the pole figure.
     mplstereonet has a hardcoded 1° sampling spacing, the resulting plot may look a little noisy.
@@ -176,8 +176,13 @@ def DensityContourPlot(Name, Coordinates, save=False, cmd=False, savename='test.
     #ax09.set_azimuth_ticks([0,90], labels=['RD','TD'],fontsize=14)
     ax09.set_azimuth_ticks([90,0], labels=['',''])
     dip, strike =Coordinates['Tilt'], (Coordinates['Rotation']-90.0)
-    cax = ax09.density_contourf(strike, dip,levels=v, measurement='poles',method='schmidt',cmap=newcmp2 )
     
+    #Gridsize option? gridsize=500,
+    if Weights==False:
+        cax = ax09.density_contourf(strike, dip,levels=v, measurement='poles',method='schmidt',cmap=newcmp2 )
+    else:
+        cax = ax09.density_contourf(strike, dip,levels=v, measurement='poles', method='schmidt',
+                                   cmap=newcmp2, weights=list(Coordinates['Weights']) )
     cbar=fig.colorbar(cax,orientation='vertical')
     cbar.ax.get_yaxis().labelpad = 15
     cbar.ax.set_ylabel("Oversampling Multiples", rotation=270)

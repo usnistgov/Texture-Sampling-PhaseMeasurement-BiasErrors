@@ -1018,18 +1018,24 @@ def SingleOrientation(name, tilt, rotation):
 def RingRot(res,theta,omega_list,rotaxis): #add omega
     """
 
+    res: Resolution about the rings
+    theta: Theta value (1/2 2-theta), deviation from vertical due to finite energy
+    omega_list: List of the angular rotations about the axis
+    rotaxis: Which axis to rotate the rings about
+
     FIX - Y rotaxis has an extra line in X direction
     """
     import numpy as np
     import pandas as pd
     import math
     
-    name="Ring Perpendicular to "+rotaxis
+    name="RotRing Axis-%s Res-%s Theta-%s " % (rotaxis, res,theta)
+    
     #name="Ring Perpendicular to ND"
     #print rotaxis
     
     #Generate the ring of rotations
-    yaxis=np.ndarray.tolist(np.arange(0.0, 360.0001, res))#rotation
+    yaxis=np.ndarray.tolist(np.arange(0.0, 360.0, res))#rotation
     xaxis=[90.0-theta] * len(yaxis) #tilt
     # Don't save, or this gets repeated
     #d = {'Tilt' : xaxis, 'Rotation' : yaxis,'Weights' : np.ones(len(xaxis))}
@@ -1038,7 +1044,6 @@ def RingRot(res,theta,omega_list,rotaxis): #add omega
     ## Additional rotations
     #omega_list=[5]
     
-    
     for omega_counter, omega_step in enumerate(omega_list):
         #print "Generating omega", omega_counter
         #print "Additonal omegas: ", omega_step
@@ -1046,40 +1051,32 @@ def RingRot(res,theta,omega_list,rotaxis): #add omega
         t_list=[]
         weight_list=[]
         rotation_index=[]
+        omega_step_list=[]
         for i, value in enumerate(yaxis):
             #print "Creating Point on ring", i
             if rotaxis=='X':
                 #print "Rotating in X axis"
                 (r,t)=cart2sphDeg(np.einsum('ij,j', RotateXMatrix(omega_step), sph2cartDeg(value,xaxis[i])))
-                # 1- cos**6 works well, but I don't know why...
-                weight=(1.0-(np.einsum('i,i',
-                                 (np.einsum('ij,j', RotateXMatrix(omega_step), sph2cartDeg(value,xaxis[i]))),
-                                 [1,0,0]))**6)
                 
-                #y=(1/(2*(1-(np.cos(x))**4))) - doesn't work either
-                #weight=(1.0/(2*(1.0-(np.einsum('i,i',
-                #                 (np.einsum('ij,j', RotateXMatrix(omega_step), sph2cartDeg(value,xaxis[i]))),
-                #                 [1,0,0]))**4)))
+                # Weight by:
+                # Area of a zone in a sphere
+                
+                #check if close to pole
+                if (value!=0.0):
+                    x1,y,z=sph2cartDeg(value+res/2.0,xaxis[i])
+                    x2,y,z=sph2cartDeg(value-res/2.0,xaxis[i])
+                    weight=0.5*abs(x1-x2)
+                else:
+                    x1,y,z=sph2cartDeg(value,xaxis[i]) # the segment curves around
+                    x2,y,z=sph2cartDeg(value-res/2.0,xaxis[i])
+                    weight=0.5*abs(x1-x2)
 
-                
-                # weight function 22 Oct 2019 - doesn't work
-                #weight=(1.0-abs(np.einsum('i,i',
-                #                 (np.einsum('ij,j', RotateXMatrix(omega_step), sph2cartDeg(value,xaxis[i]))),
-                #                 [1,0,0])))
-                
-                
-                # Try a different function  - doesn't work well
-                #weight=(1.0-2*(np.einsum('i,i',
-                #                 (np.einsum('ij,j', RotateXMatrix(omega_step), sph2cartDeg(value,xaxis[i]))),
-                #                 [1,0,0])) -
-                #        abs(np.einsum('i,i',
-                #                 (np.einsum('ij,j', RotateXMatrix(omega_step), sph2cartDeg(value,xaxis[i]))),
-                #                 [1,0,0]))**2)
             elif rotaxis=='Y':
                 #print "Rotating in Y axis"
                 (r,t)=cart2sphDeg(np.einsum('ij,j', RotateYMatrix(omega_step), sph2cartDeg(value,xaxis[i])))
                 
-                # Try area of a zone in a sphere
+                # Weight by:
+                # Area of a zone in a sphere
                 if (value!=90.0):
                     x,y1,z=sph2cartDeg(value+res/2.0,xaxis[i])
                     x,y2,z=sph2cartDeg(value-res/2.0,xaxis[i])
@@ -1089,27 +1086,7 @@ def RingRot(res,theta,omega_list,rotaxis): #add omega
                     x,y2,z=sph2cartDeg(value-res/2.0,xaxis[i])
                     weight=0.5*abs(y1-y2)
 
-                # 1- cos**6 works well, but I don't know why...
-#                 weight=(1.0-(np.einsum('i,i',
-#                                  (np.einsum('ij,j', RotateXMatrix(omega_step), sph2cartDeg(value,xaxis[i]))),
-#                                  [0,1,0]))**6)
 
-                #y=(1/(2*(1-(np.cos(x))**4))) - doesn't work
-                #weight=(1.0/(2*(1.0-(np.einsum('i,i',
-                #                 (np.einsum('ij,j', RotateXMatrix(omega_step), sph2cartDeg(value,xaxis[i]))),
-                #                 [0,1,0]))**4)))
-                
-                # weight function 22 Oct 2019 - doesn't work
-                #weight=(1.0-abs(np.einsum('i,i',
-                #                 (np.einsum('ij,j', RotateXMatrix(omega_step), sph2cartDeg(value,xaxis[i]))),
-                #                 [0,1,0])))
-                
-                #weight=(1.0-2*(np.einsum('i,i',
-                #                 (np.einsum('ij,j', RotateXMatrix(omega_step), sph2cartDeg(value,xaxis[i]))),
-                #                 [0,1,0])) -
-                #        abs(np.einsum('i,i',
-                #                 (np.einsum('ij,j', RotateXMatrix(omega_step), sph2cartDeg(value,xaxis[i]))),
-                #                 [0,1,0]))**2)s
                 
                 #using this as an index on the rotation
                 # also fix omega step below
@@ -1129,16 +1106,26 @@ def RingRot(res,theta,omega_list,rotaxis): #add omega
                 r=r-360
 
             # correct for tilt below the sphere.  Don't need to correct rotation here
+            if t<0:
+                t=-t
             if t>90:
                 t=180-t
+
             
             #print "Appending lists"
             r_list.append(r)
             t_list.append(t)
             rotation_index.append(i)
+            omega_step_list.append(omega_step)
             #print weight, np.sin(np.radians(t))
             
-            weight_list.append(weight)
+            # Flag weight to reduce weigtht for +/- 90 omegas due to overlap in the +ND/-ND plane
+            if omega_step==90:
+                weight_list.append(weight/2.0)
+            elif omega_step==-90:
+                weight_list.append(weight/2.0)
+            else:
+                weight_list.append(weight)
             
             # correct for duplicate points at ±90°
 #             if abs(omega_step)==90.0:
@@ -1155,12 +1142,12 @@ def RingRot(res,theta,omega_list,rotaxis): #add omega
             # initialize dataframe
             #print "Intialize Data Frame at x=",omega_counter
             d2 = {'Tilt' : t_list, 'Rotation' : r_list,
-                  'RotationIndex' : rotation_index,'Weights' : weight_list}
+                  'RotationIndex' : rotation_index,'Omega' : omega_step_list,'Weights' : weight_list}
             coordsDF=pd.DataFrame(d2)
             
         else:
             d2 = {'Tilt' : t_list, 'Rotation' : r_list,
-                  'RotationIndex' : rotation_index, 'Weights' : weight_list}
+                  'RotationIndex' : rotation_index,'Omega' : omega_step_list, 'Weights' : weight_list}
             d2DF=pd.DataFrame(d2)
             coordsDF=coordsDF.append(d2DF, ignore_index=True)
         
