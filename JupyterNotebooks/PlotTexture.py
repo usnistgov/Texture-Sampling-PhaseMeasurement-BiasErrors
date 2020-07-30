@@ -198,7 +198,7 @@ def DensityContourPlot(Name, Coordinates, Weights=False, save=False, cmd=False, 
 ###################################
 # Texture Component Heatmap
 ###################################
-def PlotHeatmap(hw,PeakCombo,Scheme):
+def PlotHeatmap(hw, PeakCombo,Scheme, Folder, cbarMap=False, cbarRange=[0,0.5], save=False, cmd=False, savename='test.png'):
     """
     A method that accepts a desired HalfWidth value, Peak Combination, and a specific Sampling Scheme, and outputs a heatmap of the 
     resulting Austenite Phase Fraction Values. In order for the function to work as intended, please make sure you note the format 
@@ -221,6 +221,11 @@ def PlotHeatmap(hw,PeakCombo,Scheme):
     data. For example, to view "HexGrid-60degTilt5degRes" sampling scheme, you need to type that exactly for the code to work.
     """
     import fnmatch
+    import os
+    import pandas as pd
+    import numpy as np
+    import seaborn as sns
+    from matplotlib import pyplot as plt
     HW=str(hw)
 
     VF=.25
@@ -248,8 +253,8 @@ def PlotHeatmap(hw,PeakCombo,Scheme):
 
     #copy the HKL reflection indexes
     df2pair=DFA["HKL"]
-    df4pair=DFA["HKL"]
-    dfMaxUnique=DFA["HKL"]
+    #df4pair=DFA["HKL"]
+    #dfMaxUnique=DFA["HKL"]
     
 
     for AustOrient in AusteniteTextures:
@@ -273,9 +278,12 @@ def PlotHeatmap(hw,PeakCombo,Scheme):
             #print (DFA)
         
             # add minus VF for plotting
-            DF1=(VF*DFA["2Pairs"]/(VF*DFA["2Pairs"]+((1.0-VF)*DFF["2Pairs"])))#-VF
-            DF2=(VF*DFA["4Pairs"]/(VF*DFA["4Pairs"]+((1.0-VF)*DFF["4Pairs"])))#-VF
-            DF3=(VF*DFA["MaxUnique"]/(VF*DFA["MaxUnique"]+((1.0-VF)*DFF["MaxUnique"])))#-VF
+            #DF1=(VF*DFA["2Pairs-A"]/(VF*DFA["2Pairs-A"]+((1.0-VF)*DFF["2Pairs-A"])))#-VF
+            #DF2=(VF*DFA["4Pairs"]/(VF*DFA["4Pairs"]+((1.0-VF)*DFF["4Pairs"])))#-VF
+            #DF3=(VF*DFA["MaxUnique"]/(VF*DFA["MaxUnique"]+((1.0-VF)*DFF["MaxUnique"])))#-VF
+        
+            DF1=(VF*DFA[PeakCombo]/(VF*DFA[PeakCombo]+((1.0-VF)*DFF[PeakCombo])))#-VF
+            
         
             Fname=FerrOrient.split(".")
             Aname=AustOrient.split(".")
@@ -285,21 +293,22 @@ def PlotHeatmap(hw,PeakCombo,Scheme):
             
         
             data1 = pd.DataFrame({MixName: DF1})
-            data2 = pd.DataFrame({MixName: DF2})
-            data3 = pd.DataFrame({MixName: DF3})
+            #data2 = pd.DataFrame({MixName: DF2})
+            #data3 = pd.DataFrame({MixName: DF3})
         
             
         
             df2pair = pd.concat([df2pair, data1], axis=1)
-            df4pair = pd.concat([df4pair, data2], axis=1)
-            dfMaxUnique = pd.concat([dfMaxUnique, data3], axis=1)
-        
-    if(PeakCombo.lower()=='df2'):
-        data=df2pair
-    elif (PeakCombo.lower()=='df4'):
-        data=df4pair
-    else:
-        data=dfMaxUnique
+            #df4pair = pd.concat([df4pair, data2], axis=1)
+            #dfMaxUnique = pd.concat([dfMaxUnique, data3], axis=1)
+    
+    data=df2pair
+    #if(PeakCombo.lower()=='df2'):
+    #    data=df2pair
+    #elif (PeakCombo.lower()=='df4'):
+    #    data=df4pair
+    #else:
+    #    data=dfMaxUnique
     
     
     
@@ -361,21 +370,32 @@ def PlotHeatmap(hw,PeakCombo,Scheme):
     #labels.resize(len(yaxis),len(xaxis)) 
     #labels=pd.DataFrame(labels)
     df=pd.DataFrame({'Austenite Components': Aname, 'Ferrite Components': Fname, 'Phase Fraction': Values })
+    df_wide=df.pivot_table(index='Austenite Components', columns='Ferrite Components', values='Phase Fraction' )
+    
     df2=pd.DataFrame({'Austenite Components': Aname, 'Ferrite Components': Fname, 'Phase Fraction': labels })
     dw=df2.pivot( index='Austenite Components', columns='Ferrite Components', values='Phase Fraction' )
 
  
     # plotting
-    df_wide=df.pivot_table(index='Austenite Components', columns='Ferrite Components', values='Phase Fraction' )
-    color= sns.diverging_palette(359, 359, 99, l=0, sep=1, n=50, center='light', as_cmap=True)
+    
+
+    if cbarMap=='grey':
+        color= sns.diverging_palette(359, 359, 99, l=0, sep=1, n=50, center='light', as_cmap=True)
+    else:
+        color= sns.color_palette("coolwarm", 25)
     plt.figure(figsize = (13,7))
-    figure=sns.heatmap(df_wide,vmin=0.0, vmax=0.50, cmap=color,center=0.25,annot=True,linewidths=0.5,square=True,cbar_kws={"shrink": .80})
+    figure=sns.heatmap(df_wide, vmin=cbarRange[0], vmax=cbarRange[1], cmap=color, center=0.25, annot=True,linewidths=0.5,square=True,cbar_kws={"shrink": .80})
     #figure=sns.heatmap(df_wide,vmin=0.0, vmax=0.50, cmap=color,center=0.25,annot=dw, annot_kws={"size": 18},fmt='',linewidths=0.5,square=True,cbar_kws={"shrink": .80})
     plt.title("Halfwidth of "+HW+" , "+ Scheme+ " Sampling Scheme, "+ PeakCombo.upper()+ " Peak Combination" ,fontsize =18)
     bottom, top = figure.get_ylim()
     figure.set_ylim(bottom + 0.5, top - 0.5)
-    return figure
-  
+    
+    #return figure
+    if save==True:
+        plt.savefig(savename, bbox_inches='tight')
+
+    if cmd==False:
+        plt.show()
 
 
 

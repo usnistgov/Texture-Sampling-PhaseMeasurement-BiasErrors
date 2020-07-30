@@ -9,4 +9,5 @@ Matlab/MtexData/*.maa
 Matlab/ODFFigures/*.png
 *.pyc
 JupyterNotebooks/.ipynb_checkpoints/*.*
-
+JupyterNotebooks/AveragedIntensities-Sim/*.*
+JupyterNotebooks/AveragedIntensites-Exp/*.*
