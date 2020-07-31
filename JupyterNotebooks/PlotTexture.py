@@ -338,9 +338,9 @@ def PlotHeatmap(hw, PeakCombo,Scheme, Folder, cbarMap=False, cbarRange=[0,0.5], 
     Fname=[]
     Aname=[]
     for name in Fnames:
-        Fname.append(name[:-5])
+        Fname.append(name[:-6])
     for name in Anames:
-        Aname.append(name[:-5])
+        Aname.append(name[:-6])
     Ferrite=pd.DataFrame(data=Fname,columns=['Ferrite Component'])
     Austenite=pd.DataFrame(data=Aname,columns=['Austenite Component'])
     components=pd.concat([Ferrite,Austenite],axis=1)
