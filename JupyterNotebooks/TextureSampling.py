@@ -146,7 +146,7 @@ def xpcformat(mode=None, filename=None):
 #####################################
 # Calculate Intensity from Pole Figure Coordinates
 #####################################
-def pfIntensitySum(name, PoleFigures, Coordinates):
+def pfIntensitySum(name, PoleFigures, Coordinates, Weights=False):
 
     """
     Define function to take a pole figure (or series of pole figures) and series of coordinate pairs, returning an average intensity for all of the pole figures and coordinates
@@ -192,13 +192,23 @@ def pfIntensitySum(name, PoleFigures, Coordinates):
         ## For each coordinate:
         ## Read the value from the pole figure, append to new array
         #print Coordinates
-        for index, row in Coordinates.iterrows():
-            #print row['Tilt'], row['Rotation'], InterpPF.ev(row['Tilt'],row['Rotation'])
-            IntensityValues.append(InterpPF.ev(row['Tilt'],row['Rotation']))
-
+        
+        if Weights==True:
+            for index, row in Coordinates.iterrows():
+                #print row['Tilt'], row['Rotation'], InterpPF.ev(row['Tilt'],row['Rotation'])
+                IntensityValues.append(InterpPF.ev(row['Tilt'],row['Rotation'])*row['Weights'])
+        else:
+            for index, row in Coordinates.iterrows():
+                #print row['Tilt'], row['Rotation'], InterpPF.ev(row['Tilt'],row['Rotation'])
+                IntensityValues.append(InterpPF.ev(row['Tilt'],row['Rotation']))
+        
         #print IntensityValues
         #Factor of 100 is divided to convert from POPLA style format of 100 = 1 MRD/MUD
-        AverageIntensity.append(sum(IntensityValues)/(100*len(IntensityValues)))
+        if Weights==True:
+            AverageIntensity.append(sum(IntensityValues)/(100))
+            # Length of intensity values included in the weighting factor, so it doesn't need to be included here
+        else:
+            AverageIntensity.append(sum(IntensityValues)/(100*len(IntensityValues)))
 
     #print AverageIntensity
 
@@ -279,8 +289,12 @@ def GenerateAveIntesity(SchemesListDF, XPCFolder, SaveFolder):
                 # this is a workaround
                 DFsubset=SchemesListDF["Coordinates"][SchemesListDF["SchemeName"] == Scheme]
                 
-                # df.loc[df['column_name'] == some_value]
-                PfIS=pfIntensitySum(Scheme,pfs, DFsubset.iloc[0] )
+                if "Weight" in Scheme:
+                    PfIS=pfIntensitySum(Scheme,pfs, DFsubset.iloc[0], Weights=True)
+                    print("Weighting the sampling scheme")
+                else:
+                    # df.loc[df['column_name'] == some_value]
+                    PfIS=pfIntensitySum(Scheme,pfs, DFsubset.iloc[0] )
                 
                 # TO DO - fix what columns are read in
                 
@@ -1015,7 +1029,7 @@ def SingleOrientation(name, tilt, rotation):
 #######################################
 
 # Perpendicular to RD
-def RingRot(res,theta,omega_list,rotaxis): #add omega
+def RingRot(res,theta,omega_list,rotaxis, Weight=False): #add omega
     """
 
     res: Resolution about the rings
@@ -1029,7 +1043,10 @@ def RingRot(res,theta,omega_list,rotaxis): #add omega
     import pandas as pd
     import math
     
-    name="RotRing Axis-%s Res-%s Theta-%s " % (rotaxis, res,theta)
+    if Weight==True:
+        name="RotRing Axis-%s Res-%s Theta-%s Weighted" % (rotaxis, res,theta)
+    else:
+        name="RotRing Axis-%s Res-%s Theta-%s " % (rotaxis, res,theta)
     
     #name="Ring Perpendicular to ND"
     #print rotaxis
@@ -1059,7 +1076,10 @@ def RingRot(res,theta,omega_list,rotaxis): #add omega
                 (r,t)=cart2sphDeg(np.einsum('ij,j', RotateXMatrix(omega_step), sph2cartDeg(value,xaxis[i])))
                 
                 # Weight by:
-                # Area of a zone in a sphere
+                # Area of a zone in a sphere (also called spherical segment)
+                # Area of a zone = 2*pi*R*h.  h is the x1-x2 distance
+                # Area of sphere = 4*pi*r^2
+                # Area of zone normalized by unit sphere = 0.5*h (r=1)
                 
                 #check if close to pole
                 if (value!=0.0):
@@ -1067,7 +1087,7 @@ def RingRot(res,theta,omega_list,rotaxis): #add omega
                     x2,y,z=sph2cartDeg(value-res/2.0,xaxis[i])
                     weight=0.5*abs(x1-x2)
                 else:
-                    x1,y,z=sph2cartDeg(value,xaxis[i]) # the segment curves around
+                    x1,y,z=sph2cartDeg(value,xaxis[i]) # the segment curves around when close to the pole
                     x2,y,z=sph2cartDeg(value-res/2.0,xaxis[i])
                     weight=0.5*abs(x1-x2)
 
@@ -1138,6 +1158,14 @@ def RingRot(res,theta,omega_list,rotaxis): #add omega
             #weight_list.append(weight*np.sin(np.radians(t)))
         #print "Creating Data Frames"
         #print "Counter value",omega_counter
+        
+        # normalize weights by number of data points and weight values
+
+        weight_nparray=np.array(weight_list)
+        normfactor=sum(weight_nparray)*len(omega_list) #includes the number of points, need the number of rings
+        weight_nparray=weight_nparray/normfactor
+        weight_list=list(weight_nparray)
+        
         if omega_counter==0:
             # initialize dataframe
             #print "Intialize Data Frame at x=",omega_counter
