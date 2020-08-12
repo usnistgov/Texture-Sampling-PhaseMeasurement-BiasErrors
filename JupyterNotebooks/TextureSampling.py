@@ -1186,7 +1186,8 @@ def RingRot(res,theta,omega_list,rotaxis, Weight=False): #add omega
             d2DF=pd.DataFrame(d2)
             coordsDF=coordsDF.append(d2DF, ignore_index=True)
     
-
+    #normalization by number of points, needs to be all points since the ±90 rings are weighted differently
+    coordsDF['Weights']=coordsDF['Weights']/sum(coordsDF['Weights'])
         
         
         
