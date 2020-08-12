@@ -1139,13 +1139,7 @@ def RingRot(res,theta,omega_list,rotaxis, Weight=False): #add omega
             omega_step_list.append(omega_step)
             #print weight, np.sin(np.radians(t))
             
-            # Flag weight to reduce weigtht for +/- 90 omegas due to overlap in the +ND/-ND plane
-            if omega_step==90:
-                weight_list.append(weight/2.0)
-            elif omega_step==-90:
-                weight_list.append(weight/2.0)
-            else:
-                weight_list.append(weight)
+            weight_list.append(weight)
             
             # correct for duplicate points at ±90°
 #             if abs(omega_step)==90.0:
@@ -1161,11 +1155,24 @@ def RingRot(res,theta,omega_list,rotaxis, Weight=False): #add omega
         
         # normalize weights by number of data points and weight values
 
+        #print(weight_list)
+        # still inside a single ring, so just need number of points
         weight_nparray=np.array(weight_list)
-        normfactor=sum(weight_nparray)*len(omega_list) #includes the number of points, need the number of rings
+        normfactor=sum(weight_nparray)*len(omega_list) #includes the number of points
         weight_nparray=weight_nparray/normfactor
-        weight_list=list(weight_nparray)
         
+        # Flag weight to reduce weigtht for +/- 90 omegas due to overlap in the +ND/-ND plane
+        if omega_step==90:
+            weight_nparray=weight_nparray/2.0
+            #print("omega 90")
+        elif omega_step==-90:
+            weight_nparray=weight_nparray/2.0
+            #print("omega -90")
+        else:
+            pass
+        weight_list=list(weight_nparray)
+        #print(weight_list)
+
         if omega_counter==0:
             # initialize dataframe
             #print "Intialize Data Frame at x=",omega_counter
@@ -1178,7 +1185,8 @@ def RingRot(res,theta,omega_list,rotaxis, Weight=False): #add omega
                   'RotationIndex' : rotation_index,'Omega' : omega_step_list, 'Weights' : weight_list}
             d2DF=pd.DataFrame(d2)
             coordsDF=coordsDF.append(d2DF, ignore_index=True)
-        
+    
+
         
         
         
