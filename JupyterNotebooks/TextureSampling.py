@@ -144,6 +144,135 @@ def xpcformat(mode=None, filename=None):
 
 
 #####################################
+# Read in Polefigures in mtex format
+#####################################
+def mtexPFformat(filepath=None):
+    """
+    Read in pole figures exported from mtex using the 'export' command
+    Each pole figure is assigned Files are coll
+    
+    conventions:
+
+    Input Arguments
+    =========
+
+  
+    Output Arguments
+    =========
+    PFs
+    hkllist
+    """
+
+    import fortranformat as ff
+    import numpy as np
+    import pandas as pd
+    import math
+    import os
+    import glob
+    
+    print ('Pole Figure Parsing')
+    # read list of files, assumes they are saved as .txt and are the only files in directory
+    PFFilenamesList = glob.glob(os.path.join(filepath, '*.txt'))
+    
+    # dataset is a list of pandas dataframes
+    hkls=["HKL"]
+    datasets=[]
+    for PFFile in PFFilenamesList:
+        (head,tail)=os.path.split(PFFile)
+        print('You are now reading experimental pole figure(s): \n\t%s'%tail)
+        hkl_name=tail.split("(")[1].split(")")[0]
+        #print("HKL: ",hkl)
+
+        # mtex data is 3 columns: tilt, rotate, intensity
+        #CHECK - tilt convention
+
+        #pf data format is a pandas array with tilt and rotate as the indexes
+        
+        OriginalData=pd.read_csv(PFFile,sep='\s+',names=["Tilt", "Rotate","Intensity"])
+        #Convert to Ints
+        OriginalData["Tilt"]=OriginalData["Tilt"].astype(int)
+        OriginalData["Rotate"]=OriginalData["Rotate"].astype(int)
+        #print(OriginalData)
+        
+        MatrixData=OriginalData.pivot_table(index="Tilt", columns="Rotate", values="Intensity")
+        # replace the 0 tilt row with 180 row, since mtex keeps the rotation all at zero
+        MatrixData=MatrixData.fillna(value=MatrixData[0].iloc[0])
+        # add a 360 point for interpolation
+        MatrixData[360]=MatrixData[0]
+        
+        #print(MatrixData)
+        
+
+        
+#    blocks = open(filename, 'r').read().split('\n\n\n\n')[1:]
+#    #blocks = open(filename, 'rU').read().split('\n\n\n\n')[1:]   #changed, U mode deprecated
+#    print ('There are %s blocks of data found'%len(blocks))
+#    if len(blocks)==0:
+#        msg1 = 'xpc parser in upf assumes that pole figures are separated by 4 new lines'
+#        msg2 = ' searching %s finds no set of 4 new lines in '%filename
+#        msg  = '%s \n %s'%(msg1,msg2)
+#        raise IOError (msg)
+#        # blocks = parse_epf(filename)
+#    npf = len(blocks)
+#    if npf==0: raise IOError ('No pf block found.')
+#
+#    datasets = []; max_khi = []
+#    if  npf>1: hkls=["HKL"] ## multiple number of pole figures in a file
+#
+#    for part in blocks:
+#        line=part.split('\n')
+#        #print len(line)
+#
+#        structureline=ff.FortranRecordReader('(6f10.4,1x,i4,1x,i4)')
+#        [a,b,c,alpha,beta,gamma,crystalclass,something]=structureline.read(line[1])
+#        pfDefline=ff.FortranRecordReader('(1x,3i3,6f5.1,2i2)')
+#        [h,k,l,unknown1,tilt,tiltinc,unknown2,rotation,rotationinc,unknown3,unknown4]=pfDefline.read(line[2])
+#
+#        #for the rest of the lines, do the following
+#        dataline=ff.FortranRecordReader('(1x,18i4)')
+#
+#        # Pretty ugly code, but works...
+#        grouping=[[3,4,5,6],[7,8,9,10],[11,12,13,14],[15,16,17,18],[19,20,21,22],[23,24,25,26],
+#                  [27,28,29,30],[31,32,33,34],[35,36,37,38],[39,40,41,42],[43,44,45,46],[47,48,49,50],
+#                  [51,52,53,54],[55,56,57,58],[59,60,61,62],[63,64,65,66],[67,68,69,70],[71,72,73,74],
+#                 [75,76,77,78]]
+#
+#
+#        dataset=[]
+#        for item in grouping:
+#            #print item[0],item[1],item[2],item[3]
+#            parsed=dataline.read(line[item[0]])
+#            parsed.extend(dataline.read(line[item[1]]))
+#            parsed.extend(dataline.read(line[item[2]]))
+#            parsed.extend(dataline.read(line[item[3]]))
+#            dataset.append(parsed)
+#        #print dataset
+#
+#        #Saves as a Pandas dataframe, and maps the 360 degree phi data from the 0 degree phi data
+#        #row and column indexes are by degrees
+#
+#        # FIX - changed in new version of pandas
+#        df=pd.DataFrame(dataset, index=np.arange(0,91,5))
+#        df.columns=[np.arange(0,360,5)]
+#        df[360]=df.iloc[:,0]  #tried changing .loc to .iloc
+#
+#        # Save the hkl value
+        hkl = [hkl_name[0],hkl_name[1],hkl_name[2]] #hkl
+        #print hkl
+        hkls.append(hkl)
+#
+        datasets.append(MatrixData)
+#
+#    #print hkls
+#    print("number of pole figures:", len(datasets))
+
+    # return the same structure as the .xpc reader
+    return datasets, hkls
+
+
+
+
+#####################################
 # Calculate Intensity from Pole Figure Coordinates
 #####################################
 def pfIntensitySum(name, PoleFigures, Coordinates, Weights=False):
