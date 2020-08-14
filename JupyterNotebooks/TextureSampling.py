@@ -201,63 +201,11 @@ def mtexPFformat(filepath=None):
         MatrixData[360]=MatrixData[0]
         
         #print(MatrixData)
-        
+        #Adjust intensities for similarity to Beartex format
+        MatrixData=MatrixData*100
 
-        
-#    blocks = open(filename, 'r').read().split('\n\n\n\n')[1:]
-#    #blocks = open(filename, 'rU').read().split('\n\n\n\n')[1:]   #changed, U mode deprecated
-#    print ('There are %s blocks of data found'%len(blocks))
-#    if len(blocks)==0:
-#        msg1 = 'xpc parser in upf assumes that pole figures are separated by 4 new lines'
-#        msg2 = ' searching %s finds no set of 4 new lines in '%filename
-#        msg  = '%s \n %s'%(msg1,msg2)
-#        raise IOError (msg)
-#        # blocks = parse_epf(filename)
-#    npf = len(blocks)
-#    if npf==0: raise IOError ('No pf block found.')
-#
-#    datasets = []; max_khi = []
-#    if  npf>1: hkls=["HKL"] ## multiple number of pole figures in a file
-#
-#    for part in blocks:
-#        line=part.split('\n')
-#        #print len(line)
-#
-#        structureline=ff.FortranRecordReader('(6f10.4,1x,i4,1x,i4)')
-#        [a,b,c,alpha,beta,gamma,crystalclass,something]=structureline.read(line[1])
-#        pfDefline=ff.FortranRecordReader('(1x,3i3,6f5.1,2i2)')
-#        [h,k,l,unknown1,tilt,tiltinc,unknown2,rotation,rotationinc,unknown3,unknown4]=pfDefline.read(line[2])
-#
-#        #for the rest of the lines, do the following
-#        dataline=ff.FortranRecordReader('(1x,18i4)')
-#
-#        # Pretty ugly code, but works...
-#        grouping=[[3,4,5,6],[7,8,9,10],[11,12,13,14],[15,16,17,18],[19,20,21,22],[23,24,25,26],
-#                  [27,28,29,30],[31,32,33,34],[35,36,37,38],[39,40,41,42],[43,44,45,46],[47,48,49,50],
-#                  [51,52,53,54],[55,56,57,58],[59,60,61,62],[63,64,65,66],[67,68,69,70],[71,72,73,74],
-#                 [75,76,77,78]]
-#
-#
-#        dataset=[]
-#        for item in grouping:
-#            #print item[0],item[1],item[2],item[3]
-#            parsed=dataline.read(line[item[0]])
-#            parsed.extend(dataline.read(line[item[1]]))
-#            parsed.extend(dataline.read(line[item[2]]))
-#            parsed.extend(dataline.read(line[item[3]]))
-#            dataset.append(parsed)
-#        #print dataset
-#
-#        #Saves as a Pandas dataframe, and maps the 360 degree phi data from the 0 degree phi data
-#        #row and column indexes are by degrees
-#
-#        # FIX - changed in new version of pandas
-#        df=pd.DataFrame(dataset, index=np.arange(0,91,5))
-#        df.columns=[np.arange(0,360,5)]
-#        df[360]=df.iloc[:,0]  #tried changing .loc to .iloc
-#
 #        # Save the hkl value
-        hkl = [hkl_name[0],hkl_name[1],hkl_name[2]] #hkl
+        hkl = [int(hkl_name[0]),int(hkl_name[1]),int(hkl_name[2])] #hkl
         #print hkl
         hkls.append(hkl)
 #
@@ -345,7 +293,7 @@ def pfIntensitySum(name, PoleFigures, Coordinates, Weights=False):
     return AverageIntensity
 
 
-def GenerateAveIntesity(SchemesListDF, XPCFolder, SaveFolder):
+def GenerateAveIntesity(SchemesListDF, pftype, DataFolder, SaveFolder):
     """
     Generate average intensity based on pole figures and coordinates
 
@@ -353,6 +301,9 @@ def GenerateAveIntesity(SchemesListDF, XPCFolder, SaveFolder):
         Looks for the list of XPC files and calculates a table (.xlsx) for each
 
         SchemesList: Pandas dataframe of schemes
+        pftype: mtex (.txt) or Beartex (.xpc) format
+        DataFolder: Where is the data
+        SaveFolder: Where to save the .xlsx files
         
         TO ADD - list of peak combinations, citations
         
@@ -362,6 +313,7 @@ def GenerateAveIntesity(SchemesListDF, XPCFolder, SaveFolder):
     import os
     import pandas as pd
     import numpy as np
+    import glob
     #SchemeName,Coordinates=
 
     # Get the current working directory path
@@ -379,170 +331,228 @@ def GenerateAveIntesity(SchemesListDF, XPCFolder, SaveFolder):
         
     os.chdir(SaveFolder)
 
+    # XPC files have all the pole figures in single files
 
-    for file in os.listdir(XPCFolder):
-        print (file)
-        if file.endswith(".xpc"):
-            XPCfile=(os.path.join(XPCFolder, file))
-            
-            #
-            if "-" in file:
-                orientation, hw=file.split('-')
+    #for file in os.listdir(DataFolder):
+    for file in glob.glob(os.path.join(DataFolder, '*')):
+        print("File from listdir: ",file)
+        print("pftype: ", pftype)
+        if pftype=="xpc":
+            if file.endswith(".xpc"):
+                XPCfile=(os.path.join(DataFolder, file))
+                (head,tail)=os.path.split(file)
+                #Split for HW
+                if "-" in tail:
+                    orientation, hw=tail.split('-')
+                else:
+                    orientation, ext=tail.split('.')
+                    
+                PhaseType= orientation[-1:]
+                
+                #for XPCfile in listoffiles:
+                (pfs,hkllist)=xpcformat('xpc',XPCfile)
+
+        # Mtex files have all the pole figures as separate files
+        elif pftype=="mtex":
+            MtexFolder=(os.path.join(DataFolder, file))
+            (head,tail)=os.path.split(MtexFolder)
+            print("Mtex data from: ",tail)
+            # Look into sub directory
+            if "-" in tail:
+                orientation, hw=tail.split('-')
             else:
-                orientation, ext=file.split('.')
+                orientation, ext=tail.split('.')
                 
             PhaseType= orientation[-1:]
+            
+            #for XPCfile in listoffiles:
+            (pfs,hkllist)=mtexPFformat(MtexFolder)
+                
+        else:
+            print("Not a suppored type")
 
-
-        #for XPCfile in listoffiles:
-
-            (pfs,hkllist)=xpcformat('xpc',XPCfile)
 
             #create subsets for phase fractions
 
-            hkllist.append('2Pairs-A')
-            hkllist.append('2Pairs-B')
-            hkllist.append('3Pairs-A')
-            hkllist.append('3Pairs-B')
-            hkllist.append('3Pairs-C')
-            hkllist.append('4Pairs')
-            hkllist.append('5A4F')
-            hkllist.append('MaxUnique')
+        hkllist.append('2Pairs-A')
+        hkllist.append('2Pairs-B')
+        hkllist.append('3Pairs-A')
+        hkllist.append('3Pairs-B')
+        hkllist.append('3Pairs-C')
+        hkllist.append('4Pairs')
+        hkllist.append('5A4F')
+        hkllist.append('MaxUnique')
 
-            OutputList=[hkllist]
-            #print(OutputList)
-            for Scheme in SchemesListDF["SchemeName"]:
-                #print(Scheme)
-                
-                #referencing a dataframe in a dataframe seems difficult in pandas.
-                # this is a workaround
-                DFsubset=SchemesListDF["Coordinates"][SchemesListDF["SchemeName"] == Scheme]
-                
-                if "Weight" in Scheme:
-                    PfIS=pfIntensitySum(Scheme,pfs, DFsubset.iloc[0], Weights=True)
-                    print("Weighting the sampling scheme")
-                else:
-                    # df.loc[df['column_name'] == some_value]
-                    PfIS=pfIntensitySum(Scheme,pfs, DFsubset.iloc[0] )
-                
-                # TO DO - fix what columns are read in
-                
-                #####################
-                
-                # 2 Pairs A:  Austenite (200), (220);Ferrite (200), (211)
-                # Used in JAC paper, matches ASTM E975 with Chromium radiation, Jacques 2009 Round Robin (XRD3)
-                if PhaseType=="A":
-                    PfIS.append(np.mean([PfIS[2],PfIS[3]]))
-                elif PhaseType=="F":
-                    PfIS.append(np.mean([PfIS[2],PfIS[3]]))
-                else:
-                    print ("Unrecognized Phase")
-                
-                # 2 Pairs B:  Austenite (220), (311);Ferrite (200), (211)
-                # Jacques 2009 Round Robin (XRD5)
-                if PhaseType=="A":
-                    PfIS.append(np.mean([PfIS[2],PfIS[4]]))
-                elif PhaseType=="F":
-                    PfIS.append(np.mean([PfIS[2],PfIS[3]]))
-                else:
-                    print ("Unrecognized Phase")
-                    
-                #####################
-
-                # 3 Pairs A:  Austenite (200), (220), (222); Ferrite (200), (211), (310)
-                # Used in DXC 2020 presentation
-                if PhaseType=="A":
-                    PfIS.append(np.mean([PfIS[2],PfIS[3],PfIS[5]]))
-                elif PhaseType=="F":
-                    PfIS.append(np.mean([PfIS[2],PfIS[3],PfIS[5]]))
-                else:
-                    print ("Unrecognized Phase")
-                
-                # 3 Pairs B:  Austenite (200), (220), (311); Ferrite (200), (211), (220)
-                # Skip A111/F110 and A222 (weak peak)
-                if PhaseType=="A":
-                    PfIS.append(np.mean([PfIS[2],PfIS[3],PfIS[4]]))
-                elif PhaseType=="F":
-                    PfIS.append(np.mean([PfIS[2],PfIS[3],PfIS[4]]))
-                    #used to include 4, exclude 5, but that is incorrect
-                else:
-                    print ("Unrecognized Phase")
-
-                # 3 Pairs C:   Austenite (111), (200), (220); Ferrite (110), (200), (211)
-                # Jacques 2009 Round Robin (XRD2)
-                if PhaseType=="A":
-                    PfIS.append(np.mean([PfIS[1],PfIS[2],PfIS[3]]))
-                elif PhaseType=="F":
-                    PfIS.append(np.mean([PfIS[1],PfIS[2],PfIS[3]]))
-                    #used to include 4, exclude 5, but that is incorrect
-                else:
-                    print ("Unrecognized Phase")
-
-                #####################
-
-                # 4 Pairs A:  Austenite (111), (200), (220), (311); Ferrite (110), (200), (211), (220)
-                # Used in JAC paper, Jacques 2009 Round Robin (XRD1 and XRD 4)
-                if PhaseType=="A":
-                    PfIS.append(np.mean([PfIS[1],PfIS[2],PfIS[3],PfIS[4]]))
-                elif PhaseType=="F":
-                    PfIS.append(np.mean([PfIS[1],PfIS[2],PfIS[3],PfIS[4]]))
-                    #used to include 4, exclude 5, but that is incorrect
-                else:
-                    print ("Unrecognized Phase")
-                #####################
-
-                # 5A4F Pairs:  Austenite (111), (200), (220), (311), (222); Ferrite (110), (200), (211), (220)
-                # Jacques 2009 Round Robin (XRD6)
-                if PhaseType=="A":
-                    PfIS.append(np.mean([PfIS[1],PfIS[2],PfIS[3],PfIS[4],PfIS[5]]))
-                elif PhaseType=="F":
-                    PfIS.append(np.mean([PfIS[1],PfIS[2],PfIS[3],PfIS[4]]))
-                    #used to include 4, exclude 5, but that is incorrect
-                else:
-                    print ("Unrecognized Phase")
-
-                ####################
-
-                # Max unique
-                # used in JAC paper
-                if PhaseType=="A":
-                    PfIS.append(np.mean([PfIS[1],PfIS[2],PfIS[3],PfIS[4],PfIS[7],PfIS[8],PfIS[9],PfIS[10]]))
-                elif PhaseType=="F":
-                    PfIS.append(np.mean([PfIS[1],PfIS[2],PfIS[3],PfIS[5],PfIS[6],PfIS[7]]))
-                    #used to include 4, exclude 5, but that is incorrect
-                else:
-                    print ("Unrecognized Phase")
-
-                OutputList.append(PfIS)
-
-                #print q,SchemeName
-                #print "List of average pole Figure Intensities:\n", PfIS
-                #print "Average of all pole figures listed: ", sum(PfIS)/len(PfIS)
-                #print ""
-
-                #np.mean()
-            #print (XPCfile.rsplit('/',1))
+        OutputList=[hkllist]
+        #print(OutputList)
+        for Scheme in SchemesListDF["SchemeName"]:
+            #print(Scheme)
             
-            #check robustness on other systems
+            #referencing a dataframe in a dataframe seems difficult in pandas.
+            # this is a workaround
+            DFsubset=SchemesListDF["Coordinates"][SchemesListDF["SchemeName"] == Scheme]
+            
+            if "Weight" in Scheme:
+                PfIS=pfIntensitySum(Scheme,pfs, DFsubset.iloc[0], Weights=True)
+                print("Weighting the sampling scheme")
+            else:
+                # df.loc[df['column_name'] == some_value]
+                PfIS=pfIntensitySum(Scheme,pfs, DFsubset.iloc[0] )
+            
+            # TO DO - fix what columns are read in
+            
+            # need to check order of hkl and adjust
+            # Glob order is kind of random when returning a file list...
+
+            if PhaseType=="A":
+                #Austenite Reflections
+                #[4, 2, 0]	[4, 0, 0]	[2, 0, 0]	[2, 2, 0]	[3, 3, 3]	[1, 1, 1]	[2, 2, 2]	[3, 3, 1]	[3, 1, 1]	[4, 2, 2]	[5, 1, 1]
+                Aindex420=hkllist.index([4, 2, 0])
+                Aindex400=hkllist.index([4, 0, 0])
+                Aindex200=hkllist.index([2, 0, 0])
+                Aindex220=hkllist.index([2, 2, 0])
+                Aindex333=hkllist.index([3, 3, 3])
+                Aindex111=hkllist.index([1, 1, 1])
+                Aindex222=hkllist.index([2, 2, 2])
+                Aindex331=hkllist.index([3, 3, 1])
+                Aindex311=hkllist.index([3, 1, 1])
+                Aindex422=hkllist.index([4, 2, 2])
+                Aindex511=hkllist.index([5, 1, 1])
+            elif PhaseType=="F" or "M":
+                #Ferrite/Martensite Reflections
+                #[2, 1, 1]	[4, 0, 0]	[2, 0, 0]	[1, 1, 0]	[2, 2, 2]	[3, 1, 0]	[3, 2, 1] [2, 0, 0]
+                Mindex211=hkllist.index([2, 1, 1])
+                Mindex400=hkllist.index([4, 0, 0])
+                Mindex200=hkllist.index([2, 0, 0])
+                Mindex110=hkllist.index([1, 1, 0])
+                Mindex220=hkllist.index([2, 2, 0])
+                Mindex222=hkllist.index([2, 2, 2])
+                Mindex310=hkllist.index([3, 1, 0])
+                Mindex321=hkllist.index([3, 2, 1])
+            else:
+                print ("Unrecognized Phase")
+            #####################
+            
+            # 2 Pairs A:  Austenite (200), (220);Ferrite (200), (211)
+            # Used in JAC paper, matches ASTM E975 with Chromium radiation, Jacques 2009 Round Robin (XRD3)
+            if PhaseType=="A":
+                PfIS.append(np.mean([PfIS[Aindex200],PfIS[Aindex220]]))
+            elif PhaseType=="F" or "M":
+                PfIS.append(np.mean([PfIS[Mindex200],PfIS[Mindex211]]))
+            else:
+                print ("Unrecognized Phase")
+            
+            # 2 Pairs B:  Austenite (220), (311);Ferrite (200), (211)
+            # Jacques 2009 Round Robin (XRD5)
+            if PhaseType=="A":
+                PfIS.append(np.mean([PfIS[Aindex220],PfIS[Aindex311]]))
+            elif PhaseType=="F" or "M":
+                PfIS.append(np.mean([PfIS[Mindex200],PfIS[Mindex211]]))
+            else:
+                print ("Unrecognized Phase")
+                
+            #####################
+
+            # 3 Pairs A:  Austenite (200), (220), (222); Ferrite (200), (211), (310)
+            # Used in DXC 2020 presentation
+            if PhaseType=="A":
+                PfIS.append(np.mean([PfIS[Aindex200],PfIS[Aindex220],PfIS[Aindex222]]))
+            elif PhaseType=="F" or "M":
+                PfIS.append(np.mean([PfIS[Mindex200],PfIS[Mindex211],PfIS[Mindex310]]))
+            else:
+                print ("Unrecognized Phase")
+            
+            # 3 Pairs B:  Austenite (200), (220), (311); Ferrite (200), (211), (220)
+            # Skip A111/F110 and A222 (weak peak)
+            if PhaseType=="A":
+                PfIS.append(np.mean([PfIS[Aindex200],PfIS[Aindex220],PfIS[Aindex311]]))
+            elif PhaseType=="F" or "M":
+                PfIS.append(np.mean([PfIS[Mindex200],PfIS[Mindex211],PfIS[Mindex220]]))
+                #used to include 4, exclude 5, but that is incorrect
+            else:
+                print ("Unrecognized Phase")
+
+            # 3 Pairs C:   Austenite (111), (200), (220); Ferrite (110), (200), (211)
+            # Jacques 2009 Round Robin (XRD2)
+            if PhaseType=="A":
+                PfIS.append(np.mean([PfIS[Aindex111],PfIS[Aindex200],PfIS[Aindex220]]))
+            elif PhaseType=="F" or "M":
+                PfIS.append(np.mean([PfIS[Mindex110],PfIS[Mindex200],PfIS[Mindex211]]))
+                #used to include 4, exclude 5, but that is incorrect
+            else:
+                print ("Unrecognized Phase")
+
+            #####################
+
+            # 4 Pairs A:  Austenite (111), (200), (220), (311); Ferrite (110), (200), (211), (220)
+            # Used in JAC paper, Jacques 2009 Round Robin (XRD1 and XRD 4)
+            if PhaseType=="A":
+                PfIS.append(np.mean([PfIS[Aindex111],PfIS[Aindex200],PfIS[Aindex220],PfIS[Aindex311]]))
+            elif PhaseType=="F" or "M":
+                PfIS.append(np.mean([PfIS[Mindex110],PfIS[Mindex200],PfIS[Mindex211],PfIS[Mindex220]]))
+                #used to include 4, exclude 5, but that is incorrect
+            else:
+                print ("Unrecognized Phase")
+            #####################
+
+            # 5A4F Pairs:  Austenite (111), (200), (220), (311), (222); Ferrite (110), (200), (211), (220)
+            # Jacques 2009 Round Robin (XRD6)
+            if PhaseType=="A":
+                PfIS.append(np.mean([PfIS[Aindex111],PfIS[Aindex200],PfIS[Aindex220],PfIS[Aindex311],PfIS[Aindex222]]))
+            elif PhaseType=="F" or "M":
+                PfIS.append(np.mean([PfIS[Mindex110],PfIS[Mindex200],PfIS[Mindex211],PfIS[Mindex220]]))
+                #used to include 4, exclude 5, but that is incorrect
+            else:
+                print ("Unrecognized Phase")
+
+            ####################
+
+            # Max unique
+            # used in JAC paper
+            if PhaseType=="A":
+                PfIS.append(np.mean([PfIS[Aindex111],PfIS[Aindex200],PfIS[Aindex220],PfIS[Aindex311],PfIS[Aindex331],PfIS[Aindex420],PfIS[Aindex422],PfIS[Aindex511]]))
+            elif PhaseType=="F" or "M":
+                PfIS.append(np.mean([PfIS[Mindex110],PfIS[Mindex200],PfIS[Mindex211],PfIS[Mindex310],PfIS[Mindex222],PfIS[Mindex321]]))
+                #used to include 4, exclude 5, but that is incorrect
+            else:
+                print ("Unrecognized Phase")
+
+            OutputList.append(PfIS)
+
+            #print q,SchemeName
+            #print "List of average pole Figure Intensities:\n", PfIS
+            #print "Average of all pole figures listed: ", sum(PfIS)/len(PfIS)
+            #print ""
+
+            #np.mean()
+        #print (XPCfile.rsplit('/',1))
+        
+        if pftype=="xpc":
+        #check robustness on other systems
             if os.name=='posix':
                 directory, outfile=XPCfile.rsplit('/', 1)  #use this version for MAC
             else:
                 directory, outfile=XPCfile.rsplit('\\', 1)  #use this version for Windows
             print (outfile)
-            # Output the XPC file name, not sure why it's needed?
-            #OutputList.append([XPCfile])
-            IntensitiesDF=pd.DataFrame(OutputList)
-            IntensitiesDF
+        elif pftype=="mtex":
+            (head,tail)=os.path.split(MtexFolder)
+            if os.name=='posix':
+                directory, outfile=MtexFolder.rsplit('/', 1)  #use this version for MAC
+            else:
+                directory, outfile=MtexFolder.rsplit('\\', 1)  #use this version for Windows
+            print (outfile)
+        # Output the XPC file name, not sure why it's needed?
+        #OutputList.append([XPCfile])
+        IntensitiesDF=pd.DataFrame(OutputList)
+        IntensitiesDF
 
-            # save to excel
+        # save to excel
 
-            s=""
+        s=""
 
-            writer = pd.ExcelWriter(s.join([outfile.split('.')[0], ".xlsx"]))
-            IntensitiesDF.to_excel(writer,outfile)
-            writer.save()
-        else:
-            print ("Not an .xpc file")
+        writer = pd.ExcelWriter(s.join([outfile.split('.')[0], ".xlsx"]))
+        IntensitiesDF.to_excel(writer,outfile)
+        writer.save()
     os.chdir("..")
 
 
