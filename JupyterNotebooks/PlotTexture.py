@@ -104,7 +104,7 @@ def SimpleTestPlot(Name, Coordinates, save=False,cmd=False,savename='test.png'):
 #####################################
 # Plot a single sampling scheme
 #####################################
-def SingleSchemePlot(Name, Coordinates, Marker, MarkerSize, save=False, cmd=False, savename='test.png'):
+def SingleSchemePlot(Name, Coordinates, Marker, MarkerSize,RD=True, save=False, cmd=False, savename='test.png'):
     """
     Test plot to work out conventions
     """
@@ -116,12 +116,18 @@ def SingleSchemePlot(Name, Coordinates, Marker, MarkerSize, save=False, cmd=Fals
 
 
     #key
-    ax1 = fig.add_subplot(111, projection='stereonet')
-    ax1.set_azimuth_ticks([0,90], labels=['RD','-- TD'],fontsize=14)
-    ax1.plane(0.0, 90.0, 'k-', linewidth=1)
-    ax1.plane(90.0, 90.0, 'k-', linewidth=1)
-    ax1.annotate('ND', xy=(0, 0), xytext=(0.1,0.1), fontsize=14)
-        
+    if RD==True:
+        ax1 = fig.add_subplot(111, projection='stereonet')
+        ax1.set_azimuth_ticks([0,90], labels=['RD','-- TD'],fontsize=14)
+        ax1.plane(0.0, 90.0, 'k-', linewidth=1)
+        ax1.plane(90.0, 90.0, 'k-', linewidth=1)
+        ax1.annotate('ND', xy=(0, 0), xytext=(0.1,0.1), fontsize=14)
+    else:
+        ax1 = fig.add_subplot(111, projection='stereonet')
+        ax1.set_azimuth_ticks([0,90], labels=['X','-- Y'],fontsize=14)
+        ax1.plane(0.0, 90.0, 'k-', linewidth=1)
+        ax1.plane(90.0, 90.0, 'k-', linewidth=1)
+        ax1.annotate('Z', xy=(0, 0), xytext=(0.1,0.1), fontsize=14)
     
     #SingleOrientation - Name, Tilt, Rotation
     #SchemeName,Coordinates=SingleOrientation("RD Single", 90.0,180.0)
@@ -198,7 +204,7 @@ def DensityContourPlot(Name, Coordinates, Weights=False, save=False, cmd=False, 
 ###################################
 # Texture Component Heatmap
 ###################################
-def PlotHeatmap(hw, PeakCombo,Scheme, Folder, cbarMap=False, cbarRange=[0,0.5], save=False, cmd=False, savename='test.png'):
+def PlotHeatmap(hw, PeakCombo,Scheme, Folder, VF=0.25, cbarMap=False, cbarRange=[0,0.5], save=False, cmd=False, savename='test.png'):
     """
     A method that accepts a desired HalfWidth value, Peak Combination, and a specific Sampling Scheme, and outputs a heatmap of the 
     resulting Austenite Phase Fraction Values. In order for the function to work as intended, please make sure you note the format 
@@ -227,9 +233,6 @@ def PlotHeatmap(hw, PeakCombo,Scheme, Folder, cbarMap=False, cbarRange=[0,0.5], 
     import seaborn as sns
     from matplotlib import pyplot as plt
     HW=str(hw)
-
-    VF=.25
-
 
     
     AusteniteTextures=[]
@@ -384,7 +387,7 @@ def PlotHeatmap(hw, PeakCombo,Scheme, Folder, cbarMap=False, cbarRange=[0,0.5], 
     else:
         color= sns.color_palette("coolwarm", 25)
     plt.figure(figsize = (13,7))
-    figure=sns.heatmap(df_wide, vmin=cbarRange[0], vmax=cbarRange[1], cmap=color, center=0.25, annot=True,linewidths=0.5,square=True,cbar_kws={"shrink": .80})
+    figure=sns.heatmap(df_wide, vmin=cbarRange[0], vmax=cbarRange[1], cmap=color, center=VF, annot=True, fmt="3.3f", linewidths=0.5,square=True,cbar_kws={"shrink": .80})
     #figure=sns.heatmap(df_wide,vmin=0.0, vmax=0.50, cmap=color,center=0.25,annot=dw, annot_kws={"size": 18},fmt='',linewidths=0.5,square=True,cbar_kws={"shrink": .80})
     plt.title("Halfwidth of "+HW+" , "+ Scheme+ " Sampling Scheme, "+ PeakCombo.upper()+ " Peak Combination" ,fontsize =18)
     bottom, top = figure.get_ylim()

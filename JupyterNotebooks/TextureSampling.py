@@ -373,7 +373,7 @@ def GenerateAveIntesity(SchemesListDF, pftype, DataFolder, SaveFolder):
 
 
             #create subsets for phase fractions
-
+        hkllist.append('1Pair-A')
         hkllist.append('2Pairs-A')
         hkllist.append('2Pairs-B')
         hkllist.append('3Pairs-A')
@@ -432,7 +432,15 @@ def GenerateAveIntesity(SchemesListDF, pftype, DataFolder, SaveFolder):
             else:
                 print ("Unrecognized Phase")
             #####################
-            
+            # 1 Pair A:  Austenite (111);Ferrite (110)
+            # Used in Chess data https://doi.org/10.1016/j.msea.2019.05.017
+            if PhaseType=="A":
+                PfIS.append(PfIS[Aindex111])
+            elif PhaseType=="F" or "M":
+                PfIS.append(PfIS[Mindex110])
+            else:
+                print ("Unrecognized Phase")
+                
             # 2 Pairs A:  Austenite (200), (220);Ferrite (200), (211)
             # Used in JAC paper, matches ASTM E975 with Chromium radiation, Jacques 2009 Round Robin (XRD3)
             if PhaseType=="A":
@@ -1183,9 +1191,9 @@ def RingRot(res,theta,omega_list,rotaxis, Weight=False): #add omega
     import math
     
     if Weight==True:
-        name="RotRing Axis-%s Res-%s Theta-%s Weighted" % (rotaxis, res,theta)
+        name="RotRing Axis-%s Res-%s Theta-%s OmegaMax-%s Weighted" % (rotaxis, res,theta,max(omega_list))
     else:
-        name="RotRing Axis-%s Res-%s Theta-%s " % (rotaxis, res,theta)
+        name="RotRing Axis-%s Res-%s Theta-%s OmegaMax-%s" % (rotaxis, res,theta,max(omega_list))
     
     #name="Ring Perpendicular to ND"
     #print rotaxis
