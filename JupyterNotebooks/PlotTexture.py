@@ -104,7 +104,7 @@ def SimpleTestPlot(Name, Coordinates, save=False,cmd=False,savename='test.png'):
 #####################################
 # Plot a single sampling scheme
 #####################################
-def SingleSchemePlot(Name, Coordinates, Marker, MarkerSize,RD=True, save=False, cmd=False, savename='test.png'):
+def SingleSchemePlot(Name, Coordinates, Marker, MarkerSize,RD=True,RDup=True,  save=False, cmd=False,savename='test.png'):
     """
     Test plot to work out conventions
     """
@@ -116,19 +116,35 @@ def SingleSchemePlot(Name, Coordinates, Marker, MarkerSize,RD=True, save=False, 
 
 
     #key
-    if RD==True:
-        ax1 = fig.add_subplot(111, projection='stereonet')
-        ax1.set_azimuth_ticks([0,90], labels=['RD','-- TD'],fontsize=14)
-        ax1.plane(0.0, 90.0, 'k-', linewidth=1)
-        ax1.plane(90.0, 90.0, 'k-', linewidth=1)
-        ax1.annotate('ND', xy=(0, 0), xytext=(0.1,0.1), fontsize=14)
+    if RDup==True:
+        if RD==True:
+            ax1 = fig.add_subplot(111, projection='stereonet')
+            ax1.set_azimuth_ticks([0,90], labels=['RD','-- TD'],fontsize=14)
+            ax1.plane(0.0, 90.0, 'k-', linewidth=1)
+            ax1.plane(90.0, 90.0, 'k-', linewidth=1)
+            ax1.annotate('ND', xy=(0, 0), xytext=(0.1,0.1), fontsize=14)
+        else:
+            ax1 = fig.add_subplot(111, projection='stereonet')
+            ax1.set_azimuth_ticks([0,90], labels=['X','-- Y'],fontsize=14)
+            ax1.plane(0.0, 90.0, 'k-', linewidth=1)
+            ax1.plane(90.0, 90.0, 'k-', linewidth=1)
+            ax1.annotate('Z', xy=(0, 0), xytext=(0.1,0.1), fontsize=14)
     else:
-        ax1 = fig.add_subplot(111, projection='stereonet')
-        ax1.set_azimuth_ticks([0,90], labels=['X','-- Y'],fontsize=14)
-        ax1.plane(0.0, 90.0, 'k-', linewidth=1)
-        ax1.plane(90.0, 90.0, 'k-', linewidth=1)
-        ax1.annotate('Z', xy=(0, 0), xytext=(0.1,0.1), fontsize=14)
-    
+        if RD==True:
+            ax1 = fig.add_subplot(111, projection='stereonet')
+            ax1.set_azimuth_ticks([0,270], labels=['RD','TD'],fontsize=14)
+            ax1.plane(0.0, 90.0, 'k-', linewidth=1)
+            ax1.plane(90.0, 90.0, 'k-', linewidth=1)
+            ax1.annotate('ND', xy=(0, 0), xytext=(0.1,0.1), fontsize=14)
+            ax1.rotation=-90
+            
+        else:
+            ax1 = fig.add_subplot(111, projection='stereonet')
+            ax1.set_azimuth_ticks([0,270], labels=['X','Y'],fontsize=14)
+            ax1.plane(0.0, 90.0, 'k-', linewidth=1)
+            ax1.plane(90.0, 90.0, 'k-', linewidth=1)
+            ax1.annotate('Z', xy=(0, 0), xytext=(0.1,0.1), fontsize=14)
+            ax1.rotation=-90
     #SingleOrientation - Name, Tilt, Rotation
     #SchemeName,Coordinates=SingleOrientation("RD Single", 90.0,180.0)
     #SchemeName,Coordinates=SingleOrientation("TD Single", 90.0,270.0)
@@ -149,7 +165,7 @@ def SingleSchemePlot(Name, Coordinates, Marker, MarkerSize,RD=True, save=False, 
 #####################################
 # Plot a Filled Contour with Density of points
 #####################################
-def DensityContourPlot(Name, Coordinates, Weights=False, save=False, cmd=False, savename='test.png'):
+def DensityContourPlot(Name, Coordinates,RDup=True, Weights=False, save=False, cmd=False, savename='test.png'):
     """
     Uses the density_contourf function of mplstereonet to display how a particular scheme over- or under-samples locations on the pole figure.
     mplstereonet has a hardcoded 1° sampling spacing, the resulting plot may look a little noisy.
@@ -177,10 +193,18 @@ def DensityContourPlot(Name, Coordinates, Weights=False, save=False, cmd=False, 
              
     newcmp2 = ListedColormap(newcolors2)
 
-    ax09 = fig.add_subplot(111, projection='stereonet')
-    # FIX location
-    #ax09.set_azimuth_ticks([0,90], labels=['RD','TD'],fontsize=14)
-    ax09.set_azimuth_ticks([90,0], labels=['',''])
+
+    if RDup==True:
+        ax09 = fig.add_subplot(111, projection='stereonet')
+        # FIX location
+        #ax09.set_azimuth_ticks([0,90], labels=['RD','TD'],fontsize=14)
+        ax09.set_azimuth_ticks([90,0], labels=['',''])
+    else:
+        ax09 = fig.add_subplot(111, projection='stereonet')
+        # FIX location
+        #ax09.set_azimuth_ticks([0,90], labels=['RD','TD'],fontsize=14)
+        ax09.set_azimuth_ticks([90,0], labels=['',''])
+        ax09.rotation=-90
     dip, strike =Coordinates['Tilt'], (Coordinates['Rotation']-90.0)
     
     #Gridsize option? gridsize=500,
