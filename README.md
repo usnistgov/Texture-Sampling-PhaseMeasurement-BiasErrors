@@ -1,11 +1,11 @@
-
 # Readme.md
 
-This file (README.md) describes the data set "Data Set: Assessment of Bias Errors Caused by Texture and Sampling Methods in Diffraction-Based Steel Phase Measurements". While readable as a plain text, this file uses Markdown formatting.
+This file (README.md) describes the data publication "Data Publication: Refinements in Phase Fraction Determination of Textured Alloys from Transmission Diffraction Data". While readable as a plain text, this file uses Markdown formatting.
 
 Part of the reason to share and document this dataset is to facilitate reuse and expansion, as well as making research more reproducible. Some ideas for expansion include investigating alternate sampling schemes, checking the robustness of the technique with other textures, optimization of sampling schemes, and/or estimation of bias error for a known texture and sampling method.
 
 Questions regarding this data set may be directed to Adam Creuziger (adam.creuziger@nist.gov)
+
 
 ## Sections
 - How to Cite
@@ -17,22 +17,28 @@ Questions regarding this data set may be directed to Adam Creuziger (adam.creuzi
 - Miscellaneous Comments
 
 ## Creation Date and Key Updates
-Date | Description
---- | ---
-2018 Apr 21 | Posted on GitHub
-2020 July | Moved JupyterNotebooks to modules, updated to python 3.7 from 2.7
+Date | Author | Description
+--- | --- | ---
+2018 Apr 21 | Adam Creuziger | Posted on GitHub
+2020 July | Adam Creuziger | Moved JupyterNotebooks to modules, updated to python 3.7 from 2.7
+2020 Dec | Adam Creuziger | Collected as companion data to "Refinements in Phase Fraction Determination of Textured Alloys from Transmission Diffraction Data"
 
 # How to Cite
 
 ## The data set contents should be cited as:
 
-A. Creuziger, C. Calhoun, W. Poling, T. Gnaupel-Herold, "Data Set: Assessment of Bias Errors Caused by Texture and Sampling Methods in Diffraction-Based Steel Phase Measurements", https://github.com/usnistgov/Texture-Sampling-PhaseMeasurement-BiasErrors
+
 
 ## This data set is a companion to the following technical paper:
 
-A. Creuziger, C. Calhoun, W. Poling, T. Gnaupel-Herold "Assessment of Bias Errors Caused by Texture and Sampling Methods in Diffraction-Based Steel Phase Measurements" (2018) Journal of Applied Crystallography, 51, p720-731. DOI: https://doi.org/10.1107/S160057671800420X
 
 The technical paper describes the motivation and background for this data set, as well as analysis and key insights that were made from this data set.
+
+## Related work
+
+This work builds upon A. Creuziger, C. Calhoun, W. Poling, T. Gnaupel-Herold "Assessment of Bias Errors Caused by Texture and Sampling Methods in Diffraction-Based Steel Phase Measurements" (2018) Journal of Applied Crystallography, 51, p720-731. DOI: https://doi.org/10.1107/S160057671800420X
+
+A. Creuziger, C. Calhoun, W. Poling, T. Gnaupel-Herold, "Data Set: Assessment of Bias Errors Caused by Texture and Sampling Methods in Diffraction-Based Steel Phase Measurements", https://github.com/usnistgov/Texture-Sampling-PhaseMeasurement-BiasErrors
 
 ## Citation Guidance
 
@@ -60,7 +66,7 @@ JupyterNotebooks/ | Directory containing Jupyter notebooks, and associated input
 Matlab/ | Directory containing Matlab scripts, and associated input and output files.
 MAUD/ | Directory containing MAUD parameter files, and associated input and output files.
 
-## Workflow.pdf diagram notes
+## Workflow.pdf diagram notes (entity-relationship model)
 
 - In the Workflow.pdf diagram, the scripts listed are generally stored in the directory of the program that calls them. The .svg files were created in the program *Inkscape*, which does not have a separate directory.  These .svg files are stored with the image files used to generate the composite figure.
 
