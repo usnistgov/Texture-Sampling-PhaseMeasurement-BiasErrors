@@ -228,7 +228,7 @@ def DensityContourPlot(Name, Coordinates,RDup=True, Weights=False, save=False, c
 ###################################
 # Texture Component Heatmap
 ###################################
-def PlotHeatmap(hw, PeakCombo,Scheme, Folder, VF=0.25, cbarMap=False, cbarRange=[0,0.5], save=False, cmd=False, savename='test.png'):
+def PlotHeatmap(hw, PeakCombo,Scheme, Folder, VF=0.25, cbarMap=False, cbarRange=[0,0.5], save=False, cmd=False, AddTitle=True, savename='test.png'):
     """
     A method that accepts a desired HalfWidth value, Peak Combination, and a specific Sampling Scheme, and outputs a heatmap of the 
     resulting Austenite Phase Fraction Values. In order for the function to work as intended, please make sure you note the format 
@@ -396,11 +396,11 @@ def PlotHeatmap(hw, PeakCombo,Scheme, Folder, VF=0.25, cbarMap=False, cbarRange=
     labels=np.asarray(labels)
     #labels.resize(len(yaxis),len(xaxis)) 
     #labels=pd.DataFrame(labels)
-    df=pd.DataFrame({'Austenite Components': Aname, 'Ferrite Components': Fname, 'Phase Fraction': Values })
-    df_wide=df.pivot_table(index='Austenite Components', columns='Ferrite Components', values='Phase Fraction' )
+    df=pd.DataFrame({'Austenite Components': Aname, 'Ferrite/Martensite Components': Fname, 'Phase Fraction': Values })
+    df_wide=df.pivot_table(index='Austenite Components', columns='Ferrite/Martensite Components', values='Phase Fraction' )
     
-    df2=pd.DataFrame({'Austenite Components': Aname, 'Ferrite Components': Fname, 'Phase Fraction': labels })
-    dw=df2.pivot( index='Austenite Components', columns='Ferrite Components', values='Phase Fraction' )
+    df2=pd.DataFrame({'Austenite Components': Aname, 'Ferrite/Martensite Components': Fname, 'Phase Fraction': labels })
+    dw=df2.pivot( index='Austenite Components', columns='Ferrite/Martensite Components', values='Phase Fraction' )
 
  
     # plotting
@@ -410,10 +410,11 @@ def PlotHeatmap(hw, PeakCombo,Scheme, Folder, VF=0.25, cbarMap=False, cbarRange=
         color= sns.diverging_palette(359, 359, 99, l=0, sep=1, n=50, center='light', as_cmap=True)
     else:
         color= sns.color_palette("coolwarm", 25)
-    plt.figure(figsize = (13,7))
+    plt.figure(figsize = (13,7),dpi=300)
     figure=sns.heatmap(df_wide, vmin=cbarRange[0], vmax=cbarRange[1], cmap=color, center=VF, annot=True, fmt="3.3f", linewidths=0.5,square=True,cbar_kws={"shrink": .80})
     #figure=sns.heatmap(df_wide,vmin=0.0, vmax=0.50, cmap=color,center=0.25,annot=dw, annot_kws={"size": 18},fmt='',linewidths=0.5,square=True,cbar_kws={"shrink": .80})
-    plt.title("Halfwidth of "+HW+" , "+ Scheme+ " Sampling Scheme, "+ PeakCombo.upper()+ " Peak Combination" ,fontsize =18)
+    if AddTitle==True:
+        plt.title("Halfwidth of "+HW+" , "+ Scheme+ " Sampling Scheme, "+ PeakCombo.upper()+ " Peak Combination" ,fontsize =18)
     bottom, top = figure.get_ylim()
     figure.set_ylim(bottom + 0.5, top - 0.5)
     
