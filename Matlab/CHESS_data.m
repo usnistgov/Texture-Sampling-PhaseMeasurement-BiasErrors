@@ -1,9 +1,12 @@
 %% Read and analyze data from: 
 % Micromechanical Response Quantification using High-energy X-rays during Phase Transformations in Additively Manufactured 17-4 Stainless Steel
-
+% Contributor: Darren Pagan
+% DOI: 10.17632/3mddz99wsr.1
 % https://data.mendeley.com/datasets/3mddz99wsr/1
 
-% plotting convention:
+% Data has been downloaded to the ChessData folder
+
+% Set pole figure plotting convention:
 plotx2east
 
 %% Load data from .mat file
@@ -17,7 +20,7 @@ load('./ChessData/AM_Specimen_Pole_Figure_Data.mat')
 % 12 datapoints on loading
 % starts along X direction
 
-%choose which load step to use 1 - undeoformed, 12 - end of test
+%choose which load step to use 1 - undeformed, 12 - end of test
 Load_step=1
 
 %The ?nS? is the list of unit vectors for each location on the pole figure in x, y, and z
@@ -42,9 +45,10 @@ mkdir("ChessData", M_name)
 % Use PoleFigure Constructor, not a supported data type
 % https://mtex-toolbox.github.io/PoleFigure.PoleFigure.html
 
-% crystal symmetry, from Phan, Thien Q., Felix H. Kim, and Darren C. Pagan. 2019.
-%?Micromechanical Response Quantification Using High-Energy X-Rays during Phase 
-% Transformations in Additively Manufactured 17-4 Stainless Steel.? 
+% crystal symmetry and unit cell values are from:
+% Phan, Thien Q., Felix H. Kim, and Darren C. Pagan. 2019.
+% Micromechanical Response Quantification Using High-Energy X-Rays during Phase
+% Transformations in Additively Manufactured 17-4 Stainless Steel.
 % Materials Science and Engineering: A 759 (June): 565?73. https://doi.org/10.1016/j.msea.2019.05.017.
 
 CrySym = {... 
@@ -69,7 +73,7 @@ h6=Miller({2,1,1}, CrySym{2});
 
 %% Create the diffraction vectors
 %nS(1,:,1) % returns the first row of x,y,z values for pole figure 1
-% need to take transpose for vector3d to work properly
+% need to take transpose (.' character) for vector3d to work properly
 r1vectors=vector3d(nS(:,:,1).');
 r2vectors=vector3d(nS(:,:,2).');
 r3vectors=vector3d(nS(:,:,3).');
@@ -108,7 +112,7 @@ r6vectors=vector3d(nS(:,:,6).');
 % % shows an odd extra point on the upper hemisphere
 
 %% plot vectors as filled contour
-% % Looks similar to the oversampling plot in paper
+% % Looks similar to the oversampling plot in Figure 5 of 2021 paper
 % figure(2)
 % plot(r1vectors([1:2592]),'contourf','antipodal','smooth' ); CLim(gcm,[0, 8]); mtexColorbar; 
 % run('ColorMap8.m');
@@ -150,7 +154,8 @@ print('-dpng', '-r300', strcat("ChessData/","Chess_AM_M_step",num2str(Load_step)
 
 %% Calculate summed intensities for each pole figure
 % basing code from mean.m in PoleFigureClass
-% Not currently used
+% This code is not currently used, was created for development
+% inluded for reference/inspiration
 
 % mA = zeros(1,pf_austenite.numPF);
 % for i = 1:pf_austenite.numPF
@@ -174,7 +179,7 @@ print('-dpng', '-r300', strcat("ChessData/","Chess_AM_M_step",num2str(Load_step)
 % writematrix(mM,M_IntName)
 
 
-%% Plot normalized and contoured
+%% Plot normalized and contoured pole figures
 % by inspection, these look similar to values in the paper
 figure(15); plot(normalize(pf_austenite),'contourf','antipodal','smooth');
 CLim(gcm,[0, 4]); mtexColorbar; 
@@ -189,7 +194,7 @@ print('-dpng', '-r300', strcat("ChessData/","Chess_AM_M_step",num2str(Load_step)
 
 %% ODFs
 
-% See Issue #506, need to normalize pole figures
+% See Issue #506 on the mtex GitHub page, need to normalize pole figures
 odf_austenite = calcODF(pf_austenite.normalize, CrySym{1},SpecSym{1}, 'halfwidth',4*degree, 'resolution',4*degree, 'iterMin', 20)
 odf_martensite = calcODF(pf_martensite.normalize, CrySym{2},SpecSym{1}, 'halfwidth',4*degree, 'resolution',4*degree, 'iterMin', 20)
 
@@ -202,7 +207,8 @@ run('ColorMap4.m');
 print('-dpng', '-r300', strcat("ChessData/","Chess_AM_M_step",num2str(Load_step),"/","MartensiteODF",".png"))
 
 %% Export ODFs in .maa format for MAUD
-% Not currently used
+% Not currently used in this paper
+% included for reference/inspiration
 
 % 
 % %disp('Output ODFs to .maa and mtex')

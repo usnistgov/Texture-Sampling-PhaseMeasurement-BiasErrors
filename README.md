@@ -6,7 +6,6 @@ Part of the reason to share and document this dataset is to facilitate reuse and
 
 Questions regarding this data set may be directed to Adam Creuziger (adam.creuziger@nist.gov)
 
-
 ## Sections
 - How to Cite
 - NIST License
@@ -32,13 +31,19 @@ Date | Author | Description
 ## This data set is a companion to the following technical paper:
 
 
+
 The technical paper describes the motivation and background for this data set, as well as analysis and key insights that were made from this data set.
 
 ## Related work
 
-This work builds upon A. Creuziger, C. Calhoun, W. Poling, T. Gnaupel-Herold "Assessment of Bias Errors Caused by Texture and Sampling Methods in Diffraction-Based Steel Phase Measurements" (2018) Journal of Applied Crystallography, 51, p720-731. DOI: https://doi.org/10.1107/S160057671800420X
+This work builds upon the following papers and data:
 
-A. Creuziger, C. Calhoun, W. Poling, T. Gnaupel-Herold, "Data Set: Assessment of Bias Errors Caused by Texture and Sampling Methods in Diffraction-Based Steel Phase Measurements", https://github.com/usnistgov/Texture-Sampling-PhaseMeasurement-BiasErrors
+Abbreviation | Description
+--- | ---
+JAC2018 | A. Creuziger, C. Calhoun, W. Poling, T. Gnaupel-Herold "Assessment of Bias Errors Caused by Texture and Sampling Methods in Diffraction-Based Steel Phase Measurements" (2018) Journal of Applied Crystallography, 51, p720-731. DOI: https://doi.org/10.1107/S160057671800420X
+JAC2018-data | A. Creuziger, C. Calhoun, W. Poling, T. Gnaupel-Herold, "Data Set: Assessment of Bias Errors Caused by Texture and Sampling Methods in Diffraction-Based Steel Phase Measurements", https://github.com/usnistgov/Texture-Sampling-PhaseMeasurement-BiasErrors
+2019Pagan-data |D. Pagan, "Micromechanical Response Quantification using High-energy X-rays during Phase Transformations in Additively Manufactured 17-4 Stainless Steel" Mendeley Data  DOI: 10.17632/3mddz99wsr.1 https://data.mendeley.com/datasets/3mddz99wsr/1
+
 
 ## Citation Guidance
 
@@ -75,6 +80,8 @@ MAUD/ | Directory containing MAUD parameter files, and associated input and outp
 - To try and minimize crossing lines in the workflow, the script "MaudAnalysis*.par" appears in two locations in the Workflow. The upper appearance is grayed out to indicate the duplication.
 
 - The Matlab script "CalculatedTexturesHWrange.m" does not appear on the Workflow, as this script is nearly identical to "CalculatedTexturesPlots.m".  The "CalculatedTexturesHWrange.m" script saves the plots for a wider range of halfwidths than "CalculatedTexturesPlots.m". Over 150 plots will be generated when running this script.
+
+- Characters '*' and '?' are used to describe folder and file names using the UNIX conventions, where '*' is used for zero or more characters, and '?' is used for exactly as many characters as there are '?' marks.
 
 # Programs Used
 
@@ -173,4 +180,4 @@ The programs and files should be platform independent. However, this claim has n
 
 ## Draft-RingRotate Updates
 
-- 
+- Additional plots, including difference pole figures, are included in the CHESS_data.m code.
