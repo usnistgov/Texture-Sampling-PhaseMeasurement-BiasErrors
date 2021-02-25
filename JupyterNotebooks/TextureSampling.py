@@ -7,8 +7,12 @@
 #####################################
 # Read in Polefigures in .xpc format
 #####################################
+import fortranformat as ff
+import numpy as np
+import pandas as pd
+import math
 def xpcformat(mode=None, filename=None):
-
+    
     """
     
     FIX: Docstring too long and complicated
@@ -58,10 +62,7 @@ def xpcformat(mode=None, filename=None):
     mode     = None
     filename = None
     """
-    import fortranformat as ff
-    import numpy as np
-    import pandas as pd
-    import math
+   
     
     print ('Pole Figure Parsing')
 
@@ -994,16 +995,9 @@ def SpiralScheme(name, chi_max, phi_max):
        A float value that represents the maximum possible "phi" degree value (In a pole figure and using our spiral grid scheme, this is related to the amount of times our cycle
        will revolve around the pole figure as it moves radially outwards and collects points throughout the plane.
     """
-
-    import numpy as np
-    import pandas as pd
-    import math
-    # The angluar spacing is determined recursively based on the values of Phi and Chi
-    #on the run before, so I think these are the appropriate parameters...
-
     xaxis=[] #Chi Array of values to be outputted
     yaxis=[] #Phi Array of values to be outputted
-    i=1 # Chi Counter, very important for the determination of Phi 
+    i=1 # Chi Counter, important for the determination of Phi 
     chi_N=0 
     phi_N=0
     
@@ -1021,6 +1015,7 @@ def SpiralScheme(name, chi_max, phi_max):
     while (phi_N<=phi_max): # might change this condition to while (phi...)
         phi_N=phi_N+ (5*chi_max/xaxis[i]) 
         yaxis.append(phi_N)
+        i=i+1
         if (phi_N<phi_max):
             chi_N=np.exp(b*phi_N)
         elif (phi_N==phi_max):
@@ -1033,15 +1028,17 @@ def SpiralScheme(name, chi_max, phi_max):
             # Need to perform the translations (arctan, scale down by 1/45 as the research paper, but would like to
             #understand why this needs to be done before implementing it...)
         
-    i=i+1
     
     
+    del(xaxis[len(xaxis)-1])
+    del(yaxis[len(yaxis)-1])
+    xaxis.append(chi_max)
+    yaxis.append(phi_max)
     values = {'Tilt' : xaxis, 'Rotation' : yaxis}
     coordinates=pd.DataFrame(values)   
-    DroppedVals = coordinates[coordinates['Tilt'] < 5.0].index #drops the chi values less than 5.0 as prescribed by the document
-    coordinates.drop(DroppedVals , inplace=False)                      
+    DroppedVals = coordinates[(coordinates['Tilt'] > 0.0) & (coordinates['Tilt'] < 5.0)].index #drops the chi values less than 5.0 as prescribed by the document
+    coordinates.drop(DroppedVals , inplace= True)                      
     return name, coordinates
-    print(SpiralScheme("Austenite",90,6480)) # a test to see if the values are reasonable
 
 
 
@@ -1426,20 +1423,51 @@ def RotateXMatrix(omega_deg):
 #Equal Angle Sampling Scheme
 #######################################
 
-def EqualAngleSampling(name,stepsize):
+def EqualAngleSampling(name,chi_max, phi_max, stepsize):
     tilt=[]
     rotation=[]
-     
     i=0
     j=0
-    while(round(i)<=90):
-        while(round(j)<360):
+    tilt.append(i)
+    rotation.append(j)
+    while(round(i)<=chi_max):
+        while(round(j)<=phi_max):
             rotation.append(j)
             j=j+stepsize
             tilt.append(i)
-        i=i+stepsize 
         j=0
+        i=i+stepsize
+    d = {'Tilt' : tilt, 'Rotation' : rotation}
+    coordsDF=pd.DataFrame(d)
+    return name, coordsDF
         
+def BrukerEASampling(name,chi_max, phi_max, stepsize):
+    tilt=[]
+    rotation=[]
+    error=set() #debug purposes
+    step=math.radians(stepsize)
+    #return math.degrees(math.acos(math.cos(step)))
+    j=0
+    k=1.0 #the bruker manual counter (for phi)
+    tilt.append(0)
+    rotation.append(0)
+    while(k<=chi_max/stepsize):
+        while(j<phi_max):
+            rotation.append(j)
+            phi_step=math.degrees(math.acos(((math.cos(step)-math.pow(math.cos(k*step),2)))/(math.pow(math.sin(k*step),2))))
+            if (360%phi_step!=0):
+                numsteps=round(360.0/phi_step)
+                phi_step=360.0/numsteps
+                #tup=phi_step,k,numsteps
+                #error.add(tup)
+            j=j+phi_step
+            tilt.append(k*stepsize)
+        k=k+1 
+        j=0
+
+    #m=sorted(error)
+    #m.reverse()    
+    #return pd.DataFrame(data=m,columns=['Rotation Step', 'K-value (ring number)', 'Number of points per rotation']) 
     d = {'Tilt' : tilt, 'Rotation' : rotation}
     coordsDF=pd.DataFrame(d)
     return name, coordsDF

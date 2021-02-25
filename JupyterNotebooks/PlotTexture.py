@@ -149,7 +149,7 @@ def SingleSchemePlot(Name, Coordinates, Marker, MarkerSize,RD=True,RDup=True,  s
     #SchemeName,Coordinates=SingleOrientation("RD Single", 90.0,180.0)
     #SchemeName,Coordinates=SingleOrientation("TD Single", 90.0,270.0)
 
-    dip, strike =Coordinates['Tilt'], Coordinates['Rotation']-90.0
+    dip, strike =Coordinates['Tilt'], Coordinates['Rotation']
     l1=ax1.pole(strike, dip, Marker, markersize=MarkerSize, clip_on=False)
     #dip tilts about the 0 axis (RD), left handed
     #strike tilts about the normal axis (ND), left handed
@@ -275,7 +275,7 @@ def PlotHeatmap(hw, PeakCombo,Scheme, Folder, VF=0.25, cbarMap=False, cbarRange=
         #print AusteniteTextures
 
     # create a dataframe shape from existing data
-    DFA=pd.read_excel((os.path.join(Folder, FerriteTextures[0])),header=1,skip_footer=0)
+    DFA=pd.read_excel(os.path.join(Folder, FerriteTextures[0]),header=1,skipfooter=0)
     
 
     #copy the HKL reflection indexes
@@ -288,8 +288,8 @@ def PlotHeatmap(hw, PeakCombo,Scheme, Folder, VF=0.25, cbarMap=False, cbarRange=
         for FerrOrient in FerriteTextures:
         
             
-            DFF=pd.read_excel(os.path.join(Folder,FerrOrient),header=1,skip_footer=0)
-            DFA=pd.read_excel(os.path.join(Folder,AustOrient),header=1,skip_footer=0)
+            DFF=pd.read_excel(os.path.join(Folder,FerrOrient),header=1,skipfooter=0)
+            DFA=pd.read_excel(os.path.join(Folder,AustOrient),header=1,skipfooter=0)
 
             #Switch position of Tilt -row 7 and Rotate -row 8 data rows, matches Figure 4 better
             #http://stackoverflow.com/questions/32929927/pandas-swap-rows-between-dataframes
