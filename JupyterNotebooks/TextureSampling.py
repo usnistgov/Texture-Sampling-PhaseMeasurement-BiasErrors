@@ -1423,13 +1423,49 @@ def RotateXMatrix(omega_deg):
 #Equal Angle Sampling Scheme
 #######################################
 
-def EqualAngleSampling(name,chi_max, phi_max, stepsize):
+def EqualAngleGrid(name,chi_max, stepsize, CoverageType ='full'):
+    """
+    The Equal Angle Grid is currently how most XRD systems tend to operate, evenly stepping 5 degrees in rotation until one revolution is
+    complete, then incrementing tilt by that same 5 degrees and repeating till maximum tilt is obtained. 
+    While easy to understand, this scheme tends to oversample around the ND axis, because 360/5= 72 sampling points are taken for each tilt "ring", 
+    regardless of tilt value. The Equal Angle scheme also requires nearly 1400 sampling points, whereas novel hex schemes can obtain even sampling of the
+    pole grid while requiring fewer sampling points. Thus, the Equal Angle scheme can be compared with traditional hex schemes to demonstrate that fewer
+    sampling without compromising measurement accuracy can be obtained.
+
+    Parameters
+    ----------
+    name : string
+        The name of the sampling scheme.
+     
+    chi_max : float
+        Maximum tilt of the pole figure, in degrees. Typically, 60 degrees is the practical limit due to defocusing phenomena.
+    
+    stepsize : float
+        Value to evenly increment both tilt and rotation steps by, in degrees. 5 degrees is the recommended parameter to account for smoothly-varying textured materials.
+    
+    CoverageType : string
+        Determines full (the default option) or partial coverage of the pole figure. Entries of 'full' or 'quad' designate 'full' coverage or 'single-quadrant' coverage, respectively. 
+
+
+
+    
+
+    """
     tilt=[]
     rotation=[]
     i=0
     j=0
     tilt.append(i)
     rotation.append(j)
+    if CoverageType.lower()=='full':
+        phi_max=360.0
+
+    elif CoverageType.lower()=='quad':
+        phi_max=90.0
+
+    else:
+        raise Exception("Invalid Coverage Type: Select between \"full\" and \"quad\".")
+
     while(round(i)<=chi_max):
         while(round(j)<=phi_max):
             rotation.append(j)
@@ -1441,16 +1477,50 @@ def EqualAngleSampling(name,chi_max, phi_max, stepsize):
     coordsDF=pd.DataFrame(d)
     return name, coordsDF
         
-def BrukerEASampling(name,chi_max, phi_max, stepsize):
+def CLRGrid(name,chi_max, stepsize, CoverageType='full'):
+    """
+    In response to the oversampling observed along the ND axis in the equal-angle scheme, this CLR scheme attempts a more even sampling of the pole grid
+    by implementing a "constant local resolution," which is what the "CLR" stands for. For a constant increasing tilt, the rotation increment decreases asymptotically,
+    such that the rotation increment equals the tilt increment when tilt is maximum. 
+    Due to some slight issues with the formula used, some locations of the CLR scheme are imprecise, but some approximations have been calculated to mostly 
+    allow for a smoothly-sampled pole grid.
+     
+
+    Parameters
+    ----------
+    name : string
+        The name of the sampling scheme.
+     
+    chi_max : float
+        Maximum tilt of the pole figure, in degrees. Typically, 60 degrees is the practical limit due to defocusing phenomena.
+    
+    stepsize : float
+        Value to evenly increment both tilt and rotation steps by, in degrees. 5 degrees is the recommended parameter to account for smoothly-varying textured materials.
+    
+    CoverageType : string
+        Determines full (the default option) or partial coverage of the pole figure. Entries of 'full' or 'quad' designate 'full' coverage or 'single-quadrant' coverage, respectively. 
+
+
+    """
     tilt=[]
     rotation=[]
     error=set() #debug purposes
     step=math.radians(stepsize)
-    #return math.degrees(math.acos(math.cos(step)))
     j=0
-    k=1.0 #the bruker manual counter (for phi)
+    k=1.0 
     tilt.append(0)
     rotation.append(0)
+
+    if CoverageType.lower()=='full':
+        phi_max=360.0
+
+    elif CoverageType.lower()=='quad':
+        phi_max=90.0
+
+    else:
+        raise Exception("Invalid Coverage Type: Select between \"full\" and \"quad\".")
+    
+
     while(k<=chi_max/stepsize):
         while(j<phi_max):
             rotation.append(j)
@@ -1465,13 +1535,90 @@ def BrukerEASampling(name,chi_max, phi_max, stepsize):
         k=k+1 
         j=0
 
+
     #m=sorted(error)
     #m.reverse()    
     #return pd.DataFrame(data=m,columns=['Rotation Step', 'K-value (ring number)', 'Number of points per rotation']) 
+
+    d = {'Tilt' : tilt, 'Rotation' : rotation}
+    coordsDF=pd.DataFrame(d)
+    return name, coordsDF
+
+def BT8_HexGrid(name, chi_max, stepsize, CoverageType="full"):
+    """
+    Hex schemes are considered one to be one of the most promising sampling schemes, given their combination of fewer sampling points and ability to
+    mitigate phase fraction measurement bias due to crystallographic texture. This variation of the hex scheme samples half as many points as a traditional
+    hex scheme, so it is being tested for its ability to reduce texture effects on phase fraction calculations
+     
+
+    Parameters
+    ----------
+    name : string
+        The name of the sampling scheme.
+     
+    chi_max : float
+        Maximum tilt of the pole figure, in degrees. Typically, 60 degrees is the practical limit due to defocusing phenomena.
+    
+    stepsize : float
+        Value to evenly increment both tilt and rotation steps by, in degrees. 5 degrees is the recommended parameter to account for smoothly-varying textured materials.
+    
+    CoverageType : string
+        Determines full (the default option) or partial coverage of the pole figure. Entries of 'full' or 'quad' designate 'full' coverage or 'single-quadrant' coverage, respectively. 
+
+
+    """
+    i=1
+    j=0
+    k=0
+    rotation=[]
+    tilt=[]
+    nphi=round(360/stepsize)
+    n=nphi
+    t=0.0
+    if CoverageType.lower()=="full":
+
+        while(6*i<=nphi):
+            n=n+nphi-i*6
+            i=i+1
+        
+        for i in np.arange(0,round(nphi/6)+1,step=1):
+            for j in range(1,(nphi-6*i)+1):
+                chi=2*(np.arcsin((math.sqrt(2)/2/(nphi/6)*((nphi/6) - i))))*180/np.pi
+                if chi<=chi_max:
+                    rotation.append((360/(nphi-6*i))*(j-1))
+                    tilt.append(chi)
+    
+
+    elif CoverageType.lower()=="quad":
+
+        while(6*i<=nphi):
+            n=n+nphi-i*6
+            i=i+1
+        
+        for i in np.arange(0,round(nphi/6)+1,step=1):
+            for j in range(1,(nphi-6*i)+1):
+                phi=(360/(nphi-6*i))*(j-1)
+                chi=2*(np.arcsin((math.sqrt(2)/2/(nphi/6)*((nphi/6) - i))))*180/np.pi
+                if chi<=chi_max:
+                    if phi<=90.0:
+                        tilt.append(chi)
+                        if round(chi)==90.0:
+                            rotation.append(phi-180.0)
+                        else:
+                            rotation.append(phi)
+     
+    
+    
+    
+    rotation.append(0)
+    tilt.append(0) 
+    
+
     d = {'Tilt' : tilt, 'Rotation' : rotation}
     coordsDF=pd.DataFrame(d)
     return name, coordsDF
 #print(EqualAngleSampling("Austenite",30)) (Debug)
+
 #####################################
 #####################################
 # End Sampling Schemes
