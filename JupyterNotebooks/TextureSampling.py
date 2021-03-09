@@ -119,7 +119,7 @@ def xpcformat(mode=None, filename=None):
                 parsed.extend(dataline.read(line[item[2]]))
                 parsed.extend(dataline.read(line[item[3]]))
                 dataset.append(parsed)
-            #print dataset
+            #print (dataset)
             
             #Saves as a Pandas dataframe, and maps the 360 degree phi data from the 0 degree phi data
             #row and column indexes are by degrees
@@ -1584,9 +1584,13 @@ def BT8_HexGrid(name, chi_max, stepsize, CoverageType="full"):
         for i in np.arange(0,round(nphi/6)+1,step=1):
             for j in range(1,(nphi-6*i)+1):
                 chi=2*(np.arcsin((math.sqrt(2)/2/(nphi/6)*((nphi/6) - i))))*180/np.pi
-                if chi<=chi_max:
+                if round(chi)<=chi_max:
                     rotation.append((360/(nphi-6*i))*(j-1))
-                    tilt.append(chi)
+                    if chi>90.0:
+                        tilt.append(180-chi)
+                    else:
+                        tilt.append(chi)
+
     
 
     elif CoverageType.lower()=="quad":
@@ -1599,13 +1603,14 @@ def BT8_HexGrid(name, chi_max, stepsize, CoverageType="full"):
             for j in range(1,(nphi-6*i)+1):
                 phi=(360/(nphi-6*i))*(j-1)
                 chi=2*(np.arcsin((math.sqrt(2)/2/(nphi/6)*((nphi/6) - i))))*180/np.pi
-                if chi<=chi_max:
+                if round(chi)<=chi_max:
                     if phi<=90.0:
-                        tilt.append(chi)
-                        if round(chi)==90.0:
-                            rotation.append(phi-180.0)
+                        rotation.append(phi)
+                        if chi>90.0:
+                            tilt.append(180-chi)
                         else:
-                            rotation.append(phi)
+                            tilt.append(chi)
+
      
     
     
@@ -1613,7 +1618,6 @@ def BT8_HexGrid(name, chi_max, stepsize, CoverageType="full"):
     rotation.append(0)
     tilt.append(0) 
     
-
     d = {'Tilt' : tilt, 'Rotation' : rotation}
     coordsDF=pd.DataFrame(d)
     return name, coordsDF
