@@ -2,15 +2,16 @@ clc
 clear
 close all
 
-run('ColorMap20.m')
+run('ColorMap4.m')
 
 cs = crystalSymmetry('m-3m');
 ss = specimenSymmetry('orthorhombic');
+ss_tri= specimenSymmetry('-1');
 r = xvector;
 
 % pole figure indexes
-%h_ferrite = {Miller(1,1,0,cs),Miller(2,0,0,cs),Miller(2,1,1,cs),Miller(2,2,0,cs),Miller(3,1,0,cs),Miller(2,2,2,cs)} ;
-%h_austenite = {Miller(1,1,1,cs),Miller(2,0,0,cs),Miller(2,2,0,cs),Miller(3,1,1,cs),Miller(2,2,2,cs),Miller(4,0,0,cs),Miller(3,3,1,cs),Miller(4,2,0,cs)} ;
+h_ferrite = {Miller(1,1,0,cs),Miller(2,0,0,cs),Miller(2,1,1,cs),Miller(2,2,0,cs),Miller(3,1,0,cs),Miller(2,2,2,cs)} ;
+h_austenite = {Miller(1,1,1,cs),Miller(2,0,0,cs),Miller(2,2,0,cs),Miller(3,1,1,cs),Miller(2,2,2,cs),Miller(4,0,0,cs),Miller(3,3,1,cs),Miller(4,2,0,cs)} ;
 
 % Create save paths (if the don't exist)
 AddFiguresDir='ODFFiguresHW';
@@ -27,29 +28,30 @@ fprintf(fileID,'%12s\t %5s\t %5s\t %5s\n','Name','TI', 'Ent', 'Max');
 fclose(fileID);
 
 %% Define orientations 
+% Updated for mtex 5.3
 
 disp('Define Orientations')
 
-Cube = orientation('Miller',[0 0 1],[1 0 0],cs,ss);
-Goss = orientation('Miller',[0 1 1],[1 0 0],cs,ss);
-Shear = orientation('Miller',[0 0 1],[1 -1 0],cs,ss);
-RGoss = orientation('Euler',0*degree,90*degree,45*degree,cs,ss);
+Cube = orientation.byMiller([0 0 1],[1 0 0],cs,ss);
+Goss = orientation.byMiller([0 1 1],[1 0 0],cs,ss);
+Shear = orientation.byMiller([0 0 1],[1 -1 0],cs,ss);
+RGoss = orientation.byEuler(0*degree,90*degree,45*degree,cs,ss);
 
-alpha1=orientation('Miller',[1 1 5],[1 -1 0],cs,ss);
-alpha2=orientation('Miller',[1 1 3],[1 -1 0],cs,ss);
-alpha3=orientation('Miller',[1 1 2],[1 -1 0],cs,ss);
-alpha4=orientation('Miller',[2 2 3],[1 -1 0],cs,ss);
+alpha1=orientation.byMiller([1 1 5],[1 -1 0],cs,ss);
+alpha2=orientation.byMiller([1 1 3],[1 -1 0],cs,ss);
+alpha3=orientation.byMiller([1 1 2],[1 -1 0],cs,ss);
+alpha4=orientation.byMiller([2 2 3],[1 -1 0],cs,ss);
 
-o554=orientation('Miller',[5 5 4],[-2 -2 5],cs,ss);
+o554=orientation.byMiller([5 5 4],[-2 -2 5],cs,ss);
 
-Copper = orientation('Euler',90*degree,35.264*degree,45*degree,cs,ss);
-CopperS=orientation('Euler',74.49*degree,35.982*degree,54.2175*degree,cs,ss);
-S = orientation('Euler',58.98*degree,36.699*degree,63.435*degree,cs,ss);
-BrassS=orientation('Euler',47.122*degree,40.85*degree,76.718*degree,cs,ss);
-Brass = orientation('Euler',35.264*degree,45*degree,90*degree,cs,ss);
+Copper = orientation.byEuler(90*degree,35.264*degree,45*degree,cs,ss);
+CopperS=orientation.byEuler(74.49*degree,35.982*degree,54.2175*degree,cs,ss);
+S = orientation.byEuler(58.98*degree,36.699*degree,63.435*degree,cs,ss);
+BrassS=orientation.byEuler(47.122*degree,40.85*degree,76.718*degree,cs,ss);
+Brass = orientation.byEuler(35.264*degree,45*degree,90*degree,cs,ss);
 
-gamma1 = orientation('Euler',0*degree,54.736*degree,45*degree,cs,ss);
-gamma2 = orientation('Euler',30*degree,54.736*degree,45*degree,cs,ss);
+gamma1 = orientation.byEuler(0*degree,54.736*degree,45*degree,cs,ss);
+gamma2 = orientation.byEuler(30*degree,54.736*degree,45*degree,cs,ss);
 
 % Fiber textures are not working properly in mtex when created with fibre()
 % command
@@ -58,7 +60,10 @@ gamma2 = orientation('Euler',30*degree,54.736*degree,45*degree,cs,ss);
 %% Define kernal and halfwidth %%
 
 %for hw=[10 20 30 40 50] 
-for HW=[10*degree 15*degree 20*degree 25*degree 30*degree 35*degree 40*degree 45*degree 50*degree]
+%for HW=[10*degree 15*degree 20*degree 25*degree 30*degree 35*degree 40*degree 45*degree 50*degree]
+for HW=[20*degree]
+
+
 %HW=20*degree;
 
 tmp=num2str(round(HW/degree));
@@ -70,7 +75,7 @@ psi = deLaValeePoussinKernel('HALFWIDTH',HW);
 
 %% Start for loop of different orientaions
 % Define ODFs
-%for i=7 %just make cube orientation plots
+% for i=7 %just make cube orientation plots
 for i=[1:21] %all of the textures
 
     %% uniform distributions - creates lots of them, but I couldn't find an elegant way to stop that from happening
@@ -185,27 +190,27 @@ elseif i==15
     odf = unimodalODF(Shear,'halfwidth',HW,cs,ss);  
     
 elseif i==16
-    bname='o554F';
+    bname='O554F';
     phase ='ferrite';
     odf = unimodalODF(o554,'halfwidth',HW,cs,ss);    
     
 elseif i==17
-    bname='alpha1F';
+    bname='Alpha1F';
     phase ='ferrite';
     odf = unimodalODF(alpha1,'halfwidth',HW,cs,ss);    
     
 elseif i==18
-    bname='alpha2F';
+    bname='Alpha2F';
     phase ='ferrite';
     odf = unimodalODF(alpha2,'halfwidth',HW,cs,ss); 
     
 elseif i==19
-    bname='alpha3F';
+    bname='Alpha3F';
     phase ='ferrite';
     odf = unimodalODF(alpha3,'halfwidth',HW,cs,ss);    
     
 elseif i==20
-    bname='alpha4F';
+    bname='Alpha4F';
     phase ='ferrite';
     odf = unimodalODF(alpha4,'halfwidth',HW,cs,ss);    
 
@@ -218,13 +223,15 @@ elseif i==21
 end
     
 
+disp(strcat( "Component=",bname,'   Halfwidth=', tmp,'   Phase=',phase))
+
 %% Create Plots
 disp('Create Plots')
 
 figure; 
 plot(odf,'phi2',[45]*degree,'projection','plain','silent',cs,ss,'FontSize',20);
-%CLim(gcm,[0, 4]);
-CLim(gcm,[0, 20]); %for ColorMap20.m
+CLim(gcm,[0, 4]);
+%CLim(gcm,[0, 20]); %for ColorMap20.m
 %mtexColorbar; %causes some cropping of the scale
 fig = gcf;
 fig.PaperPositionMode = 'auto';
@@ -251,6 +258,28 @@ saveas(fig,fullfile(AddFiguresDir,strcat(bname,'-HW', tmp,'-phi2ODF.png')))
 %saveas(fig,fullfile(AddFiguresDir,strcat(bname,'-HW', tmp,'-phi2ODF.png')))
 
 %Save 45 cross section
+
+%% Save Pole Figure plots
+
+
+
+figure; 
+% Trying limited to colorbar of 4
+if strcmp(phase,'austenite')==1 
+    plotPDF(odf,h_austenite, 'complete');CLim(gcm,[0, 4]);mtexColorbar;
+    fig = gcf;
+    fig.PaperPositionMode = 'auto';
+    saveas(fig,fullfile(AddFiguresDir,strcat(bname,'-HW', tmp,'-A_PF.png')))
+
+elseif strcmp(phase,'ferrite')==1
+    plotPDF(odf,h_ferrite, 'complete');CLim(gcm,[0, 4]);mtexColorbar;
+    fig = gcf;
+    fig.PaperPositionMode = 'auto';
+    saveas(fig,fullfile(AddFiguresDir,strcat(bname,'-HW', tmp,'-F_PF.png')))
+
+else
+    disp('Not a valid phase')
+end
 
 %% Save texture scalar values
 
