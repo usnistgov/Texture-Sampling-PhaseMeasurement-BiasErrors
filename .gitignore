@@ -15,3 +15,4 @@ Matlab/ChessData
 JupyterNotebooks/*.png
 *.png
 JupyterNotebooks/__pycache__/*.*
+*.zip
