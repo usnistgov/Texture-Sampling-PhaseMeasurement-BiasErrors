@@ -271,8 +271,8 @@ def PlotHeatmap(hw, PeakCombo,Scheme, Folder, VF=0.25, cbarMap=False, cbarRange=
             FerriteTextures.append(file)
         else: ()
         
-        #print (FerriteTextures)
-        #print AusteniteTextures
+    #print("Ferrite Files Found: ",FerriteTextures)
+    #print("Austenite Files Found: ",AusteniteTextures)
     
     # Create as dictionary, easier for seaborn later, and single valued entries
     AustList=[]
@@ -282,7 +282,7 @@ def PlotHeatmap(hw, PeakCombo,Scheme, Folder, VF=0.25, cbarMap=False, cbarRange=
     for AustOrient in AusteniteTextures:
         for FerrOrient in FerriteTextures:
         
-            
+            #print (AustOrient, FerrOrient)
             DFF=pd.read_excel(os.path.join(Folder,FerrOrient),header=1,skipfooter=0)
             DFA=pd.read_excel(os.path.join(Folder,AustOrient),header=1,skipfooter=0)
 
@@ -301,7 +301,7 @@ def PlotHeatmap(hw, PeakCombo,Scheme, Folder, VF=0.25, cbarMap=False, cbarRange=
             AustList.append(Aname)
             FerrList.append(Fname)
             VFList.append(VF*A_val/(VF*A_val+((1.0-VF)*F_val)))
-        
+            #print(AustOrient, FerrOrient, VF*A_val/(VF*A_val+((1.0-VF)*F_val)) )
         
     dataDict={"Austenite":AustList, "Ferrite": FerrList, "VF":VFList}
     SaveTable=pd.pivot_table(pd.DataFrame.from_dict(dataDict),index="Austenite", columns="Ferrite")
@@ -342,8 +342,8 @@ def PlotHeatmap(hw, PeakCombo,Scheme, Folder, VF=0.25, cbarMap=False, cbarRange=
     #figure=sns.heatmap(df_wide,vmin=0.0, vmax=0.50, cmap=color,center=0.25,annot=dw, annot_kws={"size": 18},fmt='',linewidths=0.5,square=True,cbar_kws={"shrink": .80})
     if AddTitle==True:
         plt.title("Halfwidth of "+HW+" , "+ Scheme+ " Sampling Scheme, "+ PeakCombo.upper()+ " Peak Combination" ,fontsize =18)
-    bottom, top = figure.get_ylim()
-    figure.set_ylim(bottom + 0.5, top - 0.5)
+    #bottom, top = figure.get_ylim()
+    #figure.set_ylim(bottom + 0.5, top - 0.5)
     
     #return figure
     if save==True:
