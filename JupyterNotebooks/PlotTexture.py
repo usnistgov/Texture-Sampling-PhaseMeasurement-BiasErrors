@@ -228,17 +228,17 @@ def DensityContourPlot(Name, Coordinates,RDup=True, Weights=False, save=False, c
 ###################################
 # Texture Component Heatmap
 ###################################
-def PlotHeatmap(hw, PeakCombo,Scheme, Folder, VF=0.25, cbarMap=False, cbarRange=[0,0.5],ncolors=25, save=False, cmd=False, AddTitle=True, savename='test.png'):
+def PlotHeatmap(hw, PeakCombo,Scheme, Folder, VF=0.25, cbarMap=False, cbarRange=[0,0.5], save=False, cmd=False, savename='test.png'):
     """
-    A method that accepts a desired HalfWidth value, Peak Combination, and a specific Sampling Scheme, and outputs a heatmap of the 
-    resulting Austenite Phase Fraction Values. In order for the function to work as intended, please make sure you note the format 
+    A method that accepts a desired HalfWidth value, Peak Combination, and a specific Sampling Scheme, and outputs a heatmap of the
+    resulting Austenite Phase Fraction Values. In order for the function to work as intended, please make sure you note the format
     of the parameters and their specifications!
     
     Parameters
     ----------
     
     hw: int
-    Desired HalfWidth Value. Halfwidths should range from 5 to 50, increasing by multiples of 5 (check me on 
+    Desired HalfWidth Value. Halfwidths should range from 5 to 50, increasing by multiples of 5 (check me on
     this).
     
     
@@ -260,7 +260,7 @@ def PlotHeatmap(hw, PeakCombo,Scheme, Folder, VF=0.25, cbarMap=False, cbarRange=
 
     
     AusteniteTextures=[]
-    FerriteTextures=[]  
+    FerriteTextures=[]
 
 
     for file in os.listdir(Folder):
@@ -273,148 +273,74 @@ def PlotHeatmap(hw, PeakCombo,Scheme, Folder, VF=0.25, cbarMap=False, cbarRange=
         
         #print (FerriteTextures)
         #print AusteniteTextures
-
-    # create a dataframe shape from existing data
-    DFA=pd.read_excel((os.path.join(Folder, FerriteTextures[0])),header=1,skip_footer=0)
     
-
-    #copy the HKL reflection indexes
-    df2pair=DFA["HKL"]
-    #df4pair=DFA["HKL"]
-    #dfMaxUnique=DFA["HKL"]
+    # Create as dictionary, easier for seaborn later, and single valued entries
+    AustList=[]
+    FerrList=[]
+    VFList=[]
     
-
     for AustOrient in AusteniteTextures:
         for FerrOrient in FerriteTextures:
         
             
-            DFF=pd.read_excel(os.path.join(Folder,FerrOrient),header=1,skip_footer=0)
-            DFA=pd.read_excel(os.path.join(Folder,AustOrient),header=1,skip_footer=0)
+            DFF=pd.read_excel(os.path.join(Folder,FerrOrient),header=1,skipfooter=0)
+            DFA=pd.read_excel(os.path.join(Folder,AustOrient),header=1,skipfooter=0)
 
-            #Switch position of Tilt -row 7 and Rotate -row 8 data rows, matches Figure 4 better
-            #http://stackoverflow.com/questions/32929927/pandas-swap-rows-between-dataframes
-            tempF=DFF.loc[8]
-            DFF.loc[8,:]=DFF.loc[7,:].values
-            DFF.loc[7,:]=tempF.values
-
-            tempA=DFA.loc[8]
-            DFA.loc[8,:]=DFA.loc[7,:].values
-            DFA.loc[7,:]=tempA.values
-        
+            # Revised, some issues with what's returned
+            # Pandas returns a larger array instead of just one value - AC 2021 Mar 29
+            F_val=float(DFF.loc[DFF['HKL'] == Scheme][PeakCombo])
+            A_val=float(DFA.loc[DFA['HKL'] == Scheme][PeakCombo])
             #print (DFF)
             #print (DFA)
-        
-            # add minus VF for plotting
-            #DF1=(VF*DFA["2Pairs-A"]/(VF*DFA["2Pairs-A"]+((1.0-VF)*DFF["2Pairs-A"])))#-VF
-            #DF2=(VF*DFA["4Pairs"]/(VF*DFA["4Pairs"]+((1.0-VF)*DFF["4Pairs"])))#-VF
-            #DF3=(VF*DFA["MaxUnique"]/(VF*DFA["MaxUnique"]+((1.0-VF)*DFF["MaxUnique"])))#-VF
-        
-            DF1=(VF*DFA[PeakCombo]/(VF*DFA[PeakCombo]+((1.0-VF)*DFF[PeakCombo])))#-VF
+                
+            #split at file type and halfwidth for names
+            Fname=FerrOrient.split(".")[0].split("-")[0]
+            Aname=AustOrient.split(".")[0].split("-")[0]
             
+            # Append to lists
+            AustList.append(Aname)
+            FerrList.append(Fname)
+            VFList.append(VF*A_val/(VF*A_val+((1.0-VF)*F_val)))
         
-            Fname=FerrOrient.split(".")
-            Aname=AustOrient.split(".")
         
-            MixName= Fname[0]+"-"+Aname[0]
-        
-            
-        
-            data1 = pd.DataFrame({MixName: DF1})
-            #data2 = pd.DataFrame({MixName: DF2})
-            #data3 = pd.DataFrame({MixName: DF3})
-        
-            
-        
-            df2pair = pd.concat([df2pair, data1], axis=1)
-            #df4pair = pd.concat([df4pair, data2], axis=1)
-            #dfMaxUnique = pd.concat([dfMaxUnique, data3], axis=1)
+    dataDict={"Austenite":AustList, "Ferrite": FerrList, "VF":VFList}
+    SaveTable=pd.pivot_table(pd.DataFrame.from_dict(dataDict),index="Austenite", columns="Ferrite")
     
-    data=df2pair
-    #if(PeakCombo.lower()=='df2'):
-    #    data=df2pair
-    #elif (PeakCombo.lower()=='df4'):
-    #    data=df4pair
-    #else:
-    #    data=dfMaxUnique
+    #used for debugging
+    #return dataDict
+    #return EmptyDF
     
     
-    
-    for i in range (len(data.iloc[:,0])):
-        if (data.iloc[:,0][i].lower()==Scheme.lower()):
-            break
-    
-    names=[]
-    
-    for j in range (len(data.columns.to_numpy())):
-        names.append(data.columns.to_numpy()[j])
-    names=np.delete(names,0)
-    
-    values=[]
-    for k in range (len(data.columns.to_numpy())):
-        values.append(data.iloc[i,k])
-    values=np.delete(values,0)
-    
-    
-    fraction=pd.DataFrame(data=values,columns=['Phase Fraction'])
-    Fnames=[]
-    Anames=[]
-    for name in names:
-        index=name.find(HW)+2
-        Fnames.append(name[:index])
-        Anames.append(name[index+1:])
-    Fname=[]
-    Aname=[]
-    for name in Fnames:
-        Fname.append(name[:-6])
-    for name in Anames:
-        Aname.append(name[:-6])
-    Ferrite=pd.DataFrame(data=Fname,columns=['Ferrite Component'])
-    Austenite=pd.DataFrame(data=Aname,columns=['Austenite Component'])
-    components=pd.concat([Ferrite,Austenite],axis=1)
-    relevantdata=pd.concat([components, fraction],axis=1)
-    xaxis=np.unique(Ferrite.to_numpy())
-    yaxis=np.unique(Austenite.to_numpy())
-    array=np.ndarray(shape=(len(yaxis),len(xaxis)))
-    
-    
-    k=0
-    for i in range (len(yaxis)):
-        for j in range (len(xaxis)):
-            array[i,j]=values[k]
-            k=k+1
-        
-    values[values == ''] = 0.0
-    Values = values.astype(np.float) 
-    labels=[]
-    for val in Values:
-        if(val>=0.255):
-            labels.append("+")
-        elif(val<=0.245):
-            labels.append("-")
-        else:
-            labels.append("O")
-    labels=np.asarray(labels)
-    #labels.resize(len(yaxis),len(xaxis)) 
-    #labels=pd.DataFrame(labels)
-    df=pd.DataFrame({'Austenite Components': Aname, 'Ferrite/Martensite Components': Fname, 'Phase Fraction': Values })
-    df_wide=df.pivot_table(index='Austenite Components', columns='Ferrite/Martensite Components', values='Phase Fraction' )
-    
-    df2=pd.DataFrame({'Austenite Components': Aname, 'Ferrite/Martensite Components': Fname, 'Phase Fraction': labels })
-    dw=df2.pivot( index='Austenite Components', columns='Ferrite/Martensite Components', values='Phase Fraction' )
-
+    # Need to rename columns since pivot_tables return a multiindex data frame
+    FerriteNames=[col[1] for col in SaveTable.columns.values]
  
+    # I think this has been depricated- AC 29 Mar 2021
+#    values[values == ''] = 0.0
+#    Values = values.astype(np.float)
+#    labels=[]
+#    for val in Values:
+#        if(val>=0.255):
+#            labels.append("+")
+#        elif(val<=0.245):
+#            labels.append("-")
+#        else:
+#            labels.append("O")
+#    labels=np.asarray(labels)
+    #labels.resize(len(yaxis),len(xaxis))
+    #labels=pd.DataFrame(labels)
+
     # plotting
     
-
     if cbarMap=='grey':
         color= sns.diverging_palette(359, 359, 99, l=0, sep=1, n=50, center='light', as_cmap=True)
     else:
-        color= sns.color_palette("coolwarm", ncolors)
-    plt.figure(figsize = (13,7),dpi=300)
-    figure=sns.heatmap(df_wide, vmin=cbarRange[0], vmax=cbarRange[1], cmap=color, center=VF, annot=True, fmt="3.3f", linewidths=0.5,square=True,cbar_kws={"shrink": .80})
+        color= sns.color_palette("coolwarm", 25)
+    plt.figure(figsize = (13,7))
+    figure=sns.heatmap(SaveTable, vmin=cbarRange[0], vmax=cbarRange[1], cmap=color, center=VF, annot=True, fmt="3.3f", linewidths=0.5,square=True,cbar_kws={"shrink": .80}, xticklabels=FerriteNames)
+    figure.set_xlabel('Ferrite')
+    
     #figure=sns.heatmap(df_wide,vmin=0.0, vmax=0.50, cmap=color,center=0.25,annot=dw, annot_kws={"size": 18},fmt='',linewidths=0.5,square=True,cbar_kws={"shrink": .80})
-    if AddTitle==True:
-        plt.title("Halfwidth of "+HW+" , "+ Scheme+ " Sampling Scheme, "+ PeakCombo.upper()+ " Peak Combination" ,fontsize =18)
+    plt.title("Halfwidth of "+HW+" , "+ Scheme+ " Sampling Scheme, "+ PeakCombo.upper()+ " Peak Combination" ,fontsize =18)
     bottom, top = figure.get_ylim()
     figure.set_ylim(bottom + 0.5, top - 0.5)
     
@@ -424,6 +350,3 @@ def PlotHeatmap(hw, PeakCombo,Scheme, Folder, VF=0.25, cbarMap=False, cbarRange=
 
     if cmd==False:
         plt.show()
-
-
-
