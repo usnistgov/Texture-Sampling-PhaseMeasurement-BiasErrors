@@ -228,7 +228,7 @@ def DensityContourPlot(Name, Coordinates,RDup=True, Weights=False, save=False, c
 ###################################
 # Texture Component Heatmap
 ###################################
-def PlotHeatmap(hw, PeakCombo,Scheme, Folder, VF=0.25, cbarMap=False, cbarRange=[0,0.5], save=False, cmd=False, savename='test.png'):
+def PlotHeatmap(hw, PeakCombo,Scheme, Folder, VF=0.25, cbarMap=False, cbarRange=[0,0.5],ncolors=25, save=False, cmd=False, savename='test.png'):
     """
     A method that accepts a desired HalfWidth value, Peak Combination, and a specific Sampling Scheme, and outputs a heatmap of the
     resulting Austenite Phase Fraction Values. In order for the function to work as intended, please make sure you note the format
@@ -334,7 +334,7 @@ def PlotHeatmap(hw, PeakCombo,Scheme, Folder, VF=0.25, cbarMap=False, cbarRange=
     if cbarMap=='grey':
         color= sns.diverging_palette(359, 359, 99, l=0, sep=1, n=50, center='light', as_cmap=True)
     else:
-        color= sns.color_palette("coolwarm", 25)
+        color= sns.color_palette("coolwarm", ncolors)
     plt.figure(figsize = (13,7))
     figure=sns.heatmap(SaveTable, vmin=cbarRange[0], vmax=cbarRange[1], cmap=color, center=VF, annot=True, fmt="3.3f", linewidths=0.5,square=True,cbar_kws={"shrink": .80}, xticklabels=FerriteNames)
     figure.set_xlabel('Ferrite')
