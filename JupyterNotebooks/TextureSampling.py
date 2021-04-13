@@ -1621,6 +1621,111 @@ def BT8_HexGrid(name, chi_max, stepsize, CoverageType="full"):
     d = {'Tilt' : tilt, 'Rotation' : rotation}
     coordsDF=pd.DataFrame(d)
     return name, coordsDF
+
+
+def SpiralGrid(name, resolution):
+    import matplotlib.pyplot as plt
+    tilt=[]
+    rotation=[]
+    rings=[]
+    chi=90.0
+    phi=0.0
+    count=0
+    while(chi>0):
+        while(phi<360):
+            points=(360/resolution)*math.sin(math.radians(chi))
+            phi_step=float(360/points)
+            chi_step=float(resolution/points)
+            rotation.append(phi)
+            tilt.append(chi)
+            phi=phi+phi_step
+            chi=chi-chi_step
+            count=count+1    
+        phi=phi-360
+        rings.append(count)
+        count=0
+        
+    
+
+    tilt.append(0)
+    rotation.append(0)
+
+    #Plot functions for tilt/rotation over time
+    '''
+    width = 0.35       # the width of the bars: can also be len(x) sequence
+
+    labels=[]
+    i=0
+    for i in range(len(rings)):
+        labels.append(str(i+1))
+    
+    
+    plt.bar(labels,rings)
+
+
+    
+    plt.xlabel('Ring Number (Starting from outside)')
+    plt.ylabel('Sampling Time (Number of points per ring)')
+    plt.title('Rotation Sampling Time as a function of elapsed time')
+
+    plt.show()
+    '''
+    
+
+
+
+
+
+
+    d = {'Tilt' : tilt, 'Rotation' : rotation}
+    coordsDF=pd.DataFrame(d)
+    return name, coordsDF
+    
+
+def OffsetRing(name, res, theta, omega, rotlist=['X', 'Y']):
+    import numpy as np
+    import pandas as pd
+    import math
+    
+    yaxis=np.ndarray.tolist(np.arange(0.0, 360.0, res))
+    xaxis=[90.0-theta] * len(yaxis) 
+    
+    r_list=[]
+    t_list=[]
+    for i, value in enumerate(yaxis):
+        for rotaxis in rotlist:
+            if rotaxis=='X':
+                (r,t)=cart2sphDeg(np.einsum('ij,j', RotateXMatrix(omega), sph2cartDeg(value,xaxis[i])))
+                
+            elif rotaxis=='Y':
+                (r,t)=cart2sphDeg(np.einsum('ij,j', RotateYMatrix(omega), sph2cartDeg(value,xaxis[i])))
+                
+                
+            else:
+                print("Not a supported rotation axis")
+            
+            if r<0:
+                r=r+360
+            elif r>=360:
+                r=r-360
+
+            if t<0:
+                t=-t
+            if t>90:
+                t=180-t
+
+            
+            
+            r_list.append(r)
+            t_list.append(t)
+
+    df = {'Tilt' : t_list, 'Rotation' : r_list}
+    coordsDF=pd.DataFrame(df)
+    
+    
+    return name, coordsDF 
+
+
 #print(EqualAngleSampling("Austenite",30)) (Debug)
 
 #####################################
