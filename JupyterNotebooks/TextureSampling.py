@@ -1396,6 +1396,10 @@ def cart2sphDeg(a):
 
 ### Helper function for RotRing?
 def RotateYMatrix(omega_deg):
+    """
+    Helper function for RotRing, hard coded rotations about the Y axis
+    """
+
     import numpy as np
     import math
     omega=omega_deg*math.pi/180
@@ -1408,6 +1412,9 @@ def RotateYMatrix(omega_deg):
 
 ### Helper function for RotRing?
 def RotateXMatrix(omega_deg):
+    """
+    Helper function for RotRing, hard coded rotations about the Y axis
+    """
     import numpy as np
     import math
     omega=np.radians(omega_deg)
@@ -1682,7 +1689,27 @@ def SpiralGrid(name, resolution):
     return name, coordsDF
     
 
-def OffsetRing(name, res, theta, omega, rotlist=['X', 'Y']):
+def OffsetRing(name, res, theta, tilt_center , rotation_center):
+    """
+    FIX - add more
+    Offset single ring, copied from RingRot
+
+    Parameters
+    ----------
+    name : string
+        The name of the sampling scheme.
+        
+    res:
+        Resolution about the rings
+    theta:
+        Theta value (1/2 2-theta), deviation from vertical due to finite energy
+    tilt_center : float (degrees)
+        Tilt angle for the center of the ring
+    rotation_center: float (degrees)
+        rotation angle for the center of the ring
+
+    """
+
     import numpy as np
     import pandas as pd
     import math
@@ -1693,37 +1720,47 @@ def OffsetRing(name, res, theta, omega, rotlist=['X', 'Y']):
     r_list=[]
     t_list=[]
     for i, value in enumerate(yaxis):
-        for rotaxis in rotlist:
-            if rotaxis=='X':
-                (r,t)=cart2sphDeg(np.einsum('ij,j', RotateXMatrix(omega), sph2cartDeg(value,xaxis[i])))
-                
-            elif rotaxis=='Y':
-                (r,t)=cart2sphDeg(np.einsum('ij,j', RotateYMatrix(omega), sph2cartDeg(value,xaxis[i])))
-                
-                
-            else:
-                print("Not a supported rotation axis")
+        (r,t)=cart2sphDeg(np.einsum('ij,j', RotateTiltRotation(tilt_center , rotation_center), sph2cartDeg(value,xaxis[i])))
             
-            if r<0:
-                r=r+360
-            elif r>=360:
-                r=r-360
+        
+        if r<0:
+            r=r+360
+        elif r>=360:
+            r=r-360
 
-            if t<0:
-                t=-t
-            if t>90:
-                t=180-t
+        if t<0:
+            t=-t
+        if t>90:
+            t=180-t
 
-            
-            
-            r_list.append(r)
-            t_list.append(t)
+        
+        
+        r_list.append(r)
+        t_list.append(t)
 
     df = {'Tilt' : t_list, 'Rotation' : r_list}
     coordsDF=pd.DataFrame(df)
     
     
     return name, coordsDF 
+
+
+### Helper function for RotRing?
+def RotateTiltRotation(psi_deg, phi_deg):
+    """
+    Helper function for OffsetRing,
+    Uses Rotation matrix from "Residual Stress" by Noyan & Cohen (1987)
+    """
+
+    import numpy as np
+    import math
+    psi=psi_deg*math.pi/180
+    phi=phi_deg*math.pi/180
+    R=[[math.cos(phi)*math.cos(psi),math.sin(phi)*math.cos(psi), -math.sin(psi)  ],
+        [-math.sin(phi), math.cos(phi),0],
+        [math.cos(phi)*math.sin(psi), math.sin(phi)*math.sin(psi), math.cos(psi)]]
+    return np.transpose(np.array(R)) # transpose to change from active to passive
+
 
 
 #print(EqualAngleSampling("Austenite",30)) (Debug)

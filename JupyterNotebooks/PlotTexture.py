@@ -107,6 +107,8 @@ def SimpleTestPlot(Name, Coordinates, save=False,cmd=False,savename='test.png'):
 def SingleSchemePlot(Name, Coordinates, Marker, MarkerSize,RD=True,RDup=True,  save=False, cmd=False,savename='test.png'):
     """
     Test plot to work out conventions
+    
+    Note - mplstereonet plots on the bottom of the sphere
     """
     import pandas as pd
     import mplstereonet
@@ -149,7 +151,9 @@ def SingleSchemePlot(Name, Coordinates, Marker, MarkerSize,RD=True,RDup=True,  s
     #SchemeName,Coordinates=SingleOrientation("RD Single", 90.0,180.0)
     #SchemeName,Coordinates=SingleOrientation("TD Single", 90.0,270.0)
 
-    dip, strike =Coordinates['Tilt'], Coordinates['Rotation']
+    # The -90 in rotation is needed to make the X/RD axes consistent.  Otherwise 0° rotation is parallel to Y/TD...
+    # NEED to check if this an issue with other plots/summations!
+    dip, strike =Coordinates['Tilt'], (Coordinates['Rotation']-90.0)
     l1=ax1.pole(strike, dip, Marker, markersize=MarkerSize, clip_on=False)
     #dip tilts about the 0 axis (RD), left handed
     #strike tilts about the normal axis (ND), left handed
