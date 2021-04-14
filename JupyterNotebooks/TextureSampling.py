@@ -380,6 +380,7 @@ def GenerateAveIntesity(SchemesListDF, pftype, DataFolder, SaveFolder):
 
             #create subsets for phase fractions
         hkllist.append('1Pair-A')
+        hkllist.append('1Pair-B')
         hkllist.append('2Pairs-A')
         hkllist.append('2Pairs-B')
         hkllist.append('3Pairs-A')
@@ -446,6 +447,17 @@ def GenerateAveIntesity(SchemesListDF, pftype, DataFolder, SaveFolder):
                 PfIS.append(PfIS[Mindex110])
             else:
                 print ("Unrecognized Phase")
+
+            #####################
+            # 1 Pair B:  Austenite (220);Ferrite (211)
+            # Back reflection from a Cr source
+            if PhaseType=="A":
+                PfIS.append(PfIS[Aindex220])
+            elif PhaseType=="F" or "M":
+                PfIS.append(PfIS[Mindex211])
+            else:
+                print ("Unrecognized Phase")
+                
                 
             # 2 Pairs A:  Austenite (200), (220);Ferrite (200), (211)
             # Used in JAC paper, matches ASTM E975 with Chromium radiation, Jacques 2009 Round Robin (XRD3)

@@ -232,7 +232,7 @@ def DensityContourPlot(Name, Coordinates,RDup=True, Weights=False, save=False, c
 ###################################
 # Texture Component Heatmap
 ###################################
-def PlotHeatmap(hw, PeakCombo,Scheme, Folder, VF=0.25, cbarMap=False, cbarRange=[0,0.5], save=False, cmd=False, savename='test.png'):
+def PlotHeatmap(hw, PeakCombo,Scheme, Folder, Scheme2=None, VF=0.25, cbarMap=False, cbarRange=[0,0.5], save=False, cmd=False, savename='test.png'):
     """
     A method that accepts a desired HalfWidth value, Peak Combination, and a specific Sampling Scheme, and outputs a heatmap of the 
     resulting Austenite Phase Fraction Values. In order for the function to work as intended, please make sure you note the format 
@@ -247,12 +247,19 @@ def PlotHeatmap(hw, PeakCombo,Scheme, Folder, VF=0.25, cbarMap=False, cbarRange=
     
     
     PeakCombo: String
-    Desired Peak Combination to study. Peak Combinations fall under DF2, DF4, and DFUnique, each of which refer to the specific combinations of XRD peaks used
-    in calculations.
+    Desired Peak Combination to study. Peak Combinations fall under DF2, DF4, and DFUnique, each of which refer to the specific combinations of XRD peaks used in calculations. Must be defined name from TextureSampling.py
     
     Scheme: String
     Desired Sampling Scheme. Make sure the format of the inputted scheme exactly matches that which is prescribed by the original
     data. For example, to view "HexGrid-60degTilt5degRes" sampling scheme, you need to type that exactly for the code to work.
+    
+    Folder: string
+    Folder to save the data
+    
+    Scheme2: String (default None)
+    When using different two theta values, include data from a second scheme.  Enter the Austenite phase for Scheme2, Ferrite phase for Scheme
+    
+    
     """
     import fnmatch
     import os
@@ -290,12 +297,18 @@ def PlotHeatmap(hw, PeakCombo,Scheme, Folder, VF=0.25, cbarMap=False, cbarRange=
             DFF=pd.read_excel(os.path.join(Folder,FerrOrient),header=1,skipfooter=0)
             DFA=pd.read_excel(os.path.join(Folder,AustOrient),header=1,skipfooter=0)
 
-            # Revised, some issues with what's returned
-            # Pandas returns a larger array instead of just one value - AC 2021 Mar 29
-            F_val=float(DFF.loc[DFF['HKL'] == Scheme][PeakCombo])
-            A_val=float(DFA.loc[DFA['HKL'] == Scheme][PeakCombo])
-            #print (DFF)
-            #print (DFA)
+            if Scheme2 != None:
+            
+                F_val=float(DFF.loc[DFF['HKL'] == Scheme][PeakCombo])
+                A_val=float(DFA.loc[DFA['HKL'] == Scheme2][PeakCombo])
+            
+            else :
+                # Revised, some issues with what's returned
+                # Pandas returns a larger array instead of just one value - AC 2021 Mar 29
+                F_val=float(DFF.loc[DFF['HKL'] == Scheme][PeakCombo])
+                A_val=float(DFA.loc[DFA['HKL'] == Scheme][PeakCombo])
+                #print (DFF)
+                #print (DFA)
                 
             #split at file type and halfwidth for names
             Fname=FerrOrient.split(".")[0].split("-")[0]
