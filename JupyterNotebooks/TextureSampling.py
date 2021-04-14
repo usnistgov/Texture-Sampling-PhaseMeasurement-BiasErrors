@@ -17,6 +17,8 @@ def xpcformat(mode=None, filename=None):
     
     FIX: Docstring too long and complicated
     
+    NOTE: .xpc files seem to start (rotation=0) along the Y (TD) direction. AC-2021 Apr 14
+    
     MAUD uses an .xpc format for pole figures, likely derived from BearTex [1].  This format is similar to the General Intensity File Format in POPLA [2, appendix B2], with a slightly different header
 
     [1] http://eps.berkeley.edu/~wenk/TexturePage/beartex.htm
@@ -114,10 +116,11 @@ def xpcformat(mode=None, filename=None):
             dataset=[]
             for item in grouping:
                 #print item[0],item[1],item[2],item[3]
-                parsed=dataline.read(line[item[0]])
-                parsed.extend(dataline.read(line[item[1]]))
+                # Changed the order to deal with 90 rotation in xpc files AC-2021 Apr 14
+                parsed=dataline.read(line[item[1]])
                 parsed.extend(dataline.read(line[item[2]]))
                 parsed.extend(dataline.read(line[item[3]]))
+                parsed.extend(dataline.read(line[item[0]]))
                 dataset.append(parsed)
             #print (dataset)
             
@@ -151,6 +154,8 @@ def mtexPFformat(filepath=None):
     """
     Read in pole figures exported from mtex using the 'export' command
     Each pole figure is assigned Files are coll
+    
+    Note: have not checked rotation issue noted in .xpc files... AC-2021 Apr 14
     
     conventions:
 
