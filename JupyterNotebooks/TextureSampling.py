@@ -991,12 +991,14 @@ def HexGrid(name, chi_max, angular_spacing, CoverageType="full", IncludeND=True)
 ###################################
 def SpiralScheme(name, chi_max, phi_max):
     """
-    A function used to create a spiral grid scheme (a polar grpahical representation of data in certain atomic planes, to be used in analysis of material texture).
+    A function used to create a spiral grid scheme (a polar graphical representation of data in certain atomic planes, to be used in analysis of material texture).
     This function accepts three parameters: the name of the sample to be used, the maximum chi degree value (elaborated upon below in the parameters description), as well
     as the maximum phi degree value (similarly focused upon in the parameters section of this docstring. Like other methods in this family of grid schemes, it outputs arrays
-    of tilt angle (represented by chi) and rotation angle (represented by phi)
+    of tilt angle (represented by chi) and rotation angle (represented by phi).
 
-    TO ADD: Citation
+    This function relies on a logarithmic spiral pattern, which expands outwards at a quicker rate than an Archimedean Spiral. 
+
+    Citation: Adapted from A. C. Rizzie, “Elaboration on the Hexagonal Grid and Spiral Method for Data Collection Via Pole Figures,” Spring 2008 [Online]. Available: http://www.bsu.edu/libraries/beneficencepress/mathexchange/05-01/rizzie.pdf. [Accessed: 24-Feb-2021]
 
     Parameters
     ----------
@@ -1572,7 +1574,7 @@ def BT8_HexGrid(name, chi_max, stepsize, CoverageType="full"):
     """
     Hex schemes are considered one to be one of the most promising sampling schemes, given their combination of fewer sampling points and ability to
     mitigate phase fraction measurement bias due to crystallographic texture. This variation of the hex scheme samples half as many points as a traditional
-    hex scheme, so it is being tested for its ability to reduce texture effects on phase fraction calculations
+    hex scheme, so it is being tested for its ability to reduce texture effects on phase fraction calculations.
      
 
     Parameters
@@ -1648,6 +1650,30 @@ def BT8_HexGrid(name, chi_max, stepsize, CoverageType="full"):
 
 
 def SpiralGrid(name, resolution):
+    """
+    The initial inspirations behind the spiral
+    grid were to continuously and smoothly iterate through the
+    range of tilt and rotation angles. In order to have an even sampling from this spiral grid, 
+    the number of sampling points at certain tilt rings was set directly proportional to the magnitude of the
+    sine of the tilt angle at a given sampling ring. Then, the discrete nature of the tilt rings was removed and the tilt angle
+    was also dynamically changed, thereby reducing the total number of sampling points used in the sampling scheme. The final results can be 
+    better appreciated with the plotting options seen in the code (via matplotlib), plotting the number of sampling points in a tilt regions 
+    as a function of instantaneous coordinate angle value.
+
+
+    Parameters
+    ----------
+    name : string
+        The name of the sampling scheme.
+     
+    resolution: float
+        The spacing between sampling points in the pole figure grid. A higher resolution value implies more sampling points used, or a denser 
+        distribution of sampling points, and vice versa for lower resolution values. 5 degrees is assumed to be the conventional resultion used 
+        in this project.
+
+
+
+    """
     import matplotlib.pyplot as plt
     tilt=[]
     rotation=[]
@@ -1675,7 +1701,7 @@ def SpiralGrid(name, resolution):
     rotation.append(0)
 
     #Plot functions for tilt/rotation over time
-    '''
+    
     width = 0.35       # the width of the bars: can also be len(x) sequence
 
     labels=[]
@@ -1688,12 +1714,12 @@ def SpiralGrid(name, resolution):
 
 
     
-    plt.xlabel('Ring Number (Starting from outside)')
-    plt.ylabel('Sampling Time (Number of points per ring)')
-    plt.title('Rotation Sampling Time as a function of elapsed time')
+    plt.xlabel('Tilt Range (Starting from higher Tilt)')
+    plt.ylabel('Number of Sampling Points')
+    plt.title('Sampling points of Spiral Grid as a Function of Tilt')
 
     plt.show()
-    '''
+    
     
 
 
@@ -1708,8 +1734,13 @@ def SpiralGrid(name, resolution):
 
 def OffsetRing(name, res, theta, tilt_center , rotation_center):
     """
-    FIX - add more
-    Offset single ring, copied from RingRot
+    The main motivation behind the Offset ring is to account for 1 diffraction peak in each of the ferrite and austenite phases. This would
+    be done by 2 seperate sampling rings, which would be shifted by a certain value to account for the fact that X-ray energies are finite 
+    as opposed to infinite (along the ND axis).
+    
+    This Offset single ring implementation was largely adapted from the 'Ringrot' function and modified appropriately for these purposes, but there 
+    are still some improvements that need to be made in order for this scheme to be feasible for phase fraction measurement of textured 
+    steels.
 
     Parameters
     ----------
