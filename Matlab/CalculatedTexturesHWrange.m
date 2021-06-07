@@ -23,7 +23,8 @@ mkdir(MtexDataDir)
 %% open file to save the Name, texture intex and Entropy
 fileID = fopen(fullfile(MtexDataDir,'ComputedTextureIndexValues.txt'),'w');
 
-fprintf(fileID,'%12s\t %5s\t %5s\t %5s\n','Name','TI', 'Ent', 'Max');
+%fprintf(fileID,'%12s\t %5s\t %5s\t %5s\n','Name','TI', 'Ent', 'Max');
+fprintf(fileID,'%12s\t %5s\t %5s\t %5s\t %5s \n','Name','TI', 'Ent', '', '');
 %fmt = '] ] ] ]\n';
 fclose(fileID);
 
@@ -60,8 +61,8 @@ gamma2 = orientation.byEuler(30*degree,54.736*degree,45*degree,cs,ss);
 %% Define kernal and halfwidth %%
 
 %for hw=[10 20 30 40 50] 
-%for HW=[10*degree 15*degree 20*degree 25*degree 30*degree 35*degree 40*degree 45*degree 50*degree]
-for HW=[20*degree]
+for HW=[2.5*degree 5*degree 10*degree 15*degree 20*degree 25*degree 30*degree 35*degree 40*degree 45*degree 50*degree]
+%for HW=[20*degree]
 
 
 %HW=20*degree;
@@ -70,12 +71,12 @@ tmp=num2str(round(HW/degree));
 disp(['Halfwidth: ', tmp, ' Degrees'])
 
 disp(HW)
-psi = deLaValeePoussinKernel('HALFWIDTH',HW);
+psi = deLaValleePoussinKernel('HALFWIDTH',HW);
 %psi = vonMisesFisherKernel('HALFWIDTH',HW);
 
 %% Start for loop of different orientaions
 % Define ODFs
-% for i=7 %just make cube orientation plots
+%for i=7 %just make cube orientation plots
 for i=[1:21] %all of the textures
 
     %% uniform distributions - creates lots of them, but I couldn't find an elegant way to stop that from happening
@@ -293,20 +294,94 @@ Tval=[textureindex(odf),entropy(odf)];
 fileID = fopen(fullfile(MtexDataDir,'ComputedTextureIndexValues.txt'),'a');
 
 % Can't output different types of data with the same command
-fprintf(fileID,'%12s\t',strcat(bname,'-HW', tmp));
+fprintf(fileID,'%16s\t',strcat(bname,'-HW', tmp));
 fprintf(fileID,'%6.4f\t %6.4f\t',Tval,'\n');
-
+fprintf(fileID,'%6s\n', '');
 %fprintf(fileID,'%6.4f\n', m);
 fclose(fileID);
 
 
+
+
+
+%% Commands for output
+%disp('Output ODFs to .maa and mtex')
+disp('Output ODFs to .maa')
+
+arg= cell(1,2);
+arg{1}= 'resolution';
+arg{2}= degree ;
+
+csplot = crystalSymmetry('m-3m');
+ssplot = specimenSymmetry('triclinic');
+S3G = getClass(arg,'SO3Grid',regularSO3Grid(csplot,ssplot,arg));
+
+%odf = uniformODF(cs,ss);
+
+v = eval(odf,S3G,arg);
+
+%v = 5*v;
+
+%{
+
+A custom function was created in mtex to save ODFs generated in the .maa format, which is required to import into MAUD.  The .maa format is similar to the popLA data structure (J. S. Kallend, U. F. Kocks, A. D. Rollett, and H.-R. Wenk, “popLA - An Integrated Software System for Texture Analysis,” Textures Microstruct., vol. 14–18, pp. 1203–1208, 1991. ), albeit with whitespace delimited data columns rather than fixed width columns.  While popLA rescaled floating point intensity values an integers (i.e. uniform texture intensity equal to 1.0 was scaled to 100) the .maa format permits floating point numbers.  The function created for .maa output truncates the floating point number to one digit after the decimal point (i.e. ###.#), matching the precision of an .maa file output from MAUD.
+    
+    
+%}
+
+file= fopen( strcat(MtexDataDir,'/',bname,'-HW', tmp,'.maa'),'w');
+
+fprintf(file, 'title \n');
+fprintf(file, '7 5.0 \n'); % angle convention and resolution
+fprintf(file, '2.86 2.86 2.86 90.00 90.00 90.00 \n');% This is generic header information, not specfic to each phase
+
+
+
+for i=1:size(v,3) 
+    for j=1:size(v,2)
+       for k=1:size(v,1) 
+           fprintf(file,'%2.1f ',v(k,j,i));
+           
+       end
+       fprintf(file,'%2.1f ',v(1,j,i)); %repeat for extra term
+       fprintf(file,'  \n');
+    end
+    
+    fprintf(file,'  \n');
 end
 
+%repeat for extra data block
+    for j=1:size(v,2)
+       for k=1:size(v,1) 
+           fprintf(file,'%2.1f ',v(k,j,1));
+           
+       end
+       fprintf(file,'%2.1f ',v(1,j,1)); 
+       fprintf(file,'  \n');
+    end
+        fprintf(file,'  \n');
+
+%h = {Miller(1,1,0,cs),Miller(2,0,0,cs),Miller(2,1,1,cs)};
+
+%figure
+%plotPDF(odf30,h,'contourf',[1.87,1.25,2.5])
+%plotPDF(odf,h)
+%figure; plotPDF(odf,h,'contourf',[1.0,1.2,1.5,2]);CLim(gcm,[0, 2.5]);mtexColorbar;
+
+%setMTEXpref('EulerAngleConvention','ZYZ')
+%plot(odf30,'sections',18, 'colorbar')
+%setMTEXpref('EulerAngleConvention','Bunge')
 
 
+% Save Mtex format
+%export(odf,strcat(bname,'-mtex.txt'),'resolution',5*degree)
 
+i=i+1;
 
+close all
 
+% end texture loop
+end
 
 
 % end halfwidth loop
