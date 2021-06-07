@@ -8,10 +8,6 @@ cs = crystalSymmetry('m-3m');
 ss = specimenSymmetry('orthorhombic');
 r = xvector;
 
-% pole figure indexes
-%h_ferrite = {Miller(1,1,0,cs),Miller(2,0,0,cs),Miller(2,1,1,cs),Miller(2,2,0,cs),Miller(3,1,0,cs),Miller(2,2,2,cs)} ;
-%h_austenite = {Miller(1,1,1,cs),Miller(2,0,0,cs),Miller(2,2,0,cs),Miller(3,1,1,cs),Miller(2,2,2,cs),Miller(4,0,0,cs),Miller(3,3,1,cs),Miller(4,2,0,cs)} ;
-
 % Create save paths (if the don't exist)
 AddFiguresDir='ODFFigures';
 MtexDataDir='MtexData';
@@ -268,7 +264,7 @@ fig = gcf;
 fig.PaperPositionMode = 'auto';
 saveas(fig,fullfile(AddFiguresDir,strcat(bname,'-HW', tmp,'-AustPF.png')))
 
-%% Commands for output
+%% Commands for output as ODF
 %disp('Output ODFs to .maa and mtex')
 disp('Output ODFs to .maa')
 
@@ -340,8 +336,24 @@ end
 % Save Mtex format
 %export(odf,strcat(bname,'-mtex.txt'),'resolution',5*degree)
 
-i=i+1;
+%% Save pole figures
 
+A_name = strcat("Chess_AM_A_step",num2str(Load_step))
+M_name = strcat("Chess_AM_M_step",num2str(Load_step))
+
+h_ferrite
+
+savefile_A=strcat("ChessData/",A_name,"/",A_name);
+export(pdf_rc_a,convertStringsToChars(savefile_A),'degree')
+
+savefile_M=strcat("ChessData/",M_name,"/",M_name);
+export(pdf_rc_m,convertStringsToChars(savefile_M),'degree')
+
+%% Increment
+
+% Move to next texture component
+i=i+1;
+% Close all images
 close all
 
 end
