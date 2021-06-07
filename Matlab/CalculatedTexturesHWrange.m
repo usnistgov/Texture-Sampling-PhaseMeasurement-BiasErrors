@@ -376,6 +376,28 @@ end
 % Save Mtex format
 %export(odf,strcat(bname,'-mtex.txt'),'resolution',5*degree)
 
+%% Save pole figures
+
+pfsave= strcat(bname,'-HW', tmp,'-PFs');
+mkdir(fullfile(MtexDataDir,pfsave))
+
+% use equal angle grid to save
+r_save = regularS2Grid('resolution',5*degree, cs, ss_tri);
+
+if strcmp(phase,'ferrite')
+    pf = calcPoleFigure(odf,h_ferrite,r_save)
+elseif strcmp(phase,'austenite')
+    pf = calcPoleFigure(odf,h_austenite,r_save) 
+end
+
+cd(fullfile(MtexDataDir,pfsave))
+export(pf,convertStringsToChars(pfsave),'degree')
+cd(fullfile('..','..'))
+
+%% Increment
+
+% Move to next texture component
+
 i=i+1;
 
 close all
