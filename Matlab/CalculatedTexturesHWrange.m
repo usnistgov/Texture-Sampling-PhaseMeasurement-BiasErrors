@@ -10,8 +10,18 @@ ss_tri= specimenSymmetry('-1');
 r = xvector;
 
 % pole figure indexes
-h_ferrite = {Miller(1,1,0,cs),Miller(2,0,0,cs),Miller(2,1,1,cs),Miller(2,2,0,cs),Miller(3,1,0,cs),Miller(2,2,2,cs)} ;
-h_austenite = {Miller(1,1,1,cs),Miller(2,0,0,cs),Miller(2,2,0,cs),Miller(3,1,1,cs),Miller(2,2,2,cs),Miller(4,0,0,cs),Miller(3,3,1,cs),Miller(4,2,0,cs)} ;
+%h_ferrite = {Miller(1,1,0,cs),Miller(2,0,0,cs),Miller(2,1,1,cs),Miller(2,2,0,cs),Miller(3,1,0,cs),Miller(2,2,2,cs)} ;
+%h_austenite = {Miller(1,1,1,cs),Miller(2,0,0,cs),Miller(2,2,0,cs),Miller(3,1,1,cs),Miller(2,2,2,cs),Miller(4,0,0,cs),Miller(3,3,1,cs),Miller(4,2,0,cs)} ;
+
+% Larger list than for Cu radiation to match output from MAUD
+h_ferrite = {Miller(1,1,0,cs),Miller(2,0,0,cs),Miller(2,1,1,cs),...
+    Miller(2,2,0,cs),Miller(3,1,0,cs),Miller(2,2,2,cs)},...
+    Miller(3,2,1,cs)},Miller(4,0,0,cs)} ;
+
+h_austenite = {Miller(1,1,1,cs),Miller(2,0,0,cs),Miller(2,2,0,cs),...
+    Miller(3,1,1,cs),Miller(2,2,2,cs),Miller(4,0,0,cs),...
+    Miller(3,3,1,cs),Miller(4,2,0,cs),Miller(4,2,2,cs),...
+    Miller(3,3,3,cs),Miller(5,1,1,cs)} ;
 
 % Create save paths (if the don't exist)
 AddFiguresDir='ODFFiguresHW';
@@ -378,7 +388,7 @@ end
 
 %% Save pole figures
 
-pfsave= strcat(bname,'-HW', tmp,'-PFs');
+pfsave= strcat(bname,'-HW', tmp);
 mkdir(fullfile(MtexDataDir,pfsave))
 
 % use equal angle grid to save
