@@ -153,14 +153,18 @@ def xpcformat(mode=None, filename=None):
 def mtexPFformat(filepath=None):
     """
     Read in pole figures exported from mtex using the 'export' command
-    Each pole figure is assigned Files are coll
+    Each pole figure is a separate file with the hkl given in the filename inside paratheses
+    This reader assumes that the collection of pole figures are the only .txt files in the filepath given
+    
     
     Note: have not checked rotation issue noted in .xpc files... AC-2021 Apr 14
     
     conventions:
-
+    
     Input Arguments
     =========
+    filepath : str
+       File path to the folder with the pole figures
 
   
     Output Arguments
@@ -181,6 +185,10 @@ def mtexPFformat(filepath=None):
     PFFilenamesList = glob.glob(os.path.join(filepath, '*.txt'))
     
     # dataset is a list of pandas dataframes
+    #pf data format is a pandas array with tilt and rotate as the indexes
+
+
+    # Initialize list to add to the dataframes
     hkls=["HKL"]
     datasets=[]
     for PFFile in PFFilenamesList:
@@ -191,14 +199,13 @@ def mtexPFformat(filepath=None):
 
         # mtex data is 3 columns: tilt, rotate, intensity
         #CHECK - tilt convention
-
-        #pf data format is a pandas array with tilt and rotate as the indexes
-        
         OriginalData=pd.read_csv(PFFile,sep='\s+',names=["Tilt", "Rotate","Intensity"])
         #Convert to Ints
+        #2021 June 08 ??? Why are limiting to Ints
         OriginalData["Tilt"]=OriginalData["Tilt"].astype(int)
         OriginalData["Rotate"]=OriginalData["Rotate"].astype(int)
         #print(OriginalData)
+        
         
         MatrixData=OriginalData.pivot_table(index="Tilt", columns="Rotate", values="Intensity")
         # replace the 0 tilt row with 180 row, since mtex keeps the rotation all at zero
@@ -210,7 +217,7 @@ def mtexPFformat(filepath=None):
         #Adjust intensities for similarity to Beartex format
         MatrixData=MatrixData*100
 
-#        # Save the hkl value
+        # Save the hkl value
         hkl = [int(hkl_name[0]),int(hkl_name[1]),int(hkl_name[2])] #hkl
         #print hkl
         hkls.append(hkl)
