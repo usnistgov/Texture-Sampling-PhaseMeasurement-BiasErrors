@@ -421,28 +421,30 @@ def GenerateAveIntesity(SchemesListDF, pftype, DataFolder, SaveFolder):
             if PhaseType=="A":
                 #Austenite Reflections
                 #[4, 2, 0]	[4, 0, 0]	[2, 0, 0]	[2, 2, 0]	[3, 3, 3]	[1, 1, 1]	[2, 2, 2]	[3, 3, 1]	[3, 1, 1]	[4, 2, 2]	[5, 1, 1]
-                Aindex420=hkllist.index([4, 2, 0])
-                Aindex400=hkllist.index([4, 0, 0])
+                # Resorted order to be in increasing 2theta
+                Aindex111=hkllist.index([1, 1, 1])
                 Aindex200=hkllist.index([2, 0, 0])
                 Aindex220=hkllist.index([2, 2, 0])
-                Aindex333=hkllist.index([3, 3, 3])
-                Aindex111=hkllist.index([1, 1, 1])
-                Aindex222=hkllist.index([2, 2, 2])
-                Aindex331=hkllist.index([3, 3, 1])
                 Aindex311=hkllist.index([3, 1, 1])
+                Aindex222=hkllist.index([2, 2, 2])
+                Aindex400=hkllist.index([4, 0, 0])
+                Aindex331=hkllist.index([3, 3, 1])
+                Aindex420=hkllist.index([4, 2, 0])
                 Aindex422=hkllist.index([4, 2, 2])
+                Aindex333=hkllist.index([3, 3, 3])
                 Aindex511=hkllist.index([5, 1, 1])
             elif PhaseType=="F" or "M":
                 #Ferrite/Martensite Reflections
                 #[2, 1, 1]	[4, 0, 0]	[2, 0, 0]	[1, 1, 0]	[2, 2, 2]	[3, 1, 0]	[3, 2, 1] [2, 0, 0]
-                Mindex211=hkllist.index([2, 1, 1])
-                Mindex400=hkllist.index([4, 0, 0])
-                Mindex200=hkllist.index([2, 0, 0])
                 Mindex110=hkllist.index([1, 1, 0])
+                Mindex200=hkllist.index([2, 0, 0])
+                Mindex211=hkllist.index([2, 1, 1])
                 Mindex220=hkllist.index([2, 2, 0])
-                Mindex222=hkllist.index([2, 2, 2])
                 Mindex310=hkllist.index([3, 1, 0])
+                Mindex222=hkllist.index([2, 2, 2])
                 Mindex321=hkllist.index([3, 2, 1])
+                Mindex400=hkllist.index([4, 0, 0])
+
             else:
                 print ("Unrecognized Phase")
             #####################
