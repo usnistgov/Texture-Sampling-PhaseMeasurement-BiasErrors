@@ -271,7 +271,14 @@ def PlotHeatmap(hw, PeakCombo,Scheme, Folder, Scheme2=None, VF=0.25, cbarMap=Fal
     import numpy as np
     import seaborn as sns
     from matplotlib import pyplot as plt
-    HW=str(hw)
+
+    if (hw==3):
+        HW='03'
+    elif (hw==5):
+        HW='05'
+    else:
+        HW=str(hw)
+    
 
     
     AusteniteTextures=[]
