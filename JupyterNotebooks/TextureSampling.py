@@ -367,19 +367,20 @@ def GenerateAveIntesity(SchemesListDF, pftype, DataFolder, SaveFolder):
 
         # Mtex files have all the pole figures as separate files
         elif pftype=="mtex":
-            MtexFolder=(os.path.join(DataFolder, file))
-            (head,tail)=os.path.split(MtexFolder)
-            print("Mtex data from: ",tail)
-            # Look into sub directory
-            if "-" in tail:
-                orientation, hw=tail.split('-')
-            else:
-                orientation, ext=tail.split('.')
+            if os.path.isdir(file):
+                MtexFolder=(os.path.join(DataFolder, file))
+                (head,tail)=os.path.split(MtexFolder)
+                print("Mtex data from: ",tail)
+                # Look into sub directory
+                if "-" in tail:
+                    orientation, hw=tail.split('-')
+                else:
+                    orientation, ext=tail.split('.')
+                    
+                PhaseType= orientation[-1:]
                 
-            PhaseType= orientation[-1:]
-            
-            #for XPCfile in listoffiles:
-            (pfs,hkllist)=mtexPFformat(MtexFolder)
+                #for XPCfile in listoffiles:
+                (pfs,hkllist)=mtexPFformat(MtexFolder)
                 
         else:
             print("Not a suppored type")
@@ -998,6 +999,7 @@ def HexGrid(name, chi_max, angular_spacing, CoverageType="full", IncludeND=True)
 ###################################
 #Define function to create a spiral grid scheme (INCOMPLETE):
 ###################################
+
 def SpiralScheme(name, chi_max, phi_max):
     """
     A function used to create a spiral grid scheme (a polar graphical representation of data in certain atomic planes, to be used in analysis of material texture).
@@ -1706,28 +1708,25 @@ def SpiralGrid(name, resolution):
         
     
 
-    tilt.append(0)
-    rotation.append(0)
-
     #Plot functions for tilt/rotation over time
     
-    width = 0.35       # the width of the bars: can also be len(x) sequence
+    #width = 0.35       # the width of the bars: can also be len(x) sequence
 
-    labels=[]
-    i=0
-    for i in range(len(rings)):
-        labels.append(str(i+1))
+    #labels=[]
+    #i=0
+    #for i in range(len(rings)):
+        #labels.append(str(i+1))
     
     
-    plt.bar(labels,rings)
+    #plt.bar(labels,rings)
 
 
     
-    plt.xlabel('Tilt Range (Starting from higher Tilt)')
-    plt.ylabel('Number of Sampling Points')
-    plt.title('Sampling points of Spiral Grid as a Function of Tilt')
+    #plt.xlabel('Tilt Range (Starting from higher Tilt)')
+    #plt.ylabel('Number of Sampling Points')
+    #plt.title('Sampling points of Spiral Grid as a Function of Tilt')
 
-    plt.show()
+    #plt.show()
     
     
 
@@ -1817,6 +1816,89 @@ def RotateTiltRotation(psi_deg, phi_deg):
         [-math.sin(phi), math.cos(phi),0],
         [math.cos(phi)*math.sin(psi), math.sin(phi)*math.sin(psi), math.cos(psi)]]
     return np.transpose(np.array(R)) # transpose to change from active to passive
+
+def GaussQuad(name):
+    rotationposition=[0.0,0.0,45.0,90.0,135.0,0.0,45.0,90.0,135.0,0.0,45.0,90.0,135.0,0.0,45.0,90.0,135.0]
+    tiltposition=[0.0,0.533296*180/math.pi,0.533296*180/math.pi,0.533296*180/math.pi,0.533296*180/math.pi,1.2239*180/math.pi,1.2239*180/math.pi,1.2239*180/math.pi,1.2239*180/math.pi,1.91769*180/math.pi,1.91769*180/math.pi,1.91769*180/math.pi,1.91769*180/math.pi,2.6083*180/math.pi,2.6083*180/math.pi,2.6083*180/math.pi,2.6083*180/math.pi]
+    d = {'Tilt' : tiltposition, 'Rotation' : rotationposition}
+    coordinates = pd.DataFrame(d)
+    return name, coordinates
+
+
+def KlugAlexanderSpiral(name, mirror, quadlock, revolutions=9):
+    tilt=[]
+    rotation=[]
+    value=revolutions*2*math.pi
+    increment=math.pi/(2*revolutions)
+    while(value>0):
+        chi=1.6*value
+        if(chi>90):
+            chi=90
+        else:
+            pass
+        tilt.append(chi)
+        rotation.append(math.degrees(value)%360)
+        value=value-increment
+
+    
+    
+    
+    if (mirror):
+        val=revolutions*2*math.pi
+        incr=math.pi/(2*revolutions)
+        while(val>0):
+            ch=1.6*val
+            if(ch>90):
+                ch=90
+            else:
+                pass
+            tilt.append(ch)
+            original=(math.degrees(val)%360)
+            if (original>180):
+                rotation.append(original-180)
+            elif(original<180):
+                rotation.append(original+180)
+            val=val-incr
+
+    
+    if (quadlock):
+        reflections=[90,270]
+        for reflection in reflections:
+            v=revolutions*2*math.pi
+            i=math.pi/(2*revolutions)
+            while(v>0):
+                c=1.6*v
+                if(c>90):
+                    c=90
+                else:
+                    pass
+                tilt.append(c)
+                original=(math.degrees(v)%360)
+                if (original>reflection):
+                    rotation.append(original-reflection)
+                elif(original<reflection):
+                    rotation.append(original+reflection)
+                v=v-i
+        
+        
+        
+    
+
+        
+    
+    tilt.append(0)
+    rotation.append(0)
+
+    d = {'Tilt' : tilt, 'Rotation' : rotation}
+    coordsDF=pd.DataFrame(d)
+    return name, coordsDF
+    
+
+
+
+    
+            
+            
 
 
 

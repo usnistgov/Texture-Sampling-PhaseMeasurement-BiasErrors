@@ -121,9 +121,13 @@ def SingleSchemePlot(Name, Coordinates, Marker, MarkerSize,RD=True,RDup=True,  s
     if RDup==True:
         if RD==True:
             ax1 = fig.add_subplot(111, projection='stereonet')
+            
             ax1.set_azimuth_ticks([0,90], labels=['RD','-- TD'],fontsize=14)
+
             ax1.plane(0.0, 90.0, 'k-', linewidth=1)
+
             ax1.plane(90.0, 90.0, 'k-', linewidth=1)
+
             ax1.annotate('ND', xy=(0, 0), xytext=(0.1,0.1), fontsize=14)
         else:
             ax1 = fig.add_subplot(111, projection='stereonet')
@@ -357,7 +361,7 @@ def PlotHeatmap(hw, PeakCombo,Scheme, Folder, Scheme2=None, VF=0.25, cbarMap=Fal
     figure.set_xlabel('Ferrite')
     
     #figure=sns.heatmap(df_wide,vmin=0.0, vmax=0.50, cmap=color,center=0.25,annot=dw, annot_kws={"size": 18},fmt='',linewidths=0.5,square=True,cbar_kws={"shrink": .80})
-    plt.title("Halfwidth of "+HW+" , "+ Scheme+ " Sampling Scheme, "+ PeakCombo.upper()+ " Peak Combination" ,fontsize =18)
+    plt.title("Halfwidth of "+HW+" , "+ Scheme + " Sampling Scheme, "+ PeakCombo.upper()+ " Peak Combination" ,fontsize =18)
     bottom, top = figure.get_ylim()
     figure.set_ylim(bottom + 0.5, top - 0.5)
     
