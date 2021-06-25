@@ -16,3 +16,4 @@ JupyterNotebooks/*.png
 *.png
 JupyterNotebooks/__pycache__/*.*
 *.zip
+Matlab/MtexDataHW/*
