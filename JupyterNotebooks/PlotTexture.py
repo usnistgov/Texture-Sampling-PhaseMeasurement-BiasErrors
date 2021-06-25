@@ -351,3 +351,89 @@ def PlotHeatmap(hw, PeakCombo,Scheme, Folder, VF=0.25, cbarMap=False, cbarRange=
 
     if cmd==False:
         plt.show()
+
+
+# Plot Density Contours for texture components
+
+def PlotTextureComponents(texComp,datadirectory, datafolder):
+    """
+    Plots the pole figures using MPLStereonet.  Used to check orientation consistency between different software.
+    Uses DensityContourPlot default of RD up.
+    
+    Parameters
+    ----------
+    
+    """
+
+
+    import glob
+    import os
+    import pandas as pd
+    import numpy as np
+    import TextureSampling
+    print("Plot Texture Components")
+    cwd=datadirectory
+    
+    
+    # For MAUD data, need option for mtex
+    xpcdatapath=os.path.abspath(os.path.join(cwd, '..', 'MAUD', datafolder))
+    #print(xpcdatapath)
+    for file in glob.glob(os.path.join(xpcdatapath, '*')):
+        #print(file)
+        XPCfile=(os.path.join(xpcdatapath, file))
+        (head,tail)=os.path.split(file)
+                #Split for HW
+        if "-" in tail:
+            orientation, hw=tail.split('-')
+        else:
+            orientation, ext=tail.split('.')
+                    
+    #for XPCfile in listoffiles:
+        if orientation==texComp:
+            #print("File from listdir: ",file)
+            (pfs,hkllist)=TextureSampling.xpcformat('xpc',XPCfile)
+            
+            
+            
+            
+            i=0
+            for i in range(0,len(pfs)):
+                #print(pfs[i])
+                tilt=0
+                rot=0
+                dip=[]
+                strike=[]
+                SphereWeights=[]
+                while(tilt<=90):
+                    while(rot<=355):
+                        # added 90-tilt inline
+                        if tilt==0:
+                            SphereWeight=np.sin((90-2.5)*np.pi/180)-np.sin((90-0)*np.pi/180)
+                        elif tilt==90:
+                            SphereWeight=np.sin((90-87.5)*np.pi/180)
+                        else:
+                            SphereWeight=np.sin((90-tilt+2.5)*np.pi/180)-np.sin((90-tilt-2.5)*np.pi/180)
+                        weight=pfs[i].loc[tilt,rot].iloc[0]
+                        dip.extend([tilt]*weight)
+                        strike.extend([rot]*weight)
+                        SphereWeights.extend([SphereWeight]*weight)
+                        rot=rot+5
+                    tilt=tilt+5
+                    rot=0
+                #print(len(dip), len(SphereWeights))
+                d = {'Tilt' : dip, 'Rotation' : strike, 'Weights' : SphereWeights}
+                coordinates=pd.DataFrame(d)
+                #print(d)
+
+                name=orientation+", "+str(hkllist[i+1])
+                print(name+ " pole figure plots:")
+                DensityContourPlot(name, coordinates, Weights=True)
+                tilt=0
+                rot=0
+                dip=[]
+                strike=[]
+                i=i+1
+                
+                
+
+
