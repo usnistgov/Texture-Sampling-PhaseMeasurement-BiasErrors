@@ -338,6 +338,16 @@ end
 
 %% Save pole figures
 
+r_save = regularS2Grid('resolution',5*degree);
+calcPoleFigure(odf_austenite,h_austenite_save,r_save)
+
+if phase =='ferrite'
+    pf = calcPoleFigure(odf,h_ferrite,r_save)
+elseif phase =='austenite'
+    pf = calcPoleFigure(odf,h_austenite,r_save) 
+end
+
+
 A_name = strcat("Chess_AM_A_step",num2str(Load_step))
 M_name = strcat("Chess_AM_M_step",num2str(Load_step))
 
