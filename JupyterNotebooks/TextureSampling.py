@@ -358,18 +358,22 @@ def GenerateAveIntesity(SchemesListDF, pftype, DataFolder, SaveFolder):
         # Mtex files have all the pole figures as separate files
         elif pftype=="mtex":
             MtexFolder=(os.path.join(DataFolder, file))
-            (head,tail)=os.path.split(MtexFolder)
-            print("Mtex data from: ",tail)
-            # Look into sub directory
-            if "-" in tail:
-                orientation, hw=tail.split('-')
+            if os.path.isfile(MtexFolder):
+                print(MtexFolder, " is a file")
+                continue
             else:
-                orientation, ext=tail.split('.')
+                (head,tail)=os.path.split(MtexFolder)
+                print("Mtex data from: ",tail)
+                # Look into sub directory
+                if "-" in tail:
+                    orientation, hw=tail.split('-')
+                else:
+                    orientation=tail
+                    
+                PhaseType= orientation[-1:]
                 
-            PhaseType= orientation[-1:]
-            
-            #for XPCfile in listoffiles:
-            (pfs,hkllist)=mtexPFformat(MtexFolder)
+                #for XPCfile in listoffiles:
+                (pfs,hkllist)=mtexPFformat(MtexFolder)
                 
         else:
             print("Not a suppored type")
