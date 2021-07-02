@@ -297,9 +297,9 @@ def PlotHeatmap(hw, PeakCombo,Scheme, Folder, VF=0.25, cbarMap=False, cbarRange=
             Fname=FerrOrient.split(".")[0].split("-")[0]
             Aname=AustOrient.split(".")[0].split("-")[0]
             
-            # Append to lists
-            AustList.append(Aname)
-            FerrList.append(Fname)
+            # Append to lists, trimming last character (A or F usually)
+            AustList.append(Aname[:-1])
+            FerrList.append(Fname[:-1])
             VFList.append(VF*A_val/(VF*A_val+((1.0-VF)*F_val)))
             #print(AustOrient, FerrOrient, VF*A_val/(VF*A_val+((1.0-VF)*F_val)) )
         
