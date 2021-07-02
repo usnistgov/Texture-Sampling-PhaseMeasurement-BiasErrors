@@ -337,8 +337,8 @@ def PlotHeatmap(hw, PeakCombo,Scheme, Folder, VF=0.25, cbarMap=False, cbarRange=
         color= sns.color_palette("coolwarm", ncolors)
     plt.figure(figsize = (13,7))
     figure=sns.heatmap(SaveTable, vmin=cbarRange[0], vmax=cbarRange[1], cmap=color, center=VF, annot=True, fmt="3.3f", linewidths=0.5,square=True,cbar_kws={"shrink": .80}, xticklabels=FerriteNames)
-    figure.set_xlabel('Ferrite')
-    
+    figure.set_xlabel('Ferrite/Martensite Components')
+    figure.set_ylabel('Austenite Components')
     #figure=sns.heatmap(df_wide,vmin=0.0, vmax=0.50, cmap=color,center=0.25,annot=dw, annot_kws={"size": 18},fmt='',linewidths=0.5,square=True,cbar_kws={"shrink": .80})
     if AddTitle==True:
         plt.title("Halfwidth of "+HW+" , "+ Scheme+ " Sampling Scheme, "+ PeakCombo.upper()+ " Peak Combination" ,fontsize =18)
