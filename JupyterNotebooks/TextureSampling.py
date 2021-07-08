@@ -667,7 +667,7 @@ def rpm2radpsec(rpm):
 #####################################
 # Define function to tilt and rotate
 #####################################
-def TiltRotate(name, time, datapoints, rpm,maxtilt,tiltcpm):
+def TiltRotate(name, time, datapoints, rpm,maxtilt,tiltcpm,export=False):
     #time=120  # in seconds
     #datapoints = 5000.0
     """
@@ -735,17 +735,31 @@ def TiltRotate(name, time, datapoints, rpm,maxtilt,tiltcpm):
     #plt.plot(timelist, rotationposition, 'r',timelist, tiltposition, 'b')
     #plt.show()
 
-    d = {'Tilt' : tiltposition, 'Rotation' : rotationposition}
-    coordinates=pd.DataFrame(d)
+
+
+    
+    
     #help(TiltRotate)
 
-        #print coordsDF.sort_values('Tilt')    
+
+        #print coordsDF.sort_values('Tilt')
+    
+    if(export):
+        d = {'Tilt' : tiltposition, 'Rotation' : rotationposition, "mrd" : [0]*len(rotationposition)}
+        df=pd.DataFrame(d)
+        coordinates=df.sort_values(["Tilt", "Rotation"], ascending=True, ignore_index=True)
+        np.savetxt(name+".txt", coordinates.values, fmt = "%.2f", delimiter="\t", header="Tilt\tRotation\tmrd")
+        
+    else:
+        d = {'Tilt' : tiltposition, 'Rotation' : rotationposition}
+        coordinates=pd.DataFrame(d)
+
     return name, coordinates
 
 #############################################
 # Define function to create a hexagonal grid:
 #############################################
-def HexGrid(name, chi_max, angular_spacing, CoverageType="full", IncludeND=True):
+def HexGrid(name, chi_max, angular_spacing, CoverageType="full", IncludeND=True, export=False):
     """
     A function used to create a hexagonal grid scheme, to be used for displaying the crystallographic texture of, in this case, various
     steels. The Hexagonal Grid Scheme has experimentally proven to be effective in the reduction of error associated with measuring Austenite
@@ -987,12 +1001,20 @@ def HexGrid(name, chi_max, angular_spacing, CoverageType="full", IncludeND=True)
         #print "\n"
         #print y_j
 
-    d = {'Tilt' : xaxis, 'Rotation' : yaxis}
-    coordinates=pd.DataFrame(d)
+    if(export):
+        d = {'Tilt' : xaxis, 'Rotation' : yaxis, "mrd" : [0]*len(yaxis)}
+        df=pd.DataFrame(d)
+        coordinates=df.sort_values(["Tilt", "Rotation"], ascending=True, ignore_index=True)
+        np.savetxt(name+".txt", coordinates.values, fmt = "%.2f", delimiter="\t", header="Tilt\tRotation\tmrd")
+        
+    else:
+        d = {'Tilt' : xaxis, 'Rotation' : yaxis}
+        coordinates=pd.DataFrame(d)
 
-    #print coordsDF.sort_values('Tilt')    
+        #print coordsDF.sort_values('Tilt')    
     return name, coordinates
 
+    #edit#
 
 ###################################
 
@@ -1000,7 +1022,7 @@ def HexGrid(name, chi_max, angular_spacing, CoverageType="full", IncludeND=True)
 #Define function to create a spiral grid scheme (INCOMPLETE):
 ###################################
 
-def SpiralScheme(name, chi_max, phi_max):
+def SpiralScheme(name, chi_max, phi_max, export=False):
     """
     A function used to create a spiral grid scheme (a polar graphical representation of data in certain atomic planes, to be used in analysis of material texture).
     This function accepts three parameters: the name of the sample to be used, the maximum chi degree value (elaborated upon below in the parameters description), as well
@@ -1064,8 +1086,18 @@ def SpiralScheme(name, chi_max, phi_max):
     del(yaxis[len(yaxis)-1])
     xaxis.append(chi_max)
     yaxis.append(phi_max)
-    values = {'Tilt' : xaxis, 'Rotation' : yaxis}
-    coordinates=pd.DataFrame(values)   
+    
+    if(export):
+        d = {'Tilt' : xaxis, 'Rotation' : yaxis, "mrd" : [0]*len(yaxis)}
+        df=pd.DataFrame(d)
+        coordinates=df.sort_values(["Tilt", "Rotation"], ascending=True, ignore_index=True)
+        np.savetxt(name+".txt", coordinates.values, fmt = "%.2f", delimiter="\t", header="Tilt\tRotation\tmrd")
+        
+    else:
+        d = {'Tilt' : xaxis, 'Rotation' : yaxis}
+        coordinates=pd.DataFrame(d)
+
+        #print coordsDF.sort_values('Tilt')       
     DroppedVals = coordinates[(coordinates['Tilt'] > 0.0) & (coordinates['Tilt'] < 5.0)].index #drops the chi values less than 5.0 as prescribed by the document
     coordinates.drop(DroppedVals , inplace= True)                      
     return name, coordinates
@@ -1075,7 +1107,7 @@ def SpiralScheme(name, chi_max, phi_max):
 ###################################
 # Rings Perpendicular to ND
 ###################################
-def RingPerpND(res):
+def RingPerpND(res, export=False):
     """
     This method takes a look at graphically exploring specific rings perpendicular to the normal direction of the sample. The parameters to be accepted are very simple:
     only the desired angluar distance to be incremented as we measure the rotation degree value along the circular plane. Outputs the directional relationship between the ring and 
@@ -1097,14 +1129,22 @@ def RingPerpND(res):
     name="Ring Perpendicular to ND"
     yaxis=np.ndarray.tolist(np.arange(0.0, 360.0001, res))#rotation
     xaxis=[90.0] * len(yaxis) #tilt 
-    d = {'Tilt' : xaxis, 'Rotation' : yaxis}
-    coordsDF=pd.DataFrame(d)
+    
+    if(export):
+        d = {'Tilt' : xaxis, 'Rotation' : yaxis, "mrd" : [0]*len(yaxis)}
+        df=pd.DataFrame(d)
+        coordsDF=df.sort_values(["Tilt", "Rotation"], ascending=True, ignore_index=True)
+        np.savetxt(name+".txt", coordsDF.values, fmt = "%.2f", delimiter="\t", header="Tilt\tRotation\tmrd")
+        
+    else:
+        d = {'Tilt' : xaxis, 'Rotation' : yaxis}
+        coordsDF=pd.DataFrame(d)
     return name, coordsDF
    
 ###################################
 # Rings Perpendicular to RD
 ###################################
-def RingPerpRD(res):
+def RingPerpRD(res,export=False):
     """This method takes a look at graphically exploring specific rings perpendicular to the rolling direction of the sample. The parameters to be accepted are very simple:
     only the desired angluar distance to be incremented as we measure the tilt degree value along the circular plane. Outputs the directional relationship between the ring and 
     the sample direction, and a set of coordinates, with "Rotation" values being a constant 90 or 270 degrees, and tilt varying until we hit 90 degrees (no need for the full 180 
@@ -1125,8 +1165,17 @@ def RingPerpRD(res):
     xaxis=np.ndarray.tolist(np.arange(0.0, 90.001, res))#tilt
     #yaxis=[90.0] * len(xaxis) #rotation
     yaxis=[270.0] * len(xaxis) #rotation
-    d = {'Tilt' : xaxis, 'Rotation' : yaxis}
-    coordsDF=pd.DataFrame(d)
+    
+    
+    if(export):
+        d = {'Tilt' : xaxis, 'Rotation' : yaxis, "mrd" : [0]*len(yaxis)}
+        df=pd.DataFrame(d)
+        coordsDF=df.sort_values(["Tilt", "Rotation"], ascending=True, ignore_index=True)
+        np.savetxt(name+".txt", coordsDF.values, fmt = "%.2f", delimiter="\t", header="Tilt\tRotation\tmrd")
+        
+    else:
+        d = {'Tilt' : xaxis, 'Rotation' : yaxis}
+        coordsDF=pd.DataFrame(d)
     return name, coordsDF
    # Perpendicular to RD
 
@@ -1134,7 +1183,7 @@ def RingPerpRD(res):
 ###################################
 # Rings Perpendicular to RD
 ###################################
-def RingPerpTD(res):
+def RingPerpTD(res,export=False):
     """This method takes a look at graphically exploring specific rings perpendicular to the transverse direction of the sample. The parameters to be accepted are very simple:
     only the desired angluar distance to be incremented as we measure the tilt degree value along the circular plane. Outputs the directional relationship between the ring and 
     the sample direction, and a set of coordinates, with "Rotation" values being a constant 0 or 180 degrees, and tilt varying until we hit 90 degrees (no need for the full 180 
@@ -1157,15 +1206,24 @@ def RingPerpTD(res):
     xaxis=np.ndarray.tolist(np.arange(0.0, 90.001, res))#tilt Note for me (Surya) Ask Dr. Creuziger why this doesn't go upto 180.001
     #yaxis=[0.0] * len(xaxis) #rotation
     yaxis=[180.0] * len(xaxis) #rotation
-    d = {'Tilt' : xaxis, 'Rotation' : yaxis}
-    coordsDF=pd.DataFrame(d)
+    
+    if(export):
+        d = {'Tilt' : xaxis, 'Rotation' : yaxis, "mrd" : [0]*len(yaxis)}
+        df=pd.DataFrame(d)
+        coordsDF=df.sort_values(["Tilt", "Rotation"], ascending=True, ignore_index=True)
+        np.savetxt(name+".txt", coordsDF.values, fmt = "%.2f", delimiter="\t", header="Tilt\tRotation\tmrd")
+        
+    else:
+        d = {'Tilt' : xaxis, 'Rotation' : yaxis}
+        coordsDF=pd.DataFrame(d)
+
     return name, coordsDF
 
 
 ###################################
 # Single Orientation
 ###################################
-def SingleOrientation(name, tilt, rotation):
+def SingleOrientation(name, tilt, rotation,export=False):
     """
     This function defines a singular, specific orientation for sampling, as it works in concert with other methods that output tilt and rotation arrays. It accepts the
     sample name, "tilt" array and "rotation" array that have been provided by other methods, and simply outputs a neater version of the data, giving it a name and creating
@@ -1194,8 +1252,17 @@ def SingleOrientation(name, tilt, rotation):
         xaxis.append(item[0])
         yaxis.append(item[1])
     #coordslist[0][:]
-    d = {'Tilt' : xaxis, 'Rotation' : yaxis}
-    coordsDF=pd.DataFrame(d)
+    
+    if(export):
+        d = {'Tilt' : xaxis, 'Rotation' : yaxis, "mrd" : [0]*len(yaxis)}
+        df=pd.DataFrame(d)
+        coordsDF=df.sort_values(["Tilt", "Rotation"], ascending=True, ignore_index=True)
+        np.savetxt(name+".txt", coordsDF.values, fmt = "%.2f", delimiter="\t", header="Tilt\tRotation\tmrd")
+        
+    else:
+        d = {'Tilt' : xaxis, 'Rotation' : yaxis}
+        coordsDF=pd.DataFrame(d)
+
     return name, coordsDF
 
 #######################################
@@ -1203,7 +1270,7 @@ def SingleOrientation(name, tilt, rotation):
 #######################################
 
 # Perpendicular to RD
-def RingRot(res,theta,omega_list,rotaxis, Weight=False): #add omega
+def RingRot(res,theta,omega_list,rotaxis, Weight=False, export=False): #add omega
     """
 
     res: Resolution about the rings
@@ -1362,6 +1429,15 @@ def RingRot(res,theta,omega_list,rotaxis, Weight=False): #add omega
     
     #normalization by number of points, needs to be all points since the ±90 rings are weighted differently
     coordsDF['Weights']=coordsDF['Weights']/sum(coordsDF['Weights'])
+
+    if(export):
+        coordsDF=coordsDF.sort_values(["Tilt", "Rotation"], ascending=True, ignore_index=True)
+        mrd=[0]*len(coordsDF)
+        coordsDF['mrd']=mrd
+        np.savetxt(name+".txt", coordsDF.values, fmt = "%.2f", delimiter="\t", header="Tilt\tRotation\tRotationIndex\tOmega\tWeights\tmrd")
+        
+    else:
+        pass
         
         
         
@@ -1460,7 +1536,7 @@ def RotateXMatrix(omega_deg):
 #Equal Angle Sampling Scheme
 #######################################
 
-def EqualAngleGrid(name,chi_max, stepsize, CoverageType ='full'):
+def EqualAngleGrid(name,chi_max, stepsize, CoverageType ='full', export=False):
     """
     The Equal Angle Grid is currently how most XRD systems tend to operate, evenly stepping 5 degrees in rotation until one revolution is
     complete, then incrementing tilt by that same 5 degrees and repeating till maximum tilt is obtained. 
@@ -1510,11 +1586,20 @@ def EqualAngleGrid(name,chi_max, stepsize, CoverageType ='full'):
             tilt.append(i)
         j=0
         i=i+stepsize
-    d = {'Tilt' : tilt, 'Rotation' : rotation}
-    coordsDF=pd.DataFrame(d)
+    
+
+    if(export):
+        d = {'Tilt' : tilt, 'Rotation' : rotation, "mrd" : [0]*len(rotation)}
+        df=pd.DataFrame(d)
+        coordsDF=df.sort_values(["Tilt", "Rotation"], ascending=True, ignore_index=True)
+        np.savetxt(name+".txt", coordsDF.values, fmt = "%.2f", delimiter="\t", header="Tilt\tRotation\tmrd")
+        
+    else:
+        d = {'Tilt' : tilt, 'Rotation' : rotation}
+        coordsDF=pd.DataFrame(d)
     return name, coordsDF
         
-def CLRGrid(name,chi_max, stepsize, CoverageType='full'):
+def CLRGrid(name,chi_max, stepsize, CoverageType='full', export=False):
     """
     In response to the oversampling observed along the ND axis in the equal-angle scheme, this CLR scheme attempts a more even sampling of the pole grid
     by implementing a "constant local resolution," which is what the "CLR" stands for. For a constant increasing tilt, the rotation increment decreases asymptotically,
@@ -1577,11 +1662,19 @@ def CLRGrid(name,chi_max, stepsize, CoverageType='full'):
     #m.reverse()    
     #return pd.DataFrame(data=m,columns=['Rotation Step', 'K-value (ring number)', 'Number of points per rotation']) 
 
-    d = {'Tilt' : tilt, 'Rotation' : rotation}
-    coordsDF=pd.DataFrame(d)
+    if(export):
+        d = {'Tilt' : tilt, 'Rotation' : rotation, "mrd" : [0]*len(rotation)}
+        df=pd.DataFrame(d)
+        coordsDF=df.sort_values(["Tilt", "Rotation"], ascending=True, ignore_index=True)
+        np.savetxt(name+".txt", coordsDF.values, fmt = "%.2f", delimiter="\t", header="Tilt\tRotation\tmrd")
+        
+    else:
+        d = {'Tilt' : tilt, 'Rotation' : rotation}
+        coordsDF=pd.DataFrame(d)
+
     return name, coordsDF
 
-def BT8_HexGrid(name, chi_max, stepsize, CoverageType="full"):
+def BT8_HexGrid(name, chi_max, stepsize, CoverageType="full", export=False):
     """
     Hex schemes are considered one to be one of the most promising sampling schemes, given their combination of fewer sampling points and ability to
     mitigate phase fraction measurement bias due to crystallographic texture. This variation of the hex scheme samples half as many points as a traditional
@@ -1653,14 +1746,22 @@ def BT8_HexGrid(name, chi_max, stepsize, CoverageType="full"):
     
     
     rotation.append(0)
-    tilt.append(0) 
+    tilt.append(0)
+
+    if(export):
+        d = {'Tilt' : tilt, 'Rotation' : rotation, "mrd" : [0]*len(rotation)}
+        df=pd.DataFrame(d)
+        coordsDF=df.sort_values(["Tilt", "Rotation"], ascending=True, ignore_index=True)
+        np.savetxt(name+".txt", coordsDF.values, fmt = "%.2f", delimiter="\t", header="Tilt\tRotation\tmrd")
+        
+    else:
+        d = {'Tilt' : tilt, 'Rotation' : rotation}
+        coordsDF=pd.DataFrame(d) 
     
-    d = {'Tilt' : tilt, 'Rotation' : rotation}
-    coordsDF=pd.DataFrame(d)
     return name, coordsDF
 
 
-def SpiralGrid(name, resolution):
+def SpiralGrid(name, resolution,export=False):
     """
     The initial inspirations behind the spiral
     grid were to continuously and smoothly iterate through the
@@ -1735,8 +1836,17 @@ def SpiralGrid(name, resolution):
 
 
 
-    d = {'Tilt' : tilt, 'Rotation' : rotation}
-    coordsDF=pd.DataFrame(d)
+    if(export):
+        d = {'Tilt' : tilt, 'Rotation' : rotation, "mrd" : [0]*len(rotation)}
+        df=pd.DataFrame(d)
+        coordsDF=df.sort_values(["Tilt", "Rotation"], ascending=True, ignore_index=True)
+        np.savetxt(name+".txt", coordsDF.values, fmt = "%.2f", delimiter="\t", header="Tilt\tRotation\tmrd")
+        
+    else:
+        d = {'Tilt' : tilt, 'Rotation' : rotation}
+        coordsDF=pd.DataFrame(d)
+
+    
     return name, coordsDF
     
 
