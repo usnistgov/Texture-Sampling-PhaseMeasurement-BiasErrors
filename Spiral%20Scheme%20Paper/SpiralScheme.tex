@@ -1,0 +1,592 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage[numbers]{natbib}
+%\usepackage{natbib}
+\usepackage{geometry}
+\usepackage{subcaption} % for consolidating pole figures
+
+
+% Switch between 'final' to see graphics and 'draft' for faster compiling (no graphics)
+\usepackage[final]{graphicx}
+%\usepackage[draft]{graphicx}
+
+\usepackage{bm}
+\geometry{letterpaper,margin=1in}
+\usepackage{authblk}
+\usepackage{float} 
+
+\bibliographystyle{alpha} % alpha for easier checking/tracking references
+% APA like better, but not available in Overleaf
+%\bibliographystyle{unsrt}
+
+%%%%%%%%%%%%%%%%%%%
+%%%% Comment conventions %%%%
+% "[Name]" question is addressed to that person
+% "Discuss" open comment about the content of the paper for us to sort out
+% "Note" no action required
+% textbf{} for topic sentence of paragraph, used for outlining
+% Tabbed in text indicates supporting statements
+%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\title{Spiral Scheme} % Note: placeholder
+\date{\today}
+\author[1, 2]{Surya Chandramouleeswaran}
+\author[3]{Adam Creuziger}
+\author[2]{Michael Cox}
+\author[2]{Kip Findley}
+\affil[1]{BASIS Chandler}
+\affil[2]{Metallurgical and Materials Engineering Department, Colorado School of Mines}
+\affil[3]{Materials Science and Engineering Division, Material Measurement Laboratory, NIST}
+
+
+
+\maketitle
+
+% Scope notes
+
+% MOVE texture analysis on spiral to some other paper.  Focus on phase fraction for this one
+% More OK to flip back and forth in paper, as opposed to reprinting 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Background}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+% Transmission based diffraction (neutron, synchrotron) increasing availability
+% [Adam] Do this section
+\textbf{Multiphase materials of interest, with texture and phase fraction often key values to quantify}\\
+% [Adam] find some relevant references 
+% Need to include range of texture sharpness experimentally observed.
+
+\textbf{Summation alone can lead to bias in phase fraction, unless the sampling scheme has even coverage of pole figure}\\
+Define pole figure, method for texture analysis.
+Define sampling scheme, note that there are a variety in use. % [Adam] find citations or use from report? 
+Bias in phase fraction shown in \citep{creuziger_assessment_2018}, data in \cite{creuziger_dataset:_2018}
+
+\textbf{Prior work on even coverage of pole figures}\\
+Equal angle grids. % [Adam] hunt down where this scheme comes from (Rizzie lists Schultz, likely also Wolff grids)
+Hexagonal grids of \citep{matthies_optimization_1992} and \citep{rizzie_elaboration_2008}
+These often were developed to reduce the number of points compared to an equal angle grid.
+
+\textbf{Spiral schemes have been used previously, advantage of continuous motion}\\
+
+Original work by Holden \citep{holden_spiralscanning_1953}, also shown in Klug \& Alexander \citep{klug_x-ray_1974}.  A logarithmic spiral was developed by Rizzie \citep{rizzie_elaboration_2008}.
+
+%Note last cited in mid 1970s, also in Klug & Alexander
+
+\textbf{Inspection of spiral schemes described to date implies they do not have even coverage of pole figure}\\
+Rotation motor speeds are continuous
+Rizzie chose logarithmic increase in rotation \cite{rizzie_elaboration_2008}. Inspection indicates this is not even coverage.
+
+\textbf{Develop a spiral scheme with even coverage (hypothesis that it's possible to do so)}\\
+Allow for pole figure measurement and phase fraction
+Continuous motion (Motor controls have advanced significantly to allow for this)
+Fewer points than equal angle grid through a different spiral pattern
+Investigate spiral resolution and texture sharpness (little guidance currently)
+
+%%% Research questions:
+% 1a) Can we develop a spiral scheme with even coverage?
+% 1b) Is it better (less time/points) than any other even coverage scheme out there?
+% 2) How course of a resolution can I get away with and still get a good phase fraction for a specific texture sharpness?
+
+% If you're using the same data for both texture and phase fractions, you should pay attention to the sampling scheme.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Methods}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% [Surya] Take a first pass on outlining this section
+
+\textbf{Considerations of the scheme}\\
+
+Previously-researched spirals from \cite{rizzie_elaboration_2008} all struggled with an ability to change the motor speed as a function of sample tilt, to ensure a more even coverage of the sampling pole figure. The primary consideration of this spiral is to address that concept.
+    %Touch back on the benefits of the spiral scheme concept, but the oversampling observed along ND for logarithmic spirals in \cite{rizzie_elaboration_2008} 
+    
+    % AC 6/24/21 - the oversampling is probably too far ahead
+
+    %From the logarithmic spiral proposed by \cite{rizzie_elaboration_2008}, we noticed that the spiral tended to severely oversample along the ND, and undersample at higher tilts.
+
+% This point might be better for the background section (Adam)
+
+% I removed the note about the logarithmic spiral implementation, but I think the observations from that spiral pattern would provide a clear motivation for this section. The nature of implementation  (Surya C- June 9th)
+
+To establish a more even sampling pattern, the sampling reference sphere was divided into discrete spherical segments, the size of which would be defined by a resolution parameter. The number of sampling points of each segment was proportional to the size of the wedge, meaning that tilt angle and number of sampling points were directly proportional to each other.\\
+
+Transitioning from the discrete ring setup to a continuous angle iteration provided multiple benefits: reducing the number of sampling points, while optimizing the increment steps in tilt and rotation to allow for a more even coverage of the pole figure\\
+
+\textbf{Derivations and Equations of the scheme}\\
+% AC 2021 July 08 - I couldn't quite follow the equation derivation.  Equation 4 has 'r' as a stepsize, but the figure shows it as a radius.  I think it would be clearer if we express the equation in terms of tilt (theta) and rotation (phi?) and stepsize (i) and resolution. Something like Theta_i=2\pi sin(j)?   One approach - imagine yourself as a reader who wanted to implement this scheme. What's the most concise explaination of the algorithm? 
+% It may be helpful to list out the variables...
+
+Similar to other schemes, the spiral scheme iterates through a full rotation while slowly changing tilt, until the pole figure grid is covered. 
+
+The spiral starts at the periphery of the pole figure grid (where tilt=90 degrees) and at a rotation value of 0 degrees. For each revolution around the pole figure grid, there are a certain number of sampling points; this value changes based on the tilt angle value. 
+
+At an instantaneous sampling coordinate, the theoretical "number of points" is calculated. This value represents the number of points that would be sampled about an imaginary sampling ring with a radius equal to the instantaneous tilt. However, because the tilt value changes between consecutive sampling points, the term "points" is a bit of a misnomer and is more of a concept that allows for other critical values to be calculated, such as the change in rotation and tilt angle values. This number of points can be calculated with the formula shown below:
+\begin{equation}
+    points = \frac{360}{res} * \sin(\chi)
+\end{equation}
+
+Where $res$ is an arbitrary resolution parameter (5 degrees was used as a baseline value) and $\chi$ refers to the value of the tilt angle, in degrees.
+
+The rotation increment (phi\_step) is simply calculated by dividing 360 (a full angular rotation of the imaginary sampling ring) by the theoretical number of points calculated above. The tilt decrement, on the other hand, is calculated by taking the passed-in resolution parameter and dividing it by the number of "points," once again. 
+
+Conceptually, both the tilt and rotation increment values would be small at the start of the spiral loop (where tilt=90 degrees), and increase continuously towards the center of the pole figure. As for the values of the angles themselves, although the tilt angle experiences a continuous decrease towards 0 degrees (the center of the pole figure grid), the rotation degree value resets once it completes a full revolution, by subtracting 360 from the original degree value. 
+
+This constant process of recalculating the changes in angle value for both tilt and rotation and applying said increments/decrements is repeated until the spiral culminates at the center of the pole figure grid, and the grid itself is completely and evenly covered in sampling points.
+
+
+% The equations of this scheme were derived with the goal of even pole figure coverage while following the conditions enumerated above. This section will offer the numerical derivation and the reasoning used to develop the equations used:
+
+% To begin, assume a 3-dimensional reference sphere similar to the one shown in \textbf{Figure 2}, with relevant angles labeled.
+% \begin{figure}
+%     \centering
+%     \includegraphics{SpiralSchemePaperFigures/sphere.png}
+%     \caption{Sample reference sphere. Citation needed, some information below}
+%     %Zotero citation needed: here's the file link: https://upload.wikimedia.org/wikipedia/commons/2/2f/Spherical_cap_diagram.tiff
+% \end{figure}
+
+% In the above image, $\Theta$ would be the tilt angle, $a$ would be the radius of the cross-section, and $r$ would be the full sphere radius. From here, we know that:
+% \begin{equation}
+%     a=r\sin(\Theta)
+% \end{equation}
+
+% From that equation, $r$ can be trivially assumed to be 1. So, for any given cross-section, the circumference of such a cross-section can be given as:
+% \begin{equation}
+%     c=2\pi\sin(\Theta)
+% \end{equation}
+
+% Where $c$ is the circumference of any given cross-section. The ratio between the circumference shown above and the number of sampling points for each tilt ring has to be consistent for varying tilt values. As a conventional note, I started at the outermost ring (where $\Theta$=90$^\circ$), and had rotation points spaced by an increment of a passed resolution parameter (5$^\circ$ is used as a baseline value) that also defines how much the tilt is altered. From here, a formula that follows a ratio (such that the number of points is proportional to the cross-sectional circumference) can be developed:
+% \begin{equation}
+%     p=\frac{360}{s}\sin(\Theta)
+% \end{equation}
+
+% Where $p$ is the number of points per sampling ring, and $s$ is the stepsize (originally starts at the resolution parameter value but is changed as the loop continues). A rotation stepsize for consecutive points at a a given tilt was then developed from the above equation to be:
+% % Surya: Add in the rotation adjustment to go from discrete to continuous
+
+% \begin{equation}
+%     r=s\sin(\Theta)
+% \end{equation}
+
+% Where $r$ is the stepsize as a function of tilt, and $s$ is once again the stepsize. Tilt was the varied, starting at $\Theta$=90$^\circ$ and going to $\Theta$=0$^\circ$, and rotations were subsequently recorded.
+
+\textbf{Methods to create Oversampling plots}\\
+The resulting images of the sampling scheme plots can show a discretized collection of points, but making conclusions about the relative distribution of such points about a pole figure can be difficult. \textit{Oversampling plots} allow us to make such conclusions; they work by breaking up the pole figure grid into several 'bins,' where the number of sampling points in each 'bin' is recorded. Based on those values, statements about the relative distribution of plots can be made.
+%AC 2021 July 08 - not sure about the statement 'allows us to make such conclusions'.  Focus on what it shows and how.
+
+\textbf{Texture Data used for simulations}\\
+Because different sampling schemes have unique areas of uneven sampling, there are different textures that can differently impact phase fraction measurements when they interact. In this project, we analyzed around 20 common texture components, with the goal of seeing which components contributed most to measurement error based on the unique nature of sampling for each scheme/grid.
+%AC 2021 July 08 - Starting a sentence with 'Because'? :P    
+
+\textbf{Texture Halfwidths}\\
+Halfwidths are a representation of texture sharpness, usually measured in a degree value. In other words, they operate as an 'error bound' on the orientation of a grain. Higher halfwidths mean greater allowed variability in the orientation of a grain, meaning that the grain is more likely to be randomly-oriented; on the other hand, lower halfwidths mean reduced variability in the orientation of the grain, implying a preferential alignment.
+%AC 2021 July 08 - Maybe not 'error bound' Range of orientation is probably more accurate.
+
+The 'mtex' data set allowed us to generate halfwidth values ranging from 2.5 degrees all the way to 50 degrees; however, because there would likely be very little measurement error at very high halfwidths (limited presence of texture), we limited the scope to measure upto a 20 degree halfwidth. 
+%AC 2021 July 08 - This could be moved to results.  We did test them, we're just not plotting them...
+
+\textbf{Phase fraction Calculations}\\
+After running the X-ray diffraction process, the results can be visualized in a XRD scan graph, which can then be used to calculate theoretical phase fraction values. 
+
+This project works with steel samples with 25 percent volume fraction of austenite and 75 percent ferrite. In order to calcuate theoretical phase fractions from these expected values, an arbitrary selection of diffraction peaks to include is made, with each peak corresponding to a steel phase. The peaks are the integrated, aggregated, and compared to expected values from literature to calculate the phase fraction value.
+
+
+\textbf{Peak combinations}\\
+As subtly-implied in the previous section, the choice of peaks to integrate can impact the accuracy of phase fraction measurement, especially for textured materials. Furthermore, certain forms of texture can specifically impact select diffraction peaks, thereby skewing the calculation of phase fraction if that peak was used in the calculation process.
+
+Because peak combinations were not a direct variable of interest in this project, the group decided to select an intermediate '3 Pairs C' peak combination as a 'goldilocks' middle zone between the minimum choice of 1 peak and upto 5 peaks. The '3 Pairs C' peak combination includes the (111), (200), and (220) reflections for the Austenite phase and the (110), (200), and (211) relfections for the Ferrite phase.
+    %include what the pair are for 3pairs C
+
+    % Why did we choose 3 Pairs C?
+    % Essentially we wanted to limit the number of variables of interest in the project so we could focus on a select few
+    
+    % Peak combinations typically range from 1 pair of peaks upto 5 pairs of peaks, so 3 pairs was seen as a 'goldilocks' middle zone
+    
+
+
+\textbf{Software used in this project}\\
+
+To computationally simulate the X-ray diffraction process and the testing of sampling schemes, a combination of Python and Jupyter Notebooks were used. \\
+
+Schemes would be first developed in a seperate .py (Python) file, then called in a main Jupyter Notebook that would be used to visualize such schemes and debug as necessary. After scheme development was complete, they would be added to a dataframe that would be fed into a simulation.\\
+
+The simulation was dependant on which textures and which halfwidths were to be analyzed; the relevant .xpc files for the texture-halfwidth combination would be used for the phase fraction calculation process for each scheme. The .xpc files held intensity measurements at different sample orientations; those would be compared to expected values to calculate for the phase fraction values. Finally, the results would be outputted in an excel sheet format organized by texture-halfwidth combination. Each excel sheet would show phase fraction measurements as a function of scheme used and peak combination used. Finally, from here, the desired information could be easily accessed from the excel sheets and plotted in different ways, through heatmaps, violin plots, comparison plots, etc.
+
+% Discuss: I think I would like to have this section first, to show generally how we carried out these methods (mplstereonet, Jupyter Notebook, etc). That way, the details that follow in this section segue nicely into a discussion of results. However, I also think the discussion of texture components (the second half of this topic statement) would be better served where it was originally. Let me know what you all think about this...
+% I think this is a good approach (AC - 2021 June 08)
+%AC 2021 July 08 - Add github citation
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Results}
+% [Surya] I've started an outline, but please add anything else you think relevant.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+% PROPOSED RESULT POINTS BELOW
+% What does the data show? 
+% Comment on the nature of sampling
+% Concise is good
+
+    % Scatter plots are discretized versions of spiral scheme to compare with Hex grids
+    % Comment on distribution of points
+    % State the number of points
+
+
+\textbf{Scatter Plot Figure Results and Figures}
+
+    
+Pole figure scatter plots are discretized versions of a sampling schemes that allow for easy comparison of sampling patterns between different schemes. With these scatter plots, the sampling patterns for the spiral scheme can be compared and contrasted with plots for competing hex grid schemes.
+
+Assuming a $5^\circ$ scheme resolution to be a baseline value of comparison between schemes, the scatter plots for the spiral scheme, the Rizzie hex grid, and the matthias hex scheme can be seen in \textbf{Figure 1}. 
+
+The spiral scheme scatter plot samples 828 points, arranged in a spiral pattern about the ND. Upon first glance, the distribution of points seems to be fairly even across the pole figure; furthermore, the points seem to be arranged as concentric rings which mimic the sampling pattern that a motor-controlled apparatus would follow for this scheme.
+
+On the other hand, the Rizzie hex grid samples 955 points, arranged in an orderly, grid-like fashion. Similar to the spiral scheme, the distribution of points seems to be fairly even across the entire pole figure. Again, the one difference with this grid and the spiral scheme, other than the number of points sampled, is the neat column-like arrangement of sampling points moving left to right on the pole figure, as opposed to concentric rings of sampling seen on the spiral scheme.
+
+Finally, the Matthias hex scheme samples approximately half the number of points as the Rizzie hex grid, at around 469 total sampling points. Although both this scheme and the Rizzie hex both share a general 'hexagonal' pattern of sampling points, the latter seems to mimic the 'concentric' arrangement of sampling points akin to what was observed for the Spiral scheme. Thus, the Matthias hex scheme seems to  blend concepts from both the spiral scheme and the Rizzie hex grid, adopting both concentric sampling patterns and a hexagonal, unified and orderly arrangement of sampling points.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%Figure - Scatter combination plot
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[H]
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{SpiralSchemePaperFigures/Spiral_scatter.png}
+  \caption{Spiral Scheme Scatter Plot}
+  \label{fig:sfig1}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{SpiralSchemePaperFigures/rizziescatter.png}
+  \caption{Rizzie Hex Grid Scatter Plot}
+  \label{fig:sfig2}
+\end{subfigure}
+\begin{subfigure}{\textwidth}
+  \centering
+  \includegraphics[width=.5\linewidth]{SpiralSchemePaperFigures/matthiasscatter.png}
+  \caption{matthias hex scheme Scatter Plot}
+  \label{fig:sfig3}
+\end{subfigure}
+\caption{Pole figure scatter plots for the spiral scheme, Rizzie Hex grid, and matthias hex scheme}
+\label{fig:fig}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+% Table - Number of points
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{table}[H]
+    \centering
+    \resizebox{\columnwidth}{!}{
+    \begin{tabular}{r|r||r||r}
+        \textbf{Scheme resolution} &  \textbf{Rizzie Hex} & \textbf{Spiral} & \textbf{Matthias Hex}   \\
+        \hline
+          2.5$^\circ$ &  3805 & 3303 & 1801 \\
+          5.0$^\circ$ &  955 & 828 & 469 \\
+          10.0$^\circ$ &  241 & 209 & 127 \\
+    \end{tabular}}
+    \caption{Table summarizing the number of sampling points for each tested scheme resolution}
+\end{table}
+
+
+    % Comment on the even coverage via contour plot
+    % Spiral high in center, low on 2 of the quadrants
+    % Rizzie even except for 60° patches
+    % Matthias even except for outer ring
+
+\textbf{Contour Plot Results and Figures}\\
+
+
+The next step from the pole figure scatter plots were to generate oversampling contour plots for each of the schemes, once again at a baseline 5 $^\circ$ resolution.
+
+For the spiral scheme, the contour plot suggests slight oversampling along the ND, while the outer rings of the 2nd and 4th quadrant were slightly undersampled. Comprehensively, the contour plot confirms the spiral scheme maintains an even coverage of the pole figure grid.
+
+A similar result was found when viewing the contour plot for the Rizzie hex grid: the pole figure grid was evenly covered across nearly all regions. However, the Rizzie hex grid does seem to experience a bit of undersampling at 60 $^\circ$ incremental patches, which would correspond to an 'edge' of the hexagonal shape.
+
+The contour plot for the matthias hex scheme, however, was not as comparable in results to the spiral scheme and Rizzie hex grid. The matthias hex grid holds oversampling along the outer ring of the pole figure, to a factor of 2. This localized uneven sampling was a key observation that offered an explanation for this scheme's performance in mitigating measurement error.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%Contour combination plot
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[H]
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{SpiralSchemePaperFigures/Spiral_contour.png}
+  \caption{Spiral Scheme Contour Plot}
+  \label{fig:sfig1}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{SpiralSchemePaperFigures/rizziecontour.png}
+  \caption{Rizzie Hex Grid Contour Plot}
+  \label{fig:sfig2}
+\end{subfigure}
+\begin{subfigure}{\textwidth}
+  \centering
+  \includegraphics[width=.5\linewidth]{SpiralSchemePaperFigures/matthiascontour.png}
+  \caption{matthias hex scheme Contour Plot}
+  \label{fig:sfig3}
+\end{subfigure}
+\caption{Pole figure contour plots for the spiral scheme, Rizzie Hex grid, and matthias hex scheme}
+\label{fig:fig}
+\end{figure}
+
+\textbf{Halfwidth Variation Results and Figures}\\
+
+After analyzing the sampling behaviors of each of the scheme, the next steps involved running the simulation to see their respective performances in mitigating measurement error. The metric used for comparison was a plot of the range of simulated phase fraction values as a function of halfwidth for each of the 3 schemes of interest under a fixed resolution.
+
+From this plot, we observed that, across all 3 schemes, measurement error was effectively reduced (to within a 5 percent error bound) when the simulated texture halfwidth was equal to twice the resolution of the sampling scheme. Furthermore, when the halfwidth was equal to 4 times the scheme resolution, measurement error was neglibile.
+
+Although the Rizzie hex grid seems to mitigate measurement error slighltly better than the spiral grid, their performances are largel comparable from the graph. The matthias hex plot, however, displays a uniquely-high level of variation in phase fraction measurement.
+%AC 2021 July 08 - Unique is probably the wrong word.  Larger than the others?
+
+    % Larger variation for Matthias Hex
+    % Low error when HW = 2x Resolution, negligible when 4x
+
+    % At a halfwidth of 30 degrees, measurement error across all tested resolutions converge about the expected phase fraction value of 0.25
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%Halfwidth variation plot
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.65\paperwidth]{SpiralSchemePaperFigures/5deg.png}
+    \caption{Comparison of schemes under $5^\circ$ resolution}
+    \label{SchemeCompare5Deg}
+\end{figure}
+% Surya - fix caption to Matthias
+
+
+\textbf{Heatmap Results and Figures}\\
+    % Which texture components are driving variation
+    % Much larger variation, as prior Figure showed
+    % Spiral CubeA,GossA GossF, ShearF
+    % Rizzie GossA  BrassA, 
+    % Matthias: A - Cube, Brass, Goss; F - Shear
+    
+In order to see the contributing factors behind the observed measurement errors, we decided to plot heatmaps to see which texture components were driving the most observable variation from the expected phase fraction value.
+
+For the spiral scheme, the Cube and Goss textures in the Austenite phase seemed to systematically overestimate phase fraction values, while the Goss and Shear ferrite textures seemed to systematically underestimate phase fraction values.
+
+For the Rizzie hex grid, the Goss and Brass austenite textures seem to systematically overestimate and underestimate phase fraction measurements, respectively.
+
+Finally, for the Matthias hex scheme, the largest variation in phase fraction measurement was observed, with the Brass, Cube, and Goss austenite textures significantly overestimating phase fraction measurements, and the Shear ferrite textures underestimating phase fraction measurements.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%Heatmaps
+%%%%%%%%%%%%%%%%%%%%%%%%%
+ \begin{figure}[H]
+     \centering
+     \includegraphics[width=0.65\paperwidth]{SpiralSchemePaperFigures/spiral5.png}
+     \caption{Spiral Scheme Phase fraction heatmap}
+ \end{figure}
+ 
+  \begin{figure}[H]
+     \centering
+     \includegraphics[width=0.65\paperwidth]{SpiralSchemePaperFigures/rizzie5.png}
+     \caption{Rizzie Hex Scheme Phase fraction heatmap}
+ \end{figure}
+ 
+  \begin{figure}[H]
+     \centering
+     \includegraphics[width=0.65\paperwidth]{SpiralSchemePaperFigures/matthias5.png}
+     \caption{Matthias Hex Scheme Phase fraction heatmap}
+ \end{figure}
+
+
+\textbf{Table of resolutions}\\
+
+With knowledge of all relevant results from this report, a reconsideration of base information about each of the schemes can be seen below. 
+\begin{table}[H]
+    \centering
+    \resizebox{\columnwidth}{!}{
+    \begin{tabular}{r|r||r||r}
+        \textbf{Scheme resolution} &  \textbf{Rizzie Hex} & \textbf{Spiral} & \textbf{Matthias Hex}   \\
+        \hline
+          2.5$^\circ$ &  3805 & 3303 & 1801 \\
+          5.0$^\circ$ &  955 & 828 & 469 \\
+          10.0$^\circ$ &  241 & 209 & 127 \\
+    \end{tabular}}
+    \caption{Table summarizing the number of sampling points for each tested scheme resolution}
+\end{table}
+
+Although it samples consistently-fewer points compared to the Rizzie hex grid, the spiral scheme favorably compares to the rizzie hex grid in phase fraction measurement across studied textures and halfwidths.
+
+On the other hand, the matthias hex scheme performs well at baseline resolutions and halfwidths, but struggles at lower halfwidths with reducing phase fraction measurement error.
+    % phase fractions and textures were similar for all resolutions
+    % Comparing number of points (again)
+    % - Spiral samples less than Rizzie Hex (from the table) 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Discussion}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Comment on if hypotheses was supported
+\textbf{Hypothesis supported? Areas of improvement}
+\textbf{The spiral scheme created is accurate/effective and uses 13\% fewer points than the Rizzie Hex}\\
+
+Due to the changing angular increment as a function of tilt, the spiral preserves a generally even sampling across the pole figure grid, thus supporting our hypothesis; the tilt also iterated continuously, cutting down on the number of sampling points and making this scheme "quicker" than the Rizzie Hex grid.
+
+% Add a bit on not resetting at 360 deg each time as it resulted in a seam
+
+A natural area for improvement of this scheme would be to develop a special case to redistribute the points along the ND to account for regions of undersampling along higher tilts.
+
+\textbf{How well does this compare to the other schemes of interest?}\\
+
+In comparison to the Rizzie hex grid, both schemes evenly cover the pole figure despite the spiral requiring fewer sampling points; however, only the spiral grid shows slight oversampling along the ND, which would be slightly problematic for several tested textures. The weaknesses of the Rizzie hex grid come from the 6 distinct regions where the edges of the hexagon pattern fail to fill in the circular pole figure grid, resulting in slight undersampling at those regions.
+
+In comparison to the Matthias hex scheme, although the latter samples nearly 50 \% fewer points than both the spiral scheme and rizzie hex grid; it significantly oversamples along regions of higher tilt, resulting in increased measurement variability under lower-tested halfwidth values that proved significantly more than the error observed for the spiral scheme and rizzie hex grid.
+
+% Talk about scheme sampling pattern, challenges at the center/end of spiral
+
+
+    % talk about methods for why this sampling is even
+    % talk about some areas of improvement in sampling
+
+% Comment on robustness of scheme
+
+
+% Comparison to other schemes with pros/cons
+
+% Matthias double counts at periphery, less in other schemes
+% shift inward, do every other one?
+
+% For simultaneously measuring texture & phase fraction, need to pay attention to these details
+
+\textbf{Texture sharpness and phase fraction measurement accuracy}\\
+
+We noticed that if the scheme resolution is approximately half of the halfwidth value, we approach a measurement spread that's within an acceptable 5 \% error bound. 
+
+However, diving a bit deeper into detail into the relative performance of schemes, the matthias hex scheme seems to require twice the scheme resolution as the spiral and rizzie hex grids to obtain a phase fraction measurement value that's within acceptable range and comparable to the aforementioned schemes in performance.
+
+At the lower end of tested halfwidth degree measurements, the matthias hex scheme showed a considerable spread in measurement data, prompting an exploration of which factors most clearly drove such measurement results. 
+
+\textbf{Explanations for scheme-unique measurement error}\\
+
+Heatmaps of the Matthias Hex showed that the Brass, Cube and Goss textures in the austenite phase induced the most positive bias in measurement values, while the Shear texture was most problematic in the ferrite phase, inducing a negative bias in measurement values. When analyzing the mtex plots of these texture components, we noticed that they corresponded to the outer ring of sampling in the Matthias hex scheme that was oversampled by a factor of 2, thus offering a reason for such observed measurement error.
+
+Heatmaps of the Rizzie Hex grid and spiral scheme didn't show textures that induced the level of measurement error observed in the Matthias hex scheme; however there were still certain textures that systematically induce measurement error for both schemes.
+
+For the Rizzie hex grid, the Goss and Brass textures, both in the austenite phase, tend to slightly overestimate and underestimate phase fraction values respectively. Upon viewing the plots for these textures, they aligned with the regions of slight undersampling observed along the hexagonal edges of the scheme pole figure grid where the pattern is unable to completely 'fill' in the circular grid.
+
+Last but not least, the spiral scheme showed a couple of slightly problematic textures: the Cube and Goss austenite texture induced slightly positive measurement bias, likely due to the slight oversampling along the ND and the slight undersampling along the 2nd and 4th quadrant edges of the spiral. In the ferrite phase, the Goss and Shear textures slightly underestimate phase fraction values, likely due to the combination of the 2 aforementioned regions of uneven sampling.
+
+
+% [Adam] Observation that halfwidth is kind of tied to one function/analysis (mtex) type.  Better metric?
+
+% Were you referring to the criteria used to determine which scheme is better than the other? My criteria just involved combining the phase fraction measurement accuracy with the number of sampling points used, and I noted that comparable accuracy between both schemes was achieved while the spiral scheme cut down on the sampling volume by about 50 points... -SC 6/11/2021
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusions}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% State did this work, was it robust
+
+%add potential areas of improvement and optimization (reducing number of sampling points remains a goal, etc)
+This paper reflects the development and testing of a new spiral scheme for conducting X-ray diffraction scans for retained austenite phase fraction measurement purposes. The concept of a 'Spiral' scheme was introduced primarily as a potential scheme for the added benefits of continuous motor movement (akin to drawing spirals on a paper and not having to lift the tip of your pen off the sheet while tracing the pattern). After implementing traditional spiral patterns (logarithmic spirals proposed by \cite{rizzie_elaboration_2008} and archimedean spirals proposed by \cite{holden_spiralscanning_1953}) that tended oversample along the ND, we were motivated to develop a new spiral that would more evenly cover the pole figure grid.
+The spiral we developed turned out to be quite effective in performance, comparing favorably to hexagonal schemes, which were seen as a leading example of even grid sampling. For example, our spiral scheme samples nearly 100 points less than the Rizzie hex grid while achieving comparable measurement accuracy. Furthermore, in comparison the Matthias hex scheme, which is known for requiring nearly half the points as the Rizzie hex grid, the Spiral scheme achieves significantly better measurement accuracy. Overall, such a scheme provides a promising alternative to conventional modes of phase fraction measurement of textured materials.
+
+% Spiral has fewer points or more accurate phase fractions than two competing methods.
+
+
+% \section{Explicit Citations (to be deleted soon)}
+% This paragraph is a placeholder to enumerate the citations that will be 
+% used in this report. \cite{Bruker} and \cite{Bunge} are the 2 first citations that 
+% come by alphabetical convention. Next come \cite{Callister}, \cite{Cox}, and \cite{Creuziger-JAC-2018}. 
+% This is followed by \cite{Cullity}, \cite{Helmholtz}, \cite{Jacques}, and \cite{Matthies_PhysStatSoliA_1992}. Moving 
+% on, we have \cite{Raabe} and \cite{Rizzie}, accompanied by 2 works by the same author: \cite{Rollett1} and \cite{Rollett2}. As https://www.overleaf.com/project/60ae4a3478c0756b0bb6f004
+% we move towards the end of the citations, we have \cite{Schields} and \cite{Shackelford} rounding out the list of citations 
+% used in this report. I'm adding an extra line so that we can get the \textit{References} section on its own page.
+
+%/textit{References}
+
+%\bibliography{spiral.bib}
+\bibliography{Surya-Spiral.bib}
+% Dicuss: Adam uses the reference management software Zotero, and have started a collection of papers there.  Then I can just export these as a .bib file.  Let me know if there are other papers to add, and I can update my Zotero collection and export a .bib file.
+
+
+
+
+%%%%%%%%%%% EXTRA STUFF %%%%%%%%%%%%%%
+
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.65\paperwidth]{SpiralSchemePaperFigures/Spiral_scatter.png}
+%     \caption{Spiral scheme pole figure scatter plot. $5^\circ$ resolution}
+%     \label{SpiralScatterPlot}
+% \end{figure}
+
+% Discuss: Quad plot of different resolutions? -No just one is fine
+% [Surya] (2021 Jun 17) Add Rizzie & Matthias Scatter plots
+
+% Rizzie plots
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.65\paperwidth]{SpiralSchemePaperFigures/rizziescatter.png}
+%     \caption{Rizzie hex scheme pole figure scatter plot. $5^\circ$ resolution}
+%     \label{RizzieScatterPlot}
+% \end{figure}
+
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.65\paperwidth]{SpiralSchemePaperFigures/rizziecontour.png}
+%     \caption{Rizzie hex scheme pole figure contour plot. $5^\circ$ resolution}
+%     \label{RizzieContourPlot}
+% \end{figure}
+
+% Matthias Plots
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.65\paperwidth]{SpiralSchemePaperFigures/matthiasscatter.png}
+%     \caption{Matthias hex scheme pole figure scatter plot. $5^\circ$ resolution}
+%     \label{MatthiasScatterPlot}
+% \end{figure}
+
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.65\paperwidth]{SpiralSchemePaperFigures/matthiascontour.png}
+%     \caption{Matthias hex scheme pole figure contour plot. $5^\circ$ resolution}
+%     \label{MatthiasContourPlot}
+% \end{figure}
+
+
+% 2.5 degree plots
+
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.65\paperwidth]{SpiralSchemePaperFigures/2.5deg.png}
+%     \caption{Comparison plot for 3 schemes under $2.5^\circ$ resolution}
+%     \label{2.5 degree comparison plot}
+% \end{figure}
+
+% 10 degree plots
+
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.65\paperwidth]{SpiralSchemePaperFigures/10hw.png}
+%     \caption{Comparison plot for 3 schemes under $10^\circ$ resolution}
+%     \label{10 degree comparison plot}
+% \end{figure}
+
+
+% Figure - show the scatter plot
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.65\paperwidth]{SpiralSchemePaperFigures/Spiral_contour.png}
+%     \caption{Spiral scheme pole figure contour plot}
+%     \label{SpiralContourPlot}
+% \end{figure}
+% [Surya] (2021 Jun 17) Add Rizzie & Matthias contour plots
+
+\end{document}
