@@ -1,0 +1,536 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage[numbers]{natbib}
+\usepackage{geometry}
+
+% Switch between 'final' to see graphics and 'draft' for faster compiling (no graphics)
+\usepackage[final]{graphicx}
+%\usepackage[draft]{graphicx}
+
+\usepackage{bm}
+\geometry{letterpaper,margin=1in}
+\usepackage{authblk}
+
+\bibliographystyle{alpha} % alpha for easier checking/tracking references
+%\bibliographystyle{unsrt}
+
+%%%%%%%%%%%%%%%%%%%
+%%%% Comment conventions %%%%
+% "[Name]" question is addressed to that person
+% "Discuss" open comment about the content of the paper for us to sort out
+% "Note" no action required
+%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\title{Scheme Report} % Note: placeholder
+\date{\today}
+\author[1, 2]{Surya Chandramouleeswaran}
+\author[3]{Adam Creuziger}
+\author[2]{Michael Cox}
+\author[2]{Kip Findley}
+\affil[1]{BASIS Chandler}
+\affil[2]{Metallurgical and Materials Engineering Department, Colorado School of Mines}
+\affil[3]{Materials Science and Engineering Division, Material Measurement Laboratory, NIST}
+
+
+\maketitle
+
+\section{Background}
+
+
+\section{Methods}
+
+% Software used to create schemes
+% Data used for simulated phase fractions
+
+% [Adam] Add pole figure plots for each texture component (as appendix?)
+
+% Considerations of the scheme
+
+
+% Discuss: How many peaks included
+% Discuss: Some of these could either be complete pole figures or partial (tilt angle limited).  Run both options?
+
+\subsection{Schemes}
+% Discuss: Do we include the equations to generate each scheme?
+
+
+Kocks p138 introduces name 'scheme'
+
+% Discuss: organize by complete/partial, or 'style'.  Currently I have them by 'style', and roughly sorted by when I think they were developed.
+% Discuss: currently this is 27 different schemes. That seems like a lot...
+
+% [Adam] revise oversampling colorbar to go to 8 or 20
+% [Surya] combine some plots
+
+\subsubsection{Single schemes}
+% ND, TD, RD
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\paperwidth]{SchemesReportFigures/singles.png}
+    \caption{Pole figure scatter plots for the ND single sampling scheme (marked in blue), RD single sampling scheme (marked in red), TD single sampling scheme (marked in green), and Morris single sampling scheme (marked in yellow).}
+\end{figure}
+
+\subsubsection{Ring schemes}
+
+\paragraph{High energy (infinite) single rings}
+% ND, TD, RD
+% [Adam] try to find find original Debye ring citation
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\paperwidth]{SchemesReportFigures/Ring Perpendicular to ND_scatter.png}
+    \caption{Pole figure scatter plot for sampling ring scheme about the ND}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\paperwidth]{SchemesReportFigures/Ring Perpendicular to RD_scatter.png}
+    \caption{Pole figure scatter plot for sampling ring scheme about the RD}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\paperwidth]{SchemesReportFigures/Ring Perpendicular to TD_scatter.png}
+    \caption{Pole figure scatter plot for sampling ring scheme about the TD}
+\end{figure}
+
+
+
+
+\paragraph{High energy (finite) rotated rings}
+% rotated rings - complete and partial (2)
+
+
+% Kocks mentioned Wenk 1963 paper with conversion between rotated rings and pole figure positions
+
+\cite{phan_micromechanical_2019}, where I got the rotated rings from
+% Try to find original citation, or better description
+% Add my new paper here
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\paperwidth]{SchemesReportFigures/RotRing Axis-Y Res-5.0 Theta-2.84623415 OmegaMax-90_scatter.png}
+    \caption{Pole figure scatter plot for complete rotated-ring sampling scheme}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\paperwidth]{SchemesReportFigures/RotRing Axis-Y Res-5.0 Theta-2.84623415 OmegaMax-60_scatter.png}
+    \caption{Pole figure scatter plot for partial rotated-ring sampling scheme}
+\end{figure}
+
+\paragraph{Lower energy single rings}
+% Single reflection ring (offset ring, RD/TD, 45?)
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\paperwidth]{SchemesReportFigures/OffsetF45_scatter.png}
+    \caption{Pole figure scatter plot of the Offset ring shifted 45 degrees, for measuring the Ferrite phase}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\paperwidth]{SchemesReportFigures/OffsetA45_scatter.png}
+    \caption{Pole figure scatter plot of the Offset ring shifted 45 degrees, for measuring the Austenite phase}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\paperwidth]{SchemesReportFigures/OffsetFTD_scatter.png}
+    \caption{Pole figure scatter plot of the Offset ring shifted along the TD, for measuring the Ferrite phase}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\paperwidth]{SchemesReportFigures/OffsetATD_scatter.png}
+    \caption{Pole figure scatter plot of the Offset ring shifted along the TD, for measuring the Austenite phase}
+\end{figure}
+
+
+\subsubsection{Equal Angle}
+ % Kocks p129 references wever 1924 decker 1948, norton 1948, Schulz 1949a/b
+
+
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\paperwidth]{SchemesReportFigures/EA_scatter.png}
+    \caption{Pole figure scatter plot of the Equal Angle sampling scheme}
+\end{figure}
+
+\subsubsection{Tilt and Rotate}
+
+% Add Miller 1968
+SAE publication \citep{jatczak_sae_1980} 
+
+% Rotation alone
+\paragraph{Rotation Alone}
+% [Adam] find 'rotation improves' statements in literature
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\paperwidth]{SchemesReportFigures/Rotation-NoTilt_scatter.png}
+    \caption{Pole figure scatter plot of rotation-only sampling scheme measurement}
+\end{figure}
+
+% Tilt alone
+\paragraph{Tilt Alone}
+
+SAE publication page 48 found tilting produced reasonably accurate results \cite{jatczak_sae_1980}.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\paperwidth]{SchemesReportFigures/NoRotation-tilt60deg_scatter.png}
+    \caption{Pole figure scatter plot of tilt-only sampling scheme measurement}
+\end{figure}
+
+
+\paragraph{Tilt and rotation}
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\paperwidth]{SchemesReportFigures/Rotation-60detTilt_scatter.png}
+    \caption{Pole figure scatter plot of combined tilt-and-rotation sampling scheme measurement}
+\end{figure}
+
+
+
+\subsubsection{Spiral schemes}
+
+
+\paragraph{Fixed tilt and rotation rate Spiral} 
+% Discuss: not thrilled with this name, better suggestions?
+% Klug & Alexander
+
+\cite{klug_x-ray_1974} shows this
+% Find original references
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\paperwidth]{SchemesReportFigures/holden_scatter.png}
+    \caption{Pole figure scatter plot of Archimedean spiral sampling scheme. From \cite{Holden}}
+\end{figure}
+
+\paragraph{Logarithmic Spiral}
+% Rizzie (logarithmic)
+
+Seems developed by \citep{rizzie_elaboration_2008} 
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\paperwidth]{SchemesReportFigures/Rizzie_scatter.png}
+    \caption{Pole figure scatter plot of logarithmic spiral sampling scheme. From \cite{rizzie_elaboration_2008} }
+\end{figure}
+
+
+
+\paragraph{Equal Coverage Spiral}
+% Discuss: not thrilled with this name, better suggestions?
+
+% New Spiral developed
+% [Surya] - does this scheme still have the extra point at 0,0? 
+
+% Cite other paper
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\paperwidth]{SchemesReportFigures/Spiral_scatter.png}
+    \caption{Pole figure scatter plot of new spiral sampling scheme}
+\end{figure}
+
+
+\subsubsection{Hexagonal schemes}
+
+\paragraph{Rizzie Hex}
+% Rizzle
+From \citep{rizzie_elaboration_2008}, references \cite{matthies_optimization_1992}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\paperwidth]{SchemesReportFigures/Rizzie Hex_scatter.png}
+    \caption{Pole figure scatter plot of Hexagonal grid sampling scheme. From \cite{rizzie_elaboration_2008}}
+\end{figure}
+
+\paragraph{Matthies Hex}
+\cite{matthies_optimization_1992}, code from Thomas (cite?)
+
+% Matthias (Thomas')
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\paperwidth]{SchemesReportFigures/thomas_scatter.png}
+    \caption{Pole figure scatter plot of Thomas Hexagonal grid sampling scheme. From \cite{matthies_optimization_1992}}
+\end{figure}
+
+\paragraph{Partial Hex}
+% partial hex
+% Which one as a base, what's key about it?
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\paperwidth]{SchemesReportFigures/Partial hex_scatter.png}
+    \caption{Pole figure scatter plot of partial hexagonal grid sampling scheme. From \cite{rizzie_elaboration_2008}}
+\end{figure}
+
+
+\subsubsection{CLRGrid}
+
+Included in Bruker Diffrac.Texture manual \cite{bruker_axs_gmbh_diffractexture_2016}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\paperwidth]{SchemesReportFigures/clr_scatter.png}
+    \caption{Pole figure scatter plot of CLR grid sampling scheme. From \cite{bruker_axs_gmbh_diffractexture_2016}}
+\end{figure}
+
+
+\subsubsection{Gaussian Quadrature}
+
+\cite{lan_generalized_2015} Main reference with equations, also \cite{lan_private_2017}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\paperwidth]{SchemesReportFigures/Gauss_scatter.png}
+    \caption{Pole figure scatter plot of Gaussian Quadrature sampling scheme. From \cite{lan_generalized_2015} and \cite{lan_private_2017}}
+\end{figure}
+
+
+
+
+%\subsection{Partial Coverage Schemes}
+
+
+\section{Results}
+
+% Figure - Each scheme -- can be seen above
+
+
+% Figure - Oversampling contour plots -- THESE START HERE
+\subsection{Contour Plot Images}
+
+\subsubsection{Single schemes}
+% ND, TD, RD
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\paperwidth]{SchemesReportFigures/ND Single_contour.png}
+    \caption{Pole figure contour plot for the ND single sampling scheme}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\paperwidth]{SchemesReportFigures/RD Single_contour.png}
+    \caption{Pole figure contour plot for the RD single sampling scheme}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\paperwidth]{SchemesReportFigures/TD Single_contour.png}
+    \caption{Pole figure contour plot for the TD single sampling scheme}
+\end{figure}
+
+
+
+% Morris
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\paperwidth]{SchemesReportFigures/Morris Single_contour.png}
+    \caption{Pole figure contour plot for the Morris single sampling scheme}
+\end{figure}
+
+
+\subsubsection{Ring schemes}
+% ND, TD, RD
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\paperwidth]{SchemesReportFigures/Ring Perpendicular to ND_contour.png}
+    \caption{Pole figure contour plot for sampling ring scheme about the ND}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\paperwidth]{SchemesReportFigures/Ring Perpendicular to RD_contour.png}
+    \caption{Pole figure contour plot for sampling ring scheme about the RD}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\paperwidth]{SchemesReportFigures/Ring Perpendicular to TD_contour.png}
+    \caption{Pole figure contour plot for sampling ring scheme about the TD}
+\end{figure}
+
+
+
+
+
+% rotated rings - complete and partial (2)
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\paperwidth]{SchemesReportFigures/RotRing Axis-Y Res-5.0 Theta-2.84623415 OmegaMax-90_contour.png}
+    \caption{Pole figure contour plot for complete rotated-ring sampling scheme}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\paperwidth]{SchemesReportFigures/RotRing Axis-Y Res-5.0 Theta-2.84623415 OmegaMax-60_contour.png}
+    \caption{Pole figure contour plot for partial rotated-ring sampling scheme}
+\end{figure}
+
+% Single reflection ring (offset ring, RD/TD, 45?)
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\paperwidth]{SchemesReportFigures/OffsetF45_contour.png}
+    \caption{Pole figure contour plot of the Offset ring shifted 45 degrees, for measuring the Ferrite phase}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\paperwidth]{SchemesReportFigures/OffsetA45_contour.png}
+    \caption{Pole figure contour plot of the Offset ring shifted 45 degrees, for measuring the Austenite phase}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\paperwidth]{SchemesReportFigures/OffsetFTD_contour.png}
+    \caption{Pole figure contour plot of the Offset ring shifted along the TD, for measuring the Ferrite phase}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\paperwidth]{SchemesReportFigures/OffsetATD_contour.png}
+    \caption{Pole figure contour plot of the Offset ring shifted along the TD, for measuring the Austenite phase}
+\end{figure}
+
+
+
+\subsubsection{Equal Angle}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\paperwidth]{SchemesReportFigures/EA_contour.png}
+    \caption{Pole figure contour plot of the Equal Angle sampling scheme}
+\end{figure}
+
+\subsubsection{Tilt and Rotate}
+
+% Rotation alone
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\paperwidth]{SchemesReportFigures/Rotation-NoTilt_contour.png}
+    \caption{Pole figure contour plot of rotation-only sampling scheme measurement}
+\end{figure}
+
+
+% Tilt alone
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\paperwidth]{SchemesReportFigures/NoRotation-tilt60deg_contour.png}
+    \caption{Pole figure contour plot of tilt-only sampling scheme measurement}
+\end{figure}
+
+
+% Tilt and rotation
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\paperwidth]{SchemesReportFigures/Rotation-60detTilt_contour.png}
+    \caption{Pole figure contour plot of combined tilt-and-rotation sampling scheme measurement}
+\end{figure}
+
+
+
+\subsubsection{Spiral schemes}
+% Rizzle (logarithmic)
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\paperwidth]{SchemesReportFigures/Rizzie_contour.png}
+    \caption{Pole figure contour plot of logarithmic spiral sampling scheme. From \cite{Rizzie}}
+\end{figure}
+
+
+% Klug & Alexander
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\paperwidth]{SchemesReportFigures/Holden_contour.png}
+    \caption{Pole figure contour plot of Archimedean spiral sampling scheme. From \cite{Holden}}
+\end{figure}
+
+% New Spiral developed
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\paperwidth]{SchemesReportFigures/Spiral_contour.png}
+    \caption{Pole figure contour plot of new spiral sampling scheme}
+\end{figure}
+
+
+\subsubsection{Hexagonal schemes}
+% Rizzle
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\paperwidth]{SchemesReportFigures/Rizzie Hex_contour.png}
+    \caption{Pole figure contour plot of Hexagonal grid sampling scheme. From \cite{Rizzie}}
+\end{figure}
+
+
+% Matthias (Thomas')
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\paperwidth]{SchemesReportFigures/thomas_contour.png}
+    \caption{Pole figure contour plot of Thomas Hexagonal grid sampling scheme. From \cite{Matthies}}
+\end{figure}
+
+
+% partial hex
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\paperwidth]{SchemesReportFigures/Partial hex_contour.png}
+    \caption{Pole figure contour plot of partial hexagonal grid sampling scheme. From \cite{Rizzie}}
+\end{figure}
+
+
+\subsubsection{CLRGrid}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\paperwidth]{SchemesReportFigures/CLR_contour.png}
+    \caption{Pole figure contour plot of CLR grid sampling scheme. From \cite{Bruker}}
+\end{figure}
+
+
+\subsubsection{Gaussian Quadrature}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\paperwidth]{SchemesReportFigures/Gauss_contour.png}
+    \caption{Pole figure contour plot of Gaussian Quadrature sampling scheme. From \cite{Lan1} and \cite{Lan2}.}
+\end{figure}
+% Doesn't seem like quite the right distribution.  I thought they'd be evenly spaced in rotation...
+
+
+% Selected heatmaps/violin plots
+
+% Discuss: how to show effect on phase fractions.  I'm starting to think showing each peak from a Cu source may be effective.  
+% This would mean changing up the heat map so that X axis would be scheme, Y axis would be texture (both phases), and separate figures for each peak (14 total).
+% The 'correct' value would be equal to 1, and we could use the same color map as the oversampling contour plots  
+
+\section{Discussion}
+
+% Comparison of each one, pros and cons.
+% Table - number of points
+
+\section{Conclusions}
+
+
+
+% \section{Explicit Citations (to be deleted soon)}
+% This paragraph is a placeholder to enumerate the citations that will be 
+% used in this report. \cite{Bruker} and \cite{Bunge} are the 2 first citations that 
+% come by alphabetical convention. Next come \cite{Callister}, \cite{Cox}, and \cite{Creuziger}. 
+% This is followed by \cite{Cullity}, \cite{Helmholtz}, \cite{Jacques}, and \cite{Matthies}. Moving 
+% on, we have \cite{Raabe} and \cite{Rizzie}, accompanied by 2 works by the same author: \cite{Rollett1} and \cite{Rollett2}. As 
+% we move towards the end of the citations, we have \cite{Schields} and \cite{Shackelford} rounding out the list of citations 
+% used in this report. I'm adding an extra line so that we can get the \textit{References} section on its own page.
+
+%\bibliography{biblio.bib}
+\bibliography{Surya-SchemeReport.bib}
+
+
+\end{document}
