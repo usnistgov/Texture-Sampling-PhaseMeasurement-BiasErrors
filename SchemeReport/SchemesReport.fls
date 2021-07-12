@@ -1,0 +1,517 @@
+PWD /Users/surya/Downloads/Texture-Sampling-PhaseMeasurement-BiasErrors/SchemeReport
+INPUT /usr/local/texlive/2021/texmf.cnf
+INPUT /usr/local/texlive/2021/texmf-dist/web2c/texmf.cnf
+INPUT /usr/local/texlive/2021/texmf-var/web2c/pdftex/pdflatex.fmt
+INPUT /Users/surya/Downloads/Texture-Sampling-PhaseMeasurement-BiasErrors/SchemeReport/SchemesReport.tex
+OUTPUT SchemesReport.log
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/base/article.cls
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/base/article.cls
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/base/article.cls
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/base/article.cls
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/base/article.cls
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/base/article.cls
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/base/article.cls
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/base/article.cls
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/base/article.cls
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/base/article.cls
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/base/article.cls
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/base/size10.clo
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/base/size10.clo
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/base/size10.clo
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/base/size10.clo
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsmath.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsmath.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsmath.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsmath.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsmath.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsmath.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsmath.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsmath.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsmath.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsmath.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsmath.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsopn.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsopn.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amstext.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amstext.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amstext.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amstext.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amstext.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amstext.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amstext.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amstext.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amstext.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amstext.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amstext.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsgen.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsgen.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsgen.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsgen.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsgen.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsgen.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsgen.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsgen.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsgen.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsgen.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsgen.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsbsy.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsbsy.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsbsy.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsbsy.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsbsy.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsbsy.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsbsy.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsbsy.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsbsy.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsbsy.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsbsy.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsgen.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsopn.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsopn.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsopn.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsopn.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsopn.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsopn.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsopn.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsopn.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsopn.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsopn.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsopn.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsgen.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/natbib/natbib.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/natbib/natbib.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/natbib/natbib.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/natbib/natbib.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/natbib/natbib.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/natbib/natbib.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/natbib/natbib.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/natbib/natbib.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/natbib/natbib.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/natbib/natbib.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/natbib/natbib.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/geometry/geometry.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/geometry/geometry.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/geometry/geometry.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/geometry/geometry.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/geometry/geometry.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/geometry/geometry.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/geometry/geometry.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/geometry/geometry.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/geometry/geometry.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/geometry/geometry.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/geometry/geometry.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics/keyval.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics/keyval.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics/keyval.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics/keyval.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics/keyval.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics/keyval.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics/keyval.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics/keyval.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics/keyval.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics/keyval.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics/keyval.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/generic/iftex/ifvtex.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/generic/iftex/ifvtex.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/generic/iftex/ifvtex.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/generic/iftex/ifvtex.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/generic/iftex/ifvtex.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/generic/iftex/ifvtex.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/generic/iftex/ifvtex.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/generic/iftex/ifvtex.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/generic/iftex/ifvtex.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/generic/iftex/ifvtex.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/generic/iftex/ifvtex.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/generic/iftex/iftex.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/generic/iftex/iftex.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/generic/iftex/iftex.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/generic/iftex/iftex.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/generic/iftex/iftex.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/generic/iftex/iftex.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/generic/iftex/iftex.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/generic/iftex/iftex.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/generic/iftex/iftex.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/generic/iftex/iftex.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/generic/iftex/iftex.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics/graphicx.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics/graphicx.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics/graphicx.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics/graphicx.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics/graphicx.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics/graphicx.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics/graphicx.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics/graphicx.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics/graphicx.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics/graphicx.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics/graphicx.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics/graphics.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics/graphics.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics/keyval.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics/graphics.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics/graphics.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics/graphics.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics/graphics.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics/graphics.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics/graphics.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics/graphics.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics/graphics.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics/graphics.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics/graphics.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics/graphics.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics/trig.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics/trig.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics/trig.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics/trig.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics/trig.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics/trig.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics/trig.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics/trig.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics/trig.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics/trig.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics/trig.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics-def/pdftex.def
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics-def/pdftex.def
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics-def/pdftex.def
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics-def/pdftex.def
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/tools/bm.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/tools/bm.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/tools/bm.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/tools/bm.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/tools/bm.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/tools/bm.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/tools/bm.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/tools/bm.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/tools/bm.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/tools/bm.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/tools/bm.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/preprint/authblk.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/preprint/authblk.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/preprint/authblk.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/preprint/authblk.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/preprint/authblk.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/preprint/authblk.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/preprint/authblk.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/preprint/authblk.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/preprint/authblk.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/preprint/authblk.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/preprint/authblk.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/float/float.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/float/float.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/float/float.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/float/float.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/float/float.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/float/float.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/float/float.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/float/float.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/float/float.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/float/float.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/float/float.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+INPUT ./SchemesReport.aux
+INPUT SchemesReport.aux
+INPUT SchemesReport.aux
+OUTPUT SchemesReport.aux
+INPUT /usr/local/texlive/2021/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+INPUT /usr/local/texlive/2021/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+INPUT /usr/local/texlive/2021/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+INPUT /usr/local/texlive/2021/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+INPUT /usr/local/texlive/2021/texmf-dist/fonts/map/fontname/texfonts.map
+INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/cm/cmr17.tfm
+INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/cm/cmr12.tfm
+INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/cm/cmr8.tfm
+INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/cm/cmr6.tfm
+INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/cm/cmmi12.tfm
+INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/cm/cmmi8.tfm
+INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/cm/cmmi6.tfm
+INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/cm/cmsy10.tfm
+INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/cm/cmsy8.tfm
+INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/cm/cmsy6.tfm
+INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/cm/cmex10.tfm
+INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm
+INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm
+INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
+INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/cm/cmbx8.tfm
+INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/cm/cmbx6.tfm
+INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/cm/cmmib10.tfm
+INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmmib8.tfm
+INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmmib6.tfm
+INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/cm/cmbsy10.tfm
+INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy8.tfm
+INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy6.tfm
+INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/cm/cmr12.tfm
+INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
+INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/cm/cmbx10.tfm
+INPUT ./SchemesReportFigures/Ring Perpendicular to ND_scatter.png
+INPUT ./SchemesReportFigures/Ring Perpendicular to ND_scatter.png
+INPUT SchemesReportFigures/Ring Perpendicular to ND_scatter.png
+INPUT ./SchemesReportFigures/Ring Perpendicular to ND_scatter.png
+OUTPUT SchemesReport.pdf
+INPUT ./SchemesReportFigures/Ring Perpendicular to ND_scatter.png
+INPUT /usr/local/texlive/2021/texmf-var/fonts/map/pdftex/updmap/pdftex.map
+INPUT ./SchemesReportFigures/Ring Perpendicular to RD_scatter.png
+INPUT ./SchemesReportFigures/Ring Perpendicular to RD_scatter.png
+INPUT SchemesReportFigures/Ring Perpendicular to RD_scatter.png
+INPUT ./SchemesReportFigures/Ring Perpendicular to RD_scatter.png
+INPUT ./SchemesReportFigures/Ring Perpendicular to RD_scatter.png
+INPUT ./SchemesReportFigures/Ring Perpendicular to TD_scatter.png
+INPUT ./SchemesReportFigures/Ring Perpendicular to TD_scatter.png
+INPUT SchemesReportFigures/Ring Perpendicular to TD_scatter.png
+INPUT ./SchemesReportFigures/Ring Perpendicular to TD_scatter.png
+INPUT ./SchemesReportFigures/Ring Perpendicular to TD_scatter.png
+INPUT ./SchemesReportFigures/RotRing Axis-Y Res-5.0 Theta-2.84623415 OmegaMax-90_scatter.png
+INPUT ./SchemesReportFigures/RotRing Axis-Y Res-5.0 Theta-2.84623415 OmegaMax-90_scatter.png
+INPUT SchemesReportFigures/RotRing Axis-Y Res-5.0 Theta-2.84623415 OmegaMax-90_scatter.png
+INPUT ./SchemesReportFigures/RotRing Axis-Y Res-5.0 Theta-2.84623415 OmegaMax-90_scatter.png
+INPUT ./SchemesReportFigures/RotRing Axis-Y Res-5.0 Theta-2.84623415 OmegaMax-90_scatter.png
+INPUT ./SchemesReportFigures/RotRing Axis-Y Res-5.0 Theta-2.84623415 OmegaMax-60_scatter.png
+INPUT ./SchemesReportFigures/RotRing Axis-Y Res-5.0 Theta-2.84623415 OmegaMax-60_scatter.png
+INPUT SchemesReportFigures/RotRing Axis-Y Res-5.0 Theta-2.84623415 OmegaMax-60_scatter.png
+INPUT ./SchemesReportFigures/RotRing Axis-Y Res-5.0 Theta-2.84623415 OmegaMax-60_scatter.png
+INPUT ./SchemesReportFigures/RotRing Axis-Y Res-5.0 Theta-2.84623415 OmegaMax-60_scatter.png
+INPUT ./SchemesReportFigures/OffsetF45_scatter.png
+INPUT ./SchemesReportFigures/OffsetF45_scatter.png
+INPUT SchemesReportFigures/OffsetF45_scatter.png
+INPUT ./SchemesReportFigures/OffsetF45_scatter.png
+INPUT ./SchemesReportFigures/OffsetF45_scatter.png
+INPUT ./SchemesReportFigures/OffsetA45_scatter.png
+INPUT ./SchemesReportFigures/OffsetA45_scatter.png
+INPUT SchemesReportFigures/OffsetA45_scatter.png
+INPUT ./SchemesReportFigures/OffsetA45_scatter.png
+INPUT ./SchemesReportFigures/OffsetA45_scatter.png
+INPUT ./SchemesReportFigures/OffsetFTD_scatter.png
+INPUT ./SchemesReportFigures/OffsetFTD_scatter.png
+INPUT SchemesReportFigures/OffsetFTD_scatter.png
+INPUT ./SchemesReportFigures/OffsetFTD_scatter.png
+INPUT ./SchemesReportFigures/OffsetFTD_scatter.png
+INPUT ./SchemesReportFigures/OffsetATD_scatter.png
+INPUT ./SchemesReportFigures/OffsetATD_scatter.png
+INPUT SchemesReportFigures/OffsetATD_scatter.png
+INPUT ./SchemesReportFigures/OffsetATD_scatter.png
+INPUT ./SchemesReportFigures/OffsetATD_scatter.png
+INPUT ./SchemesReportFigures/EA_scatter.png
+INPUT ./SchemesReportFigures/EA_scatter.png
+INPUT SchemesReportFigures/EA_scatter.png
+INPUT ./SchemesReportFigures/EA_scatter.png
+INPUT ./SchemesReportFigures/EA_scatter.png
+INPUT ./SchemesReportFigures/Rotation-NoTilt_scatter.png
+INPUT ./SchemesReportFigures/Rotation-NoTilt_scatter.png
+INPUT SchemesReportFigures/Rotation-NoTilt_scatter.png
+INPUT ./SchemesReportFigures/Rotation-NoTilt_scatter.png
+INPUT ./SchemesReportFigures/Rotation-NoTilt_scatter.png
+INPUT ./SchemesReportFigures/NoRotation-tilt60deg_scatter.png
+INPUT ./SchemesReportFigures/NoRotation-tilt60deg_scatter.png
+INPUT SchemesReportFigures/NoRotation-tilt60deg_scatter.png
+INPUT ./SchemesReportFigures/NoRotation-tilt60deg_scatter.png
+INPUT ./SchemesReportFigures/NoRotation-tilt60deg_scatter.png
+INPUT ./SchemesReportFigures/Rotation-60detTilt_scatter.png
+INPUT ./SchemesReportFigures/Rotation-60detTilt_scatter.png
+INPUT SchemesReportFigures/Rotation-60detTilt_scatter.png
+INPUT ./SchemesReportFigures/Rotation-60detTilt_scatter.png
+INPUT ./SchemesReportFigures/Rotation-60detTilt_scatter.png
+INPUT ./SchemesReportFigures/holden_scatter.png
+INPUT ./SchemesReportFigures/holden_scatter.png
+INPUT SchemesReportFigures/holden_scatter.png
+INPUT ./SchemesReportFigures/holden_scatter.png
+INPUT ./SchemesReportFigures/holden_scatter.png
+INPUT ./SchemesReportFigures/Rizzie_scatter.png
+INPUT ./SchemesReportFigures/Rizzie_scatter.png
+INPUT SchemesReportFigures/Rizzie_scatter.png
+INPUT ./SchemesReportFigures/Rizzie_scatter.png
+INPUT ./SchemesReportFigures/Rizzie_scatter.png
+INPUT ./SchemesReportFigures/Spiral_scatter.png
+INPUT ./SchemesReportFigures/Spiral_scatter.png
+INPUT SchemesReportFigures/Spiral_scatter.png
+INPUT ./SchemesReportFigures/Spiral_scatter.png
+INPUT ./SchemesReportFigures/Spiral_scatter.png
+INPUT ./SchemesReportFigures/Rizzie Hex_scatter.png
+INPUT ./SchemesReportFigures/Rizzie Hex_scatter.png
+INPUT SchemesReportFigures/Rizzie Hex_scatter.png
+INPUT ./SchemesReportFigures/Rizzie Hex_scatter.png
+INPUT ./SchemesReportFigures/Rizzie Hex_scatter.png
+INPUT ./SchemesReportFigures/thomas_scatter.png
+INPUT ./SchemesReportFigures/thomas_scatter.png
+INPUT SchemesReportFigures/thomas_scatter.png
+INPUT ./SchemesReportFigures/thomas_scatter.png
+INPUT ./SchemesReportFigures/thomas_scatter.png
+INPUT ./SchemesReportFigures/Partial hex_scatter.png
+INPUT ./SchemesReportFigures/Partial hex_scatter.png
+INPUT SchemesReportFigures/Partial hex_scatter.png
+INPUT ./SchemesReportFigures/Partial hex_scatter.png
+INPUT ./SchemesReportFigures/Partial hex_scatter.png
+INPUT ./SchemesReportFigures/clr_scatter.png
+INPUT ./SchemesReportFigures/clr_scatter.png
+INPUT SchemesReportFigures/clr_scatter.png
+INPUT ./SchemesReportFigures/clr_scatter.png
+INPUT ./SchemesReportFigures/clr_scatter.png
+INPUT ./SchemesReportFigures/Gauss_scatter.png
+INPUT ./SchemesReportFigures/Gauss_scatter.png
+INPUT SchemesReportFigures/Gauss_scatter.png
+INPUT ./SchemesReportFigures/Gauss_scatter.png
+INPUT ./SchemesReportFigures/Gauss_scatter.png
+INPUT ./SchemesReportFigures/ND Single_contour.png
+INPUT ./SchemesReportFigures/ND Single_contour.png
+INPUT SchemesReportFigures/ND Single_contour.png
+INPUT ./SchemesReportFigures/ND Single_contour.png
+INPUT ./SchemesReportFigures/ND Single_contour.png
+INPUT ./SchemesReportFigures/RD Single_contour.png
+INPUT ./SchemesReportFigures/RD Single_contour.png
+INPUT SchemesReportFigures/RD Single_contour.png
+INPUT ./SchemesReportFigures/RD Single_contour.png
+INPUT ./SchemesReportFigures/RD Single_contour.png
+INPUT ./SchemesReportFigures/TD Single_contour.png
+INPUT ./SchemesReportFigures/TD Single_contour.png
+INPUT SchemesReportFigures/TD Single_contour.png
+INPUT ./SchemesReportFigures/TD Single_contour.png
+INPUT ./SchemesReportFigures/TD Single_contour.png
+INPUT ./SchemesReportFigures/Morris Single_contour.png
+INPUT ./SchemesReportFigures/Morris Single_contour.png
+INPUT SchemesReportFigures/Morris Single_contour.png
+INPUT ./SchemesReportFigures/Morris Single_contour.png
+INPUT ./SchemesReportFigures/Morris Single_contour.png
+INPUT ./SchemesReportFigures/Ring Perpendicular to ND_contour.png
+INPUT ./SchemesReportFigures/Ring Perpendicular to ND_contour.png
+INPUT SchemesReportFigures/Ring Perpendicular to ND_contour.png
+INPUT ./SchemesReportFigures/Ring Perpendicular to ND_contour.png
+INPUT ./SchemesReportFigures/Ring Perpendicular to ND_contour.png
+INPUT ./SchemesReportFigures/Ring Perpendicular to RD_contour.png
+INPUT ./SchemesReportFigures/Ring Perpendicular to RD_contour.png
+INPUT SchemesReportFigures/Ring Perpendicular to RD_contour.png
+INPUT ./SchemesReportFigures/Ring Perpendicular to RD_contour.png
+INPUT ./SchemesReportFigures/Ring Perpendicular to RD_contour.png
+INPUT ./SchemesReportFigures/Ring Perpendicular to TD_contour.png
+INPUT ./SchemesReportFigures/Ring Perpendicular to TD_contour.png
+INPUT SchemesReportFigures/Ring Perpendicular to TD_contour.png
+INPUT ./SchemesReportFigures/Ring Perpendicular to TD_contour.png
+INPUT ./SchemesReportFigures/Ring Perpendicular to TD_contour.png
+INPUT ./SchemesReportFigures/RotRing Axis-Y Res-5.0 Theta-2.84623415 OmegaMax-90_contour.png
+INPUT ./SchemesReportFigures/RotRing Axis-Y Res-5.0 Theta-2.84623415 OmegaMax-90_contour.png
+INPUT SchemesReportFigures/RotRing Axis-Y Res-5.0 Theta-2.84623415 OmegaMax-90_contour.png
+INPUT ./SchemesReportFigures/RotRing Axis-Y Res-5.0 Theta-2.84623415 OmegaMax-90_contour.png
+INPUT ./SchemesReportFigures/RotRing Axis-Y Res-5.0 Theta-2.84623415 OmegaMax-90_contour.png
+INPUT ./SchemesReportFigures/RotRing Axis-Y Res-5.0 Theta-2.84623415 OmegaMax-60_contour.png
+INPUT ./SchemesReportFigures/RotRing Axis-Y Res-5.0 Theta-2.84623415 OmegaMax-60_contour.png
+INPUT SchemesReportFigures/RotRing Axis-Y Res-5.0 Theta-2.84623415 OmegaMax-60_contour.png
+INPUT ./SchemesReportFigures/RotRing Axis-Y Res-5.0 Theta-2.84623415 OmegaMax-60_contour.png
+INPUT ./SchemesReportFigures/RotRing Axis-Y Res-5.0 Theta-2.84623415 OmegaMax-60_contour.png
+INPUT ./SchemesReportFigures/OffsetF45_contour.png
+INPUT ./SchemesReportFigures/OffsetF45_contour.png
+INPUT SchemesReportFigures/OffsetF45_contour.png
+INPUT ./SchemesReportFigures/OffsetF45_contour.png
+INPUT ./SchemesReportFigures/OffsetF45_contour.png
+INPUT ./SchemesReportFigures/OffsetA45_contour.png
+INPUT ./SchemesReportFigures/OffsetA45_contour.png
+INPUT SchemesReportFigures/OffsetA45_contour.png
+INPUT ./SchemesReportFigures/OffsetA45_contour.png
+INPUT ./SchemesReportFigures/OffsetA45_contour.png
+INPUT ./SchemesReportFigures/OffsetFTD_contour.png
+INPUT ./SchemesReportFigures/OffsetFTD_contour.png
+INPUT SchemesReportFigures/OffsetFTD_contour.png
+INPUT ./SchemesReportFigures/OffsetFTD_contour.png
+INPUT ./SchemesReportFigures/OffsetFTD_contour.png
+INPUT ./SchemesReportFigures/OffsetATD_contour.png
+INPUT ./SchemesReportFigures/OffsetATD_contour.png
+INPUT SchemesReportFigures/OffsetATD_contour.png
+INPUT ./SchemesReportFigures/OffsetATD_contour.png
+INPUT ./SchemesReportFigures/OffsetATD_contour.png
+INPUT ./SchemesReportFigures/EA_contour.png
+INPUT ./SchemesReportFigures/EA_contour.png
+INPUT SchemesReportFigures/EA_contour.png
+INPUT ./SchemesReportFigures/EA_contour.png
+INPUT ./SchemesReportFigures/EA_contour.png
+INPUT ./SchemesReportFigures/Rotation-NoTilt_contour.png
+INPUT ./SchemesReportFigures/Rotation-NoTilt_contour.png
+INPUT SchemesReportFigures/Rotation-NoTilt_contour.png
+INPUT ./SchemesReportFigures/Rotation-NoTilt_contour.png
+INPUT ./SchemesReportFigures/Rotation-NoTilt_contour.png
+INPUT ./SchemesReportFigures/NoRotation-tilt60deg_contour.png
+INPUT ./SchemesReportFigures/NoRotation-tilt60deg_contour.png
+INPUT SchemesReportFigures/NoRotation-tilt60deg_contour.png
+INPUT ./SchemesReportFigures/NoRotation-tilt60deg_contour.png
+INPUT ./SchemesReportFigures/NoRotation-tilt60deg_contour.png
+INPUT ./SchemesReportFigures/Rotation-60detTilt_contour.png
+INPUT ./SchemesReportFigures/Rotation-60detTilt_contour.png
+INPUT SchemesReportFigures/Rotation-60detTilt_contour.png
+INPUT ./SchemesReportFigures/Rotation-60detTilt_contour.png
+INPUT ./SchemesReportFigures/Rotation-60detTilt_contour.png
+INPUT ./SchemesReportFigures/Rizzie_contour.png
+INPUT ./SchemesReportFigures/Rizzie_contour.png
+INPUT SchemesReportFigures/Rizzie_contour.png
+INPUT ./SchemesReportFigures/Rizzie_contour.png
+INPUT ./SchemesReportFigures/Rizzie_contour.png
+INPUT ./SchemesReportFigures/Holden_contour.png
+INPUT ./SchemesReportFigures/Holden_contour.png
+INPUT SchemesReportFigures/Holden_contour.png
+INPUT ./SchemesReportFigures/Holden_contour.png
+INPUT ./SchemesReportFigures/Holden_contour.png
+INPUT ./SchemesReportFigures/Spiral_contour.png
+INPUT ./SchemesReportFigures/Spiral_contour.png
+INPUT SchemesReportFigures/Spiral_contour.png
+INPUT ./SchemesReportFigures/Spiral_contour.png
+INPUT ./SchemesReportFigures/Spiral_contour.png
+INPUT ./SchemesReportFigures/Rizzie Hex_contour.png
+INPUT ./SchemesReportFigures/Rizzie Hex_contour.png
+INPUT SchemesReportFigures/Rizzie Hex_contour.png
+INPUT ./SchemesReportFigures/Rizzie Hex_contour.png
+INPUT ./SchemesReportFigures/Rizzie Hex_contour.png
+INPUT ./SchemesReportFigures/thomas_contour.png
+INPUT ./SchemesReportFigures/thomas_contour.png
+INPUT SchemesReportFigures/thomas_contour.png
+INPUT ./SchemesReportFigures/thomas_contour.png
+INPUT ./SchemesReportFigures/thomas_contour.png
+INPUT ./SchemesReportFigures/Partial hex_contour.png
+INPUT ./SchemesReportFigures/Partial hex_contour.png
+INPUT SchemesReportFigures/Partial hex_contour.png
+INPUT ./SchemesReportFigures/Partial hex_contour.png
+INPUT ./SchemesReportFigures/Partial hex_contour.png
+INPUT ./SchemesReportFigures/CLR_contour.png
+INPUT ./SchemesReportFigures/CLR_contour.png
+INPUT SchemesReportFigures/CLR_contour.png
+INPUT ./SchemesReportFigures/CLR_contour.png
+INPUT ./SchemesReportFigures/CLR_contour.png
+INPUT ./SchemesReportFigures/Gauss_contour.png
+INPUT ./SchemesReportFigures/Gauss_contour.png
+INPUT SchemesReportFigures/Gauss_contour.png
+INPUT ./SchemesReportFigures/Gauss_contour.png
+INPUT ./SchemesReportFigures/Gauss_contour.png
+INPUT ./SchemesReport.bbl
+INPUT SchemesReport.bbl
+INPUT ./SchemesReport.bbl
+INPUT SchemesReport.bbl
+INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/cm/cmti10.tfm
+INPUT SchemesReport.aux
+INPUT /usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
+INPUT /usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb
+INPUT /usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb
+INPUT /usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb
+INPUT /usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb
+INPUT /usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb
+INPUT /usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb
