@@ -1238,8 +1238,8 @@ def SingleOrientation(name, tilt, rotation,export=False):
     tilt : array of float values
         An array of float values representing the corresponding tilt angles (or chi), to be used as reference for pole figure geometry
     
-    rotation : array of floar values
-        An array of floar values representing the corresponding rotation angles (or phi), to be used as reference for pole figure geometry.
+    rotation : array of float values
+        An array of float values representing the corresponding rotation angles (or phi), to be used as reference for pole figure geometry.
         """
     import numpy as np
     import pandas as pd
