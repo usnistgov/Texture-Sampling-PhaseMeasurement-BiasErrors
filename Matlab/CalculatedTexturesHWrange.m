@@ -24,8 +24,8 @@ h_austenite = {Miller(1,1,1,cs),Miller(2,0,0,cs),Miller(2,2,0,cs),...
     Miller(3,3,3,cs),Miller(5,1,1,cs)} ;
 
 % Create save paths (if the don't exist)
-AddFiguresDir='ODFFiguresHW';
-MtexDataDir='MtexDataHW';
+AddFiguresDir='ODFFiguresHW_2021Aug05';
+MtexDataDir='MtexDataHW_2021Aug05';
 mkdir(AddFiguresDir)
 mkdir(MtexDataDir)
 
@@ -71,8 +71,8 @@ gamma2 = orientation.byEuler(30*degree,54.736*degree,45*degree,cs,ss);
 %% Define kernal and halfwidth %%
 
 %for hw=[10 20 30 40 50] 
-for HW=[2.5*degree 5*degree 10*degree 15*degree 20*degree 25*degree 30*degree 35*degree 40*degree 45*degree 50*degree]
-%for HW=[20*degree]
+%for HW=[2.5*degree 5*degree 10*degree 15*degree 20*degree 25*degree 30*degree 35*degree 40*degree 45*degree 50*degree]
+for HW=[20*degree]
 
 
 %HW=20*degree;
@@ -127,7 +127,7 @@ elseif i==3
     odf6 = (sixth)*unimodalODF(gamma1,'halfwidth',HW,cs,ss,psi);
 
     odf=odf1+odf2+odf3+odf4+odf5+odf6;
-    
+    orientation=[Shear,alpha1,alpha2,alpha3,alpha4,gamma1];
 elseif i==4
 % ferrite fiber - gamma 111 || ND
     bname='GammaFiber2F';
@@ -136,6 +136,7 @@ elseif i==4
     odf1=.5*unimodalODF(gamma1,'halfwidth',HW,cs,ss,psi);
     odf2=.5*unimodalODF(gamma2,'halfwidth',HW,cs,ss,psi);
     odf=odf1+odf2;
+    orientation=[gamma1,gamma2]
     
 elseif i==5
 % austenite fiber - beta fiber, Brass -> Copper via S
@@ -150,6 +151,7 @@ elseif i==5
     odf5 = .2*unimodalODF(BrassS,'halfwidth',HW,cs,ss);
 
     odf=odf1+odf2+odf3+odf4+odf5;
+    orientation=[Brass,S,Copper,CopperS,BrassS];
 
     %% single orientations
  
@@ -158,78 +160,92 @@ elseif i==6
     bname='BrassA';
     phase ='austenite';
     odf = unimodalODF(Brass,'halfwidth',HW,cs,ss);
+    orientation=Brass;
 
 elseif i==7
     bname='CubeA';
     phase ='austenite';
     odf = unimodalODF(Cube,'halfwidth',HW,cs,ss);
+    orientation=Cube;
 
 elseif i==8
     bname='CopperA';
     phase ='austenite';
     odf = unimodalODF(Copper,'halfwidth',HW,cs,ss);
+    orientation=Copper;
     
 elseif i==9
     bname='SA';
     phase ='austenite';
     odf = unimodalODF(S,'halfwidth',HW,cs,ss);
-
+    orientation=S;
+    
 elseif i==10
     bname='GossA';
     phase ='austenite';
     odf = unimodalODF(Goss,'halfwidth',HW,cs,ss);   
+    orientation=Goss;
     
 % ferrite single orientation
 elseif i==11
     bname='Gamma1F';
     phase ='ferrite';
     odf = unimodalODF(gamma1,'halfwidth',HW,cs,ss);
+    orientation=gamma1;
 
 elseif i==13
     bname='Gamma2F';
     phase ='ferrite';
     odf = unimodalODF(gamma2,'halfwidth',HW,cs,ss);
+    orientation=gamma2;
     
 elseif i==14
     bname='GossF';
     phase ='ferrite';
     odf = unimodalODF(Goss,'halfwidth',HW,cs,ss);
+    orientation=Goss;
     
 elseif i==15
     bname='ShearF';
     phase ='ferrite';
     odf = unimodalODF(Shear,'halfwidth',HW,cs,ss);  
+    orientation=Shear;
     
 elseif i==16
     bname='O554F';
     phase ='ferrite';
     odf = unimodalODF(o554,'halfwidth',HW,cs,ss);    
+    orientation=o554;
     
 elseif i==17
     bname='Alpha1F';
     phase ='ferrite';
     odf = unimodalODF(alpha1,'halfwidth',HW,cs,ss);    
+    orientation=alpha1;
     
 elseif i==18
     bname='Alpha2F';
     phase ='ferrite';
     odf = unimodalODF(alpha2,'halfwidth',HW,cs,ss); 
+    orientation=alpha2;
     
 elseif i==19
     bname='Alpha3F';
     phase ='ferrite';
     odf = unimodalODF(alpha3,'halfwidth',HW,cs,ss);    
+    orientation=alpha3;
     
 elseif i==20
     bname='Alpha4F';
     phase ='ferrite';
     odf = unimodalODF(alpha4,'halfwidth',HW,cs,ss);    
-
+    orientation=alpha4;
+    
 elseif i==21
     bname='RGossF';
     phase ='ferrite';
     odf = unimodalODF(RGoss,'halfwidth',HW,cs,ss);  
-    
+    orientation=RGoss;    
     
 end
     
@@ -278,12 +294,21 @@ figure;
 % Trying limited to colorbar of 4
 if strcmp(phase,'austenite')==1 
     plotPDF(odf,h_austenite, 'complete');CLim(gcm,[0, 4]);mtexColorbar;
+
+    if exist('orientation','var') == 1
+        annotate(orientation,...
+        'marker','s','MarkerSize',6,'MarkerFaceColor','K','color','w')
+    end
     fig = gcf;
     fig.PaperPositionMode = 'auto';
     saveas(fig,fullfile(AddFiguresDir,strcat(bname,'-HW', tmp,'-A_PF.png')))
 
 elseif strcmp(phase,'ferrite')==1
     plotPDF(odf,h_ferrite, 'complete');CLim(gcm,[0, 4]);mtexColorbar;
+    if exist('orientation','var') == 1    
+        annotate(orientation,...
+        'marker','s','MarkerSize',6,'MarkerFaceColor','K','color','w')
+    end
     fig = gcf;
     fig.PaperPositionMode = 'auto';
     saveas(fig,fullfile(AddFiguresDir,strcat(bname,'-HW', tmp,'-F_PF.png')))
