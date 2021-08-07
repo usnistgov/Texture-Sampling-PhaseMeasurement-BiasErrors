@@ -130,6 +130,17 @@ The environment snapshot (AusteniteModeling.yml) and requirements files (stable-
 
 The programs and files should be platform independent. However, this claim has not been verified.  The dataset was created on Mac OS 10.11.6 and 10.12.5. As such the line endings likely use the line feed (LF) rather than combined carriage return and line feed (CR+LF).
 
+# General Procedural Notes
+- To computationally simulate the X-ray diffraction process and the testing of sampling schemes, a combination of Python scripts, Jupyter notebooks, and Matlab scripts were used.
+
+- Schemes were implemented in a seperate .py (Python) file, then called in a main Jupyter Notebook (PoleFigurePhaseFractions.ipynb) that would be used to visualize such schemes and debug as necessary. After scheme development was complete, they would be added to a dataframe that would be fed into a simulation.
+
+- The simulation was dependant on which textures and which halfwidths were to be analyzed; the relevant .xpc files for the texture-halfwidth combination would be used for the phase fraction calculation process for each scheme. 
+
+- The .xpc files held intensity measurements at different sample orientations; those would be compared to expected values to calculate for the phase fraction values. Finally, the results would be outputted in an excel sheet format organized by texture-halfwidth combination. 
+
+- Each excel sheet would show phase fraction measurements as a function of scheme used and peak combination used. Finally, from here, the desired information could be easily accessed from the excel sheets and plotted in different ways, through heatmaps, violin plots, comparison plots, etc.
+
 # Miscellaneous Comments
 
 - MAUD uses an .xpc format for pole figures, and .maa format for orientation distribution functions (ODFs), likely derived from BearTex [19]. No explicit documentation of these formats was found. However, upon inspection, this format is similar to the General Intensity File Format in PopLA [20, appendix B2], with a slightly different header and numeric type.  See the following for details:
