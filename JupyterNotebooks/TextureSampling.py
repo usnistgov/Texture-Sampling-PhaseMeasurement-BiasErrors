@@ -1270,7 +1270,7 @@ def SingleOrientation(name, tilt, rotation,export=False):
 #######################################
 
 # Perpendicular to RD
-def RingRot(res,theta,omega_list,rotaxis, Weight=False, export=False): #add omega
+def RingRot(res,theta,omega_list,rotaxis, Weight=False, export=False, AbbrevName=False): #add omega
     """
 
     res: Resolution about the rings
@@ -1284,10 +1284,13 @@ def RingRot(res,theta,omega_list,rotaxis, Weight=False, export=False): #add omeg
     import pandas as pd
     import math
     
-    if Weight==True:
-        name="RotRing Axis-%s Res-%s Theta-%s OmegaMax-%s Weighted" % (rotaxis, res,theta,max(omega_list))
+    if AbbrevName:
+        name="RotRing OmegaMax-%s" % (max(omega_list))
     else:
-        name="RotRing Axis-%s Res-%s Theta-%s OmegaMax-%s" % (rotaxis, res,theta,max(omega_list))
+        if Weight==True:
+            name="RotRing Axis-%s Res-%s Theta-%s OmegaMax-%s Weighted" % (rotaxis, res,theta,max(omega_list))
+        else:
+            name="RotRing Axis-%s Res-%s Theta-%s OmegaMax-%s" % (rotaxis, res,theta,max(omega_list))
     
     #name="Ring Perpendicular to ND"
     #print rotaxis
