@@ -658,7 +658,13 @@ def GenerateAveIntesity(SchemesListDF, pftype, DataFolder, SaveFolder):
 #####################################
 def rpm2radpsec(rpm):
     """
-    TO ADD: docstring
+    Helper function that converts rotations per minute to radians per second
+
+    Parameters
+    ----------
+
+    rpm : float
+        Rotations per minute
     """
     import math
     radpsec=(rpm*math.pi*2.0)/60.0
@@ -1238,8 +1244,8 @@ def SingleOrientation(name, tilt, rotation,export=False):
     tilt : array of float values
         An array of float values representing the corresponding tilt angles (or chi), to be used as reference for pole figure geometry
     
-    rotation : array of float values
-        An array of float values representing the corresponding rotation angles (or phi), to be used as reference for pole figure geometry.
+    rotation : array of floar values
+        An array of floar values representing the corresponding rotation angles (or phi), to be used as reference for pole figure geometry.
         """
     import numpy as np
     import pandas as pd
@@ -1270,7 +1276,7 @@ def SingleOrientation(name, tilt, rotation,export=False):
 #######################################
 
 # Perpendicular to RD
-def RingRot(res,theta,omega_list,rotaxis, Weight=False, export=False): #add omega
+def RingRot(res,theta,omega_list,rotaxis, Weight=False, export=False, AbbrevName=False): #add omega
     """
 
     res: Resolution about the rings
@@ -1284,10 +1290,13 @@ def RingRot(res,theta,omega_list,rotaxis, Weight=False, export=False): #add omeg
     import pandas as pd
     import math
     
-    if Weight==True:
-        name="RotRing Axis-%s Res-%s Theta-%s OmegaMax-%s Weighted" % (rotaxis, res,theta,max(omega_list))
+    if AbbrevName:
+        name="RotRing OmegaMax-%s" % (max(omega_list))
     else:
-        name="RotRing Axis-%s Res-%s Theta-%s OmegaMax-%s" % (rotaxis, res,theta,max(omega_list))
+        if Weight==True:
+            name="RotRing Axis-%s Res-%s Theta-%s OmegaMax-%s Weighted" % (rotaxis, res,theta,max(omega_list))
+        else:
+            name="RotRing Axis-%s Res-%s Theta-%s OmegaMax-%s" % (rotaxis, res,theta,max(omega_list))
     
     #name="Ring Perpendicular to ND"
     #print rotaxis
@@ -1477,6 +1486,7 @@ def sph2cartDeg(rotation_deg, tilt_deg):
 ### Helper function for RotRing?
 def cart2sphDeg(a):
     """
+    Helper function for RotRing, converts from cartesian coordinates (x,y,z) into spherical coordinates (χ, φ)
 
     """
     import numpy as np
@@ -1850,7 +1860,7 @@ def SpiralGrid(name, resolution,export=False):
     return name, coordsDF
     
 
-def OffsetRing(name, res, theta, tilt_center , rotation_center):
+def OffsetRing(name, res, theta, tilt_center , rotation_center, export=False):
     """
     The main motivation behind the Offset ring is to account for 1 diffraction peak in each of the ferrite and austenite phases. This would
     be done by 2 seperate sampling rings, which would be shifted by a certain value to account for the fact that X-ray energies are finite 
@@ -1904,11 +1914,19 @@ def OffsetRing(name, res, theta, tilt_center , rotation_center):
         r_list.append(r)
         t_list.append(t)
 
-    df = {'Tilt' : t_list, 'Rotation' : r_list}
-    coordsDF=pd.DataFrame(df)
+        
+    if(export):
+        d = {'Tilt' : t_list, 'Rotation' : r_list, "mrd" : [0]*len(r_list)}
+        df=pd.DataFrame(d)
+        coordinates=df.sort_values(["Tilt", "Rotation"], ascending=True, ignore_index=True)
+        np.savetxt(name+".txt", coordinates.values, fmt = "%.2f", delimiter="\t", header="Tilt\tRotation\tmrd")
+        
+    else:
+        d = {'Tilt' : t_list, 'Rotation' : r_list}
+        coordinates=pd.DataFrame(d)
+
+    return name, coordinates
     
-    
-    return name, coordsDF 
 
 
 ### Helper function for RotRing?
@@ -1927,15 +1945,52 @@ def RotateTiltRotation(psi_deg, phi_deg):
         [math.cos(phi)*math.sin(psi), math.sin(phi)*math.sin(psi), math.cos(psi)]]
     return np.transpose(np.array(R)) # transpose to change from active to passive
 
-def GaussQuad(name):
+
+
+
+
+def GaussQuad(name, export=False):
+    '''
+    Sampling scheme proposed by a colleague of Dr. Creuziger at a convention. This scheme was adopted for a project that used ultrasound/accoustic technologies 
+    for texture measurements. Uses the Legendre-Gaussian quadrature, which can accomodate expansion of the polynomial function to the (2N-1)th order; N=4 is used in this project
+    The resulting nodes that are generated are Gaussian nodes; after the intensity values are generated they can be added together once the respective weights of each of the Gaussian 
+    nodes is multiplied with the corresponding intensity value.
+
+    Work in progress: Fully understanding the calculation steps behind generating these nodes as well as the reasoning behind such calculated values.
+
+    TODO: Add paper citation
+    '''
     rotationposition=[0.0,0.0,45.0,90.0,135.0,0.0,45.0,90.0,135.0,0.0,45.0,90.0,135.0,0.0,45.0,90.0,135.0]
     tiltposition=[0.0,0.533296*180/math.pi,0.533296*180/math.pi,0.533296*180/math.pi,0.533296*180/math.pi,1.2239*180/math.pi,1.2239*180/math.pi,1.2239*180/math.pi,1.2239*180/math.pi,1.91769*180/math.pi,1.91769*180/math.pi,1.91769*180/math.pi,1.91769*180/math.pi,2.6083*180/math.pi,2.6083*180/math.pi,2.6083*180/math.pi,2.6083*180/math.pi]
-    d = {'Tilt' : tiltposition, 'Rotation' : rotationposition}
-    coordinates = pd.DataFrame(d)
+    
+        
+    if(export):
+        d = {'Tilt' : tiltposition, 'Rotation' : rotationposition, "mrd" : [0]*len(rotationposition)}
+        df=pd.DataFrame(d)
+        coordinates=df.sort_values(["Tilt", "Rotation"], ascending=True, ignore_index=True)
+        np.savetxt(name+".txt", coordinates.values, fmt = "%.2f", delimiter="\t", header="Tilt\tRotation\tmrd")
+        
+    else:
+        d = {'Tilt' : tiltposition, 'Rotation' : rotationposition}
+        coordinates=pd.DataFrame(d)
+
     return name, coordinates
+    
 
 
-def KlugAlexanderSpiral(name, mirror, quadlock, revolutions=9):
+
+
+def KlugAlexanderSpiral(name, mirror, quadlock, revolutions=9, export=False):
+    '''
+    This spiral was proposed back in 1953, making it the 'first' original spiral studied in this project. The basic pattern is an Archimedean Spiral pattern which expands 
+    at a constant rate. For cases which require a finer resolution of sampling, the option for a 'mirror' image of the spiral, which would start at the origin like the original
+    spiral and interlock with it, but run in the opposite direction, exists. 
+
+    The 'quadlock' option builds on the mirror option, except the spiral pattern is relfected about all 4 axes. Unfortunately, this is still a work in progress and needs 
+    to be revised (August 2021)
+
+    TODO: Add Holden Paper Citation
+    '''
     tilt=[]
     rotation=[]
     value=revolutions*2*math.pi
@@ -1943,11 +1998,10 @@ def KlugAlexanderSpiral(name, mirror, quadlock, revolutions=9):
     while(value>0):
         chi=1.6*value
         if(chi>90):
-            chi=90
-        else:
             pass
-        tilt.append(chi)
-        rotation.append(math.degrees(value)%360)
+        else:
+            tilt.append(chi)
+            rotation.append(math.degrees(value)%360)
         value=value-increment
 
     
@@ -1999,9 +2053,19 @@ def KlugAlexanderSpiral(name, mirror, quadlock, revolutions=9):
     tilt.append(0)
     rotation.append(0)
 
-    d = {'Tilt' : tilt, 'Rotation' : rotation}
-    coordsDF=pd.DataFrame(d)
-    return name, coordsDF
+
+        
+    if(export):
+        d = {'Tilt' : tilt, 'Rotation' : rotation, "mrd" : [0]*len(rotation)}
+        df=pd.DataFrame(d)
+        coordinates=df.sort_values(["Tilt", "Rotation"], ascending=True, ignore_index=True)
+        np.savetxt(name+".txt", coordinates.values, fmt = "%.2f", delimiter="\t", header="Tilt\tRotation\tmrd")
+        
+    else:
+        d = {'Tilt' : tilt, 'Rotation' : rotation}
+        coordinates=pd.DataFrame(d)
+
+    return name, coordinates
     
 
 
