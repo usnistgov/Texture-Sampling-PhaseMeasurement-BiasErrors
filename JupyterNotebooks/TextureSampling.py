@@ -658,7 +658,13 @@ def GenerateAveIntesity(SchemesListDF, pftype, DataFolder, SaveFolder):
 #####################################
 def rpm2radpsec(rpm):
     """
-    TO ADD: docstring
+    Helper function that converts rotations per minute to radians per second
+
+    Parameters
+    ----------
+
+    rpm : float
+        Rotations per minute
     """
     import math
     radpsec=(rpm*math.pi*2.0)/60.0
@@ -1480,6 +1486,7 @@ def sph2cartDeg(rotation_deg, tilt_deg):
 ### Helper function for RotRing?
 def cart2sphDeg(a):
     """
+    Helper function for RotRing, converts from cartesian coordinates (x,y,z) into spherical coordinates (χ, φ)
 
     """
     import numpy as np
@@ -1943,6 +1950,16 @@ def RotateTiltRotation(psi_deg, phi_deg):
 
 
 def GaussQuad(name, export=False):
+    '''
+    Sampling scheme proposed by a colleague of Dr. Creuziger at a convention. This scheme was adopted for a project that used ultrasound/accoustic technologies 
+    for texture measurements. Uses the Legendre-Gaussian quadrature, which can accomodate expansion of the polynomial function to the (2N-1)th order; N=4 is used in this project
+    The resulting nodes that are generated are Gaussian nodes; after the intensity values are generated they can be added together once the respective weights of each of the Gaussian 
+    nodes is multiplied with the corresponding intensity value.
+
+    Work in progress: Fully understanding the calculation steps behind generating these nodes as well as the reasoning behind such calculated values.
+
+    TODO: Add paper citation
+    '''
     rotationposition=[0.0,0.0,45.0,90.0,135.0,0.0,45.0,90.0,135.0,0.0,45.0,90.0,135.0,0.0,45.0,90.0,135.0]
     tiltposition=[0.0,0.533296*180/math.pi,0.533296*180/math.pi,0.533296*180/math.pi,0.533296*180/math.pi,1.2239*180/math.pi,1.2239*180/math.pi,1.2239*180/math.pi,1.2239*180/math.pi,1.91769*180/math.pi,1.91769*180/math.pi,1.91769*180/math.pi,1.91769*180/math.pi,2.6083*180/math.pi,2.6083*180/math.pi,2.6083*180/math.pi,2.6083*180/math.pi]
     
@@ -1964,6 +1981,16 @@ def GaussQuad(name, export=False):
 
 
 def KlugAlexanderSpiral(name, mirror, quadlock, revolutions=9, export=False):
+    '''
+    This spiral was proposed back in 1953, making it the 'first' original spiral studied in this project. The basic pattern is an Archimedean Spiral pattern which expands 
+    at a constant rate. For cases which require a finer resolution of sampling, the option for a 'mirror' image of the spiral, which would start at the origin like the original
+    spiral and interlock with it, but run in the opposite direction, exists. 
+
+    The 'quadlock' option builds on the mirror option, except the spiral pattern is relfected about all 4 axes. Unfortunately, this is still a work in progress and needs 
+    to be revised (August 2021)
+
+    TODO: Add Holden Paper Citation
+    '''
     tilt=[]
     rotation=[]
     value=revolutions*2*math.pi
@@ -1971,11 +1998,10 @@ def KlugAlexanderSpiral(name, mirror, quadlock, revolutions=9, export=False):
     while(value>0):
         chi=1.6*value
         if(chi>90):
-            chi=90
-        else:
             pass
-        tilt.append(chi)
-        rotation.append(math.degrees(value)%360)
+        else:
+            tilt.append(chi)
+            rotation.append(math.degrees(value)%360)
         value=value-increment
 
     
