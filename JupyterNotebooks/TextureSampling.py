@@ -1853,7 +1853,7 @@ def SpiralGrid(name, resolution,export=False):
     return name, coordsDF
     
 
-def OffsetRing(name, res, theta, tilt_center , rotation_center):
+def OffsetRing(name, res, theta, tilt_center , rotation_center, export=False):
     """
     The main motivation behind the Offset ring is to account for 1 diffraction peak in each of the ferrite and austenite phases. This would
     be done by 2 seperate sampling rings, which would be shifted by a certain value to account for the fact that X-ray energies are finite 
@@ -1907,11 +1907,19 @@ def OffsetRing(name, res, theta, tilt_center , rotation_center):
         r_list.append(r)
         t_list.append(t)
 
-    df = {'Tilt' : t_list, 'Rotation' : r_list}
-    coordsDF=pd.DataFrame(df)
+        
+    if(export):
+        d = {'Tilt' : t_list, 'Rotation' : r_list, "mrd" : [0]*len(r_list)}
+        df=pd.DataFrame(d)
+        coordinates=df.sort_values(["Tilt", "Rotation"], ascending=True, ignore_index=True)
+        np.savetxt(name+".txt", coordinates.values, fmt = "%.2f", delimiter="\t", header="Tilt\tRotation\tmrd")
+        
+    else:
+        d = {'Tilt' : t_list, 'Rotation' : r_list}
+        coordinates=pd.DataFrame(d)
+
+    return name, coordinates
     
-    
-    return name, coordsDF 
 
 
 ### Helper function for RotRing?
@@ -1930,15 +1938,32 @@ def RotateTiltRotation(psi_deg, phi_deg):
         [math.cos(phi)*math.sin(psi), math.sin(phi)*math.sin(psi), math.cos(psi)]]
     return np.transpose(np.array(R)) # transpose to change from active to passive
 
-def GaussQuad(name):
+
+
+
+
+def GaussQuad(name, export=False):
     rotationposition=[0.0,0.0,45.0,90.0,135.0,0.0,45.0,90.0,135.0,0.0,45.0,90.0,135.0,0.0,45.0,90.0,135.0]
     tiltposition=[0.0,0.533296*180/math.pi,0.533296*180/math.pi,0.533296*180/math.pi,0.533296*180/math.pi,1.2239*180/math.pi,1.2239*180/math.pi,1.2239*180/math.pi,1.2239*180/math.pi,1.91769*180/math.pi,1.91769*180/math.pi,1.91769*180/math.pi,1.91769*180/math.pi,2.6083*180/math.pi,2.6083*180/math.pi,2.6083*180/math.pi,2.6083*180/math.pi]
-    d = {'Tilt' : tiltposition, 'Rotation' : rotationposition}
-    coordinates = pd.DataFrame(d)
+    
+        
+    if(export):
+        d = {'Tilt' : tiltposition, 'Rotation' : rotationposition, "mrd" : [0]*len(rotationposition)}
+        df=pd.DataFrame(d)
+        coordinates=df.sort_values(["Tilt", "Rotation"], ascending=True, ignore_index=True)
+        np.savetxt(name+".txt", coordinates.values, fmt = "%.2f", delimiter="\t", header="Tilt\tRotation\tmrd")
+        
+    else:
+        d = {'Tilt' : tiltposition, 'Rotation' : rotationposition}
+        coordinates=pd.DataFrame(d)
+
     return name, coordinates
+    
 
 
-def KlugAlexanderSpiral(name, mirror, quadlock, revolutions=9):
+
+
+def KlugAlexanderSpiral(name, mirror, quadlock, revolutions=9, export=False):
     tilt=[]
     rotation=[]
     value=revolutions*2*math.pi
@@ -2002,9 +2027,19 @@ def KlugAlexanderSpiral(name, mirror, quadlock, revolutions=9):
     tilt.append(0)
     rotation.append(0)
 
-    d = {'Tilt' : tilt, 'Rotation' : rotation}
-    coordsDF=pd.DataFrame(d)
-    return name, coordsDF
+
+        
+    if(export):
+        d = {'Tilt' : tilt, 'Rotation' : rotation, "mrd" : [0]*len(rotation)}
+        df=pd.DataFrame(d)
+        coordinates=df.sort_values(["Tilt", "Rotation"], ascending=True, ignore_index=True)
+        np.savetxt(name+".txt", coordinates.values, fmt = "%.2f", delimiter="\t", header="Tilt\tRotation\tmrd")
+        
+    else:
+        d = {'Tilt' : tilt, 'Rotation' : rotation}
+        coordinates=pd.DataFrame(d)
+
+    return name, coordinates
     
 
 
