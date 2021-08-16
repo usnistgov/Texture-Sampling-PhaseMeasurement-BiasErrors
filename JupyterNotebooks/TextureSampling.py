@@ -1980,81 +1980,60 @@ def GaussQuad(name, export=False):
 
 
 
-def KlugAlexanderSpiral(name, mirror, quadlock, revolutions=9, export=False):
+def KlugAlexanderSpiral(name, mirror=False, quadlock=False, resolution=5,  export=False):
     '''
     This spiral was proposed back in 1953, making it the 'first' original spiral studied in this project. The basic pattern is an Archimedean Spiral pattern which expands 
     at a constant rate. For cases which require a finer resolution of sampling, the option for a 'mirror' image of the spiral, which would start at the origin like the original
     spiral and interlock with it, but run in the opposite direction, exists. 
 
-    The 'quadlock' option builds on the mirror option, except the spiral pattern is relfected about all 4 axes. Unfortunately, this is still a work in progress and needs 
-    to be revised (August 2021)
+    The 'quadlock' option builds on the mirror option, except the spiral pattern is relfected about all 4 axes. Unfortunately, this is still a work in progress and needs to be revised (August 2021)
 
     TODO: Add Holden Paper Citation
+    
     '''
     tilt=[]
     rotation=[]
-    value=revolutions*2*math.pi
-    increment=math.pi/(2*revolutions)
-    while(value>0):
-        chi=1.6*value
-        if(chi>90):
-            pass
-        else:
-            tilt.append(chi)
-            rotation.append(math.degrees(value)%360)
-        value=value-increment
-
     
-    
-    
-    if (mirror):
-        val=revolutions*2*math.pi
-        incr=math.pi/(2*revolutions)
-        while(val>0):
-            ch=1.6*val
-            if(ch>90):
-                ch=90
-            else:
-                pass
-            tilt.append(ch)
-            original=(math.degrees(val)%360)
-            if (original>180):
-                rotation.append(original-180)
-            elif(original<180):
-                rotation.append(original+180)
-            val=val-incr
-
-    
-    if (quadlock):
-        reflections=[90,270]
-        for reflection in reflections:
-            v=revolutions*2*math.pi
-            i=math.pi/(2*revolutions)
-            while(v>0):
-                c=1.6*v
-                if(c>90):
-                    c=90
-                else:
-                    pass
-                tilt.append(c)
-                original=(math.degrees(v)%360)
-                if (original>reflection):
-                    rotation.append(original-reflection)
-                elif(original<reflection):
-                    rotation.append(original+reflection)
-                v=v-i
-        
-        
-        
+    #add resolution to endpoint to get inclusive range
+    rotation=np.arange(0,((360*90)/resolution)+resolution, resolution)
+    tilt=rotation*(resolution/360)
     
 
-        
+
+    if (mirror==True):
     
-    tilt.append(0)
-    rotation.append(0)
+        # resolution/2 since there are 2 spirals
+        rotation1=np.arange(0,((360*90)/resolution)+resolution/2, resolution/2)
+        tilt1=rotation1*(resolution/360)
+        rotation2=np.arange(0,((360*90)/resolution)+resolution/2, resolution/2)
+        tilt2=-rotation2*(resolution/360)
+
+        #skip the first term (0,0) when concatenating
+        # need to use concatenate as tuple
+        rotation=np.concatenate((rotation1,rotation2[1:]))
+        tilt=np.concatenate((tilt1,tilt2[1:]))
+        print(len(rotation),len(tilt))
 
 
+    if (quadlock==True):
         
+        #resolution /4 since there are 4 sprials
+        rotation1=np.arange(0,((360*90)/resolution)+resolution/4, resolution/4)
+        tilt1=rotation1*(resolution/360)
+        rotation2=np.arange(0,((360*90)/resolution)+resolution/4, resolution/4)
+        tilt2=-rotation2*(resolution/360)
+
+        rotation3=rotation1+90
+        tilt3=tilt1
+        rotation4=rotation2+90
+        tilt4=tilt2
+
+        #skip the first term (0,0) when concatenating
+        # need to use concatenate as tuple
+        rotation=np.concatenate((rotation1,rotation2[1:],rotation3[1:],rotation4[1:]))
+        tilt=np.concatenate((tilt1,tilt2[1:],tilt3[1:],tilt4[1:]))
+    
+
     if(export):
         d = {'Tilt' : tilt, 'Rotation' : rotation, "mrd" : [0]*len(rotation)}
         df=pd.DataFrame(d)
