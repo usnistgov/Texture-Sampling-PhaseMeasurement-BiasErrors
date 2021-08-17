@@ -236,7 +236,7 @@ def DensityContourPlot(Name, Coordinates,RDup=True, Weights=False, save=False, c
 ###################################
 # Texture Component Heatmap
 ###################################
-def PlotHeatmap(hw, PeakCombo,Scheme, Folder, Scheme2=None, VF=0.25, cbarMap=False, cbarRange=[0,0.5], save=False, cmd=False, savename='test.png'):
+def PlotHeatmap(hw, PeakCombo,Scheme, Folder, Scheme2=None, VF=0.25, cbarMap=False, cbarRange=[0,0.5], keepTitle=True, save=False, cmd=False, savename='test.png'):
     """
     A method that accepts a desired HalfWidth value, Peak Combination, and a specific Sampling Scheme, and outputs a heatmap of the 
     resulting Austenite Phase Fraction Values. In order for the function to work as intended, please make sure you note the format 
@@ -368,7 +368,10 @@ def PlotHeatmap(hw, PeakCombo,Scheme, Folder, Scheme2=None, VF=0.25, cbarMap=Fal
     figure.set_xlabel('Ferrite')
     
     #figure=sns.heatmap(df_wide,vmin=0.0, vmax=0.50, cmap=color,center=0.25,annot=dw, annot_kws={"size": 18},fmt='',linewidths=0.5,square=True,cbar_kws={"shrink": .80})
-    plt.title("Halfwidth of "+HW+" , "+ Scheme + " Sampling Scheme, "+ PeakCombo.upper()+ " Peak Combination" ,fontsize =18)
+    if keepTitle==True:
+        plt.title("Halfwidth of "+HW+" , "+ Scheme + " Sampling Scheme, "+ PeakCombo.upper()+ " Peak Combination" ,fontsize =18)
+    else:
+        plt.title("")
     bottom, top = figure.get_ylim()
     figure.set_ylim(bottom + 0.5, top - 0.5)
     
