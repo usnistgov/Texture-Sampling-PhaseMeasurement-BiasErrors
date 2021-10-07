@@ -173,7 +173,7 @@ def SingleSchemePlot(Name, Coordinates, Marker, MarkerSize,RD=True,RDup=True,  s
 #####################################
 # Plot a Filled Contour with Density of points
 #####################################
-def DensityContourPlot(Name, Coordinates,RDup=True, Weights=False, save=False, cmd=False, savename='test.png'):
+def DensityContourPlot(Name, Coordinates,maxValue=4,RDup=True, Weights=False, save=False, cmd=False, savename='test.png'):
     """
     Uses the density_contourf function of mplstereonet to display how a particular scheme over- or under-samples locations on the pole figure.
     mplstereonet has a hardcoded 1° sampling spacing, the resulting plot may look a little noisy.
@@ -187,8 +187,8 @@ def DensityContourPlot(Name, Coordinates,RDup=True, Weights=False, save=False, c
     fig = plt.figure(figsize=(6,6), dpi=300)
 
     ### Using same colormap as the Matlab/Colormap4, adding alpha in the vector
-    n=4
-    v = np.linspace(0, n, n*10+1)
+    #maxValue=4
+    v = np.linspace(0, maxValue, maxValue*10+1)
 
     newcolors2=np.array([[0, 0, 0, 1],    [.1, .1, .1, 1], [.2, .2, .2, 1], [.3, .3, .3, 1 ],  [.4, .4, .4, 1], [.5, .5, .5, 1],
              [.6, .6, .6, 1], [.7, .7, .7, 1], [.8, .8, .8, 1], [.9, .9, .9, 1],
