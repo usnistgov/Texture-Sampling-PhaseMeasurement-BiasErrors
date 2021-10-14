@@ -1997,7 +1997,10 @@ def BT8_HexGrid(name, chi_max, stepsize, CoverageType="full", export=False):
         
         for i in np.arange(0,round(nphi/6)+1,step=1):
             for j in range(1,(nphi-6*i)+1):
-                chi=2*(np.arcsin((math.sqrt(2)/2/(nphi/6)*((nphi/6) - i))))*180/np.pi
+                #Hard to read multiple division
+                #chi=2*(np.arcsin((math.sqrt(2)/2/(nphi/6)*((nphi/6) - i))))*180/np.pi
+                chi=2*(np.arcsin( (math.sqrt(2)/2)*((nphi/6) - i) /(nphi/6)  ))*180/np.pi
+                
                 if round(chi)<=chi_max:
                     rotation.append((360/(nphi-6*i))*(j-1))
                     if chi>90.0:
