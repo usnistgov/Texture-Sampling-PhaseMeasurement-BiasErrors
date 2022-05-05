@@ -17,3 +17,5 @@ Matlab/ChessData
 *.maa
 *).txt
 JupyterNotebooks/AvgHW_*
+*.csv
+*.asv
