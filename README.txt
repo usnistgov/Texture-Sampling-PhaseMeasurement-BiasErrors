@@ -73,8 +73,9 @@ MAUD/ | Directory containing MAUD parameter files, and associated input and outp
 # Programs Used
 
 ### The following application programs and versions were used in this data set:
-- Matlab R2015a [1]
+- Matlab R2015a [1], updated to Matlab 2022a
  - Mtex 4.3.2 [2]-- with fixes https://github.com/Mtex-toolbox/Mtex/issues/237
+ - Mtex 5.7.0, updated for Spiral_Histograms.m
 - MAUD Version 2.69 (1.0) [3], [4]
 - Anaconda 1.3.1, 1.6.2 [5]
 - Jupyter Notebook 4.2.3 [6]
